@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListIssuingPersonalizationDesignBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     ending_before: Option<&'a str>,
@@ -34,6 +35,7 @@ impl<'a> ListIssuingPersonalizationDesignBuilder<'a> {
 }
 /// Only return personalization designs with the given preferences.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListIssuingPersonalizationDesignPreferences {
     /// Only return the personalization design that's set as the default.
     /// A connected account uses the Connect platform's default design if no personalization design is set as the default.
@@ -57,6 +59,7 @@ impl Default for ListIssuingPersonalizationDesignPreferences {
 /// Returns a list of personalization design objects.
 /// The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListIssuingPersonalizationDesign<'a> {
     inner: ListIssuingPersonalizationDesignBuilder<'a>,
 }
@@ -146,6 +149,7 @@ impl StripeRequest for ListIssuingPersonalizationDesign<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveIssuingPersonalizationDesignBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -157,6 +161,7 @@ impl<'a> RetrieveIssuingPersonalizationDesignBuilder<'a> {
 }
 /// Retrieves a personalization design object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveIssuingPersonalizationDesign<'a> {
     inner: RetrieveIssuingPersonalizationDesignBuilder<'a>,
     personalization_design: &'a stripe_shared::IssuingPersonalizationDesignId,
@@ -203,6 +208,7 @@ impl StripeRequest for RetrieveIssuingPersonalizationDesign<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateIssuingPersonalizationDesignBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     card_logo: Option<&'a str>,
@@ -239,6 +245,7 @@ impl<'a> CreateIssuingPersonalizationDesignBuilder<'a> {
 }
 /// Creates a personalization design object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateIssuingPersonalizationDesign<'a> {
     inner: CreateIssuingPersonalizationDesignBuilder<'a>,
 }
@@ -320,6 +327,7 @@ impl StripeRequest for CreateIssuingPersonalizationDesign<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdateIssuingPersonalizationDesignBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     card_logo: Option<&'a str>,
@@ -357,6 +365,7 @@ impl<'a> UpdateIssuingPersonalizationDesignBuilder<'a> {
 }
 /// Updates a card personalization object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateIssuingPersonalizationDesign<'a> {
     inner: UpdateIssuingPersonalizationDesignBuilder<'a>,
     personalization_design: &'a stripe_shared::IssuingPersonalizationDesignId,
@@ -448,6 +457,7 @@ impl StripeRequest for UpdateIssuingPersonalizationDesign<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ActivateIssuingPersonalizationDesignBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -459,6 +469,7 @@ impl<'a> ActivateIssuingPersonalizationDesignBuilder<'a> {
 }
 /// Updates the `status` of the specified testmode personalization design object to `active`.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ActivateIssuingPersonalizationDesign<'a> {
     inner: ActivateIssuingPersonalizationDesignBuilder<'a>,
     personalization_design: &'a str,
@@ -507,6 +518,7 @@ impl StripeRequest for ActivateIssuingPersonalizationDesign<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct DeactivateIssuingPersonalizationDesignBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -518,6 +530,7 @@ impl<'a> DeactivateIssuingPersonalizationDesignBuilder<'a> {
 }
 /// Updates the `status` of the specified testmode personalization design object to `inactive`.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DeactivateIssuingPersonalizationDesign<'a> {
     inner: DeactivateIssuingPersonalizationDesignBuilder<'a>,
     personalization_design: &'a str,
@@ -566,6 +579,7 @@ impl StripeRequest for DeactivateIssuingPersonalizationDesign<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RejectIssuingPersonalizationDesignBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -578,6 +592,7 @@ impl<'a> RejectIssuingPersonalizationDesignBuilder<'a> {
 }
 /// The reason(s) the personalization design was rejected.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RejectIssuingPersonalizationDesignRejectionReasons<'a> {
     /// The reason(s) the card logo was rejected.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -749,6 +764,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// Updates the `status` of the specified testmode personalization design object to `rejected`.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RejectIssuingPersonalizationDesign<'a> {
     inner: RejectIssuingPersonalizationDesignBuilder<'a>,
     personalization_design: &'a str,
@@ -804,6 +820,7 @@ impl StripeRequest for RejectIssuingPersonalizationDesign<'_> {
 }
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CarrierTextParam<'a> {
     /// The footer body text of the carrier letter.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -829,6 +846,7 @@ impl<'a> Default for CarrierTextParam<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct PreferencesParam {
     /// Whether we use this personalization design to create cards when one isn't specified.
     /// A connected account uses the Connect platform's default design if no personalization design is set as the default design.

@@ -2,6 +2,7 @@
 /// For example, you might create a billing meter to track the number of API calls made by a particular user.
 /// You can then attach the billing meter to a price and attach the price to a subscription to charge the user for the number of API calls they make.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct BillingMeter {
     /// Time at which the object was created. Measured in seconds since the Unix epoch.

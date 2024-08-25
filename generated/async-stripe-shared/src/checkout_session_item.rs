@@ -1,5 +1,6 @@
 /// A line item.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct CheckoutSessionItem {
     /// Total discount amount applied. If no discounts were applied, defaults to 0.

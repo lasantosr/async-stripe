@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct DeleteEphemeralKeyBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -14,6 +15,7 @@ impl<'a> DeleteEphemeralKeyBuilder<'a> {
 }
 /// Invalidates a short-lived API key for a given resource.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DeleteEphemeralKey<'a> {
     inner: DeleteEphemeralKeyBuilder<'a>,
     key: &'a stripe_misc::EphemeralKeyId,
@@ -57,6 +59,7 @@ impl StripeRequest for DeleteEphemeralKey<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateEphemeralKeyBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     customer: Option<&'a str>,
@@ -82,6 +85,7 @@ impl<'a> CreateEphemeralKeyBuilder<'a> {
 }
 /// Creates a short-lived API key for a given resource.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateEphemeralKey<'a> {
     inner: CreateEphemeralKeyBuilder<'a>,
 }

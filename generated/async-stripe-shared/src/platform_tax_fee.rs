@@ -1,4 +1,5 @@
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct PlatformTaxFee {
     /// The Connected account that incurred this charge.
@@ -8,7 +9,7 @@ pub struct PlatformTaxFee {
     /// The payment object that caused this tax to be inflicted.
     pub source_transaction: String,
     /// The type of tax (VAT).
-    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
+    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
     pub type_: String,
 }
 #[doc(hidden)]

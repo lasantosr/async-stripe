@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveMandateBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -14,6 +15,7 @@ impl<'a> RetrieveMandateBuilder<'a> {
 }
 /// Retrieves a Mandate object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveMandate<'a> {
     inner: RetrieveMandateBuilder<'a>,
     mandate: &'a stripe_shared::MandateId,

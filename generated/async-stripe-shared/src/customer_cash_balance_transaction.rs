@@ -7,6 +7,7 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/cash_balance_transactions/object>>.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct CustomerCashBalanceTransaction {
 pub adjusted_for_overdraft: Option<stripe_shared::CustomerBalanceResourceCashBalanceTransactionResourceAdjustedForOverdraft>,
@@ -34,7 +35,7 @@ pub transferred_to_balance: Option<stripe_shared::CustomerBalanceResourceCashBal
         /// The type of the cash balance transaction.
     /// New types may be added in future.
     /// See [Customer Balance](https://stripe.com/docs/payments/customer-balance#types) to learn more about these types.
-#[cfg_attr(feature = "deserialize", serde(rename = "type"))]
+#[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
 pub type_: CustomerCashBalanceTransactionType,
 pub unapplied_from_payment: Option<stripe_shared::CustomerBalanceResourceCashBalanceTransactionResourceUnappliedFromPaymentTransaction>,
 

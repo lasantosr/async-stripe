@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListReviewBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     created: Option<stripe_types::RangeQueryTs>,
@@ -23,6 +24,7 @@ impl<'a> ListReviewBuilder<'a> {
 /// Returns a list of `Review` objects that have `open` set to `true`.
 /// The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListReview<'a> {
     inner: ListReviewBuilder<'a>,
 }
@@ -99,6 +101,7 @@ impl StripeRequest for ListReview<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveReviewBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -110,6 +113,7 @@ impl<'a> RetrieveReviewBuilder<'a> {
 }
 /// Retrieves a `Review` object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveReview<'a> {
     inner: RetrieveReviewBuilder<'a>,
     review: &'a stripe_shared::ReviewId,
@@ -152,6 +156,7 @@ impl StripeRequest for RetrieveReview<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ApproveReviewBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -163,6 +168,7 @@ impl<'a> ApproveReviewBuilder<'a> {
 }
 /// Approves a `Review` object, closing it and removing it from the list of reviews.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ApproveReview<'a> {
     inner: ApproveReviewBuilder<'a>,
     review: &'a stripe_shared::ReviewId,

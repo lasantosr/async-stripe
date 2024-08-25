@@ -9,6 +9,7 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/reporting/report_type/object>>.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct ReportingReportType {
     /// Most recent time for which this Report Type is available. Measured in seconds since the Unix epoch.

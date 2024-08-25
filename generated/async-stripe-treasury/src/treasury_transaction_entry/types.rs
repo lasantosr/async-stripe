@@ -1,5 +1,6 @@
 /// TransactionEntries represent individual units of money movements within a single [Transaction](https://stripe.com/docs/api#transactions).
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct TreasuryTransactionEntry {
     pub balance_impact: stripe_treasury::TreasuryTransactionsResourceBalanceImpact,
@@ -25,7 +26,7 @@ pub struct TreasuryTransactionEntry {
     /// The Transaction associated with this object.
     pub transaction: stripe_types::Expandable<stripe_treasury::TreasuryTransaction>,
     /// The specific money movement that generated the TransactionEntry.
-    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
+    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
     pub type_: TreasuryTransactionEntryType,
 }
 #[doc(hidden)]

@@ -4,6 +4,7 @@ use stripe_client_core::{
 
 /// Delete an apple pay domain.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DeleteApplePayDomain<'a> {
     domain: &'a str,
 }
@@ -40,6 +41,7 @@ impl StripeRequest for DeleteApplePayDomain<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListApplePayDomainBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     domain_name: Option<&'a str>,
@@ -65,6 +67,7 @@ impl<'a> ListApplePayDomainBuilder<'a> {
 }
 /// List apple pay domains.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListApplePayDomain<'a> {
     inner: ListApplePayDomainBuilder<'a>,
 }
@@ -140,6 +143,7 @@ impl StripeRequest for ListApplePayDomain<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveApplePayDomainBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -151,6 +155,7 @@ impl<'a> RetrieveApplePayDomainBuilder<'a> {
 }
 /// Retrieve an apple pay domain.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveApplePayDomain<'a> {
     inner: RetrieveApplePayDomainBuilder<'a>,
     domain: &'a str,
@@ -194,6 +199,7 @@ impl StripeRequest for RetrieveApplePayDomain<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateApplePayDomainBuilder<'a> {
     domain_name: &'a str,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -206,6 +212,7 @@ impl<'a> CreateApplePayDomainBuilder<'a> {
 }
 /// Create an apple pay domain.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateApplePayDomain<'a> {
     inner: CreateApplePayDomainBuilder<'a>,
 }

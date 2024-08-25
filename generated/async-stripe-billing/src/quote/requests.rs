@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListQuoteBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     customer: Option<&'a str>,
@@ -34,6 +35,7 @@ impl<'a> ListQuoteBuilder<'a> {
 }
 /// Returns a list of your quotes.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListQuote<'a> {
     inner: ListQuoteBuilder<'a>,
 }
@@ -121,6 +123,7 @@ impl StripeRequest for ListQuote<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveQuoteBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -132,6 +135,7 @@ impl<'a> RetrieveQuoteBuilder<'a> {
 }
 /// Retrieves the quote with the given ID.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveQuote<'a> {
     inner: RetrieveQuoteBuilder<'a>,
     quote: &'a stripe_shared::QuoteId,
@@ -174,6 +178,7 @@ impl StripeRequest for RetrieveQuote<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListComputedUpfrontLineItemsQuoteBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     ending_before: Option<&'a str>,
@@ -192,6 +197,7 @@ impl<'a> ListComputedUpfrontLineItemsQuoteBuilder<'a> {
 /// When retrieving a quote, there is an includable <a href="<https://stripe.com/docs/api/quotes/object#quote_object-computed-upfront-line_items>">**computed.upfront.line_items**</a> property containing the first handful of those items.
 /// There is also a URL where you can retrieve the full (paginated) list of upfront line items.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListComputedUpfrontLineItemsQuote<'a> {
     inner: ListComputedUpfrontLineItemsQuoteBuilder<'a>,
     quote: &'a stripe_shared::QuoteId,
@@ -270,6 +276,7 @@ impl StripeRequest for ListComputedUpfrontLineItemsQuote<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListLineItemsQuoteBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     ending_before: Option<&'a str>,
@@ -288,6 +295,7 @@ impl<'a> ListLineItemsQuoteBuilder<'a> {
 /// When retrieving a quote, there is an includable **line_items** property containing the first handful of those items.
 /// There is also a URL where you can retrieve the full (paginated) list of line items.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListLineItemsQuote<'a> {
     inner: ListLineItemsQuoteBuilder<'a>,
     quote: &'a stripe_shared::QuoteId,
@@ -363,6 +371,7 @@ impl StripeRequest for ListLineItemsQuote<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateQuoteBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     application_fee_amount: Option<i64>,
@@ -433,6 +442,7 @@ impl<'a> CreateQuoteBuilder<'a> {
 }
 /// Settings for automatic tax lookup for this quote and resulting invoices and subscriptions.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateQuoteAutomaticTax<'a> {
     /// Controls whether Stripe will automatically compute tax on the resulting invoices or subscriptions as well as the quote itself.
     pub enabled: bool,
@@ -451,6 +461,7 @@ impl<'a> CreateQuoteAutomaticTax<'a> {
 /// If set, the business address and tax registrations required to perform the tax calculation are loaded from this account.
 /// The tax transaction is returned in the report of the connected account.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateQuoteAutomaticTaxLiability<'a> {
     /// The connected account being referenced when `type` is `account`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -524,6 +535,7 @@ impl<'de> serde::Deserialize<'de> for CreateQuoteAutomaticTaxLiabilityType {
 /// The new quote will be created in `status=draft`.
 /// When using this parameter, you cannot specify any other parameters except for `expires_at`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateQuoteFromQuote<'a> {
     /// Whether this quote is a revision of the previous quote.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -538,6 +550,7 @@ impl<'a> CreateQuoteFromQuote<'a> {
 }
 /// All invoices will be billed using the specified settings.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateQuoteInvoiceSettings<'a> {
     /// Number of days within which a customer must pay the invoice generated by this quote.
     /// This value will be `null` for quotes where `collection_method=charge_automatically`.
@@ -561,6 +574,7 @@ impl<'a> Default for CreateQuoteInvoiceSettings<'a> {
 /// The connected account that issues the invoice.
 /// The invoice is presented with the branding and support information of the specified account.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateQuoteInvoiceSettingsIssuer<'a> {
     /// The connected account being referenced when `type` is `account`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -633,6 +647,7 @@ impl<'de> serde::Deserialize<'de> for CreateQuoteInvoiceSettingsIssuerType {
 /// A list of line items the customer is being quoted for.
 /// Each line item includes information about the product, the quantity, and the resulting cost.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateQuoteLineItems<'a> {
     /// The discounts applied to this line item.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -665,6 +680,7 @@ impl<'a> Default for CreateQuoteLineItems<'a> {
 /// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 /// One of `price` or `price_data` is required.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateQuoteLineItemsPriceData<'a> {
     /// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
     /// Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -702,6 +718,7 @@ impl<'a> CreateQuoteLineItemsPriceData<'a> {
 }
 /// The recurring components of a price such as `interval` and `interval_count`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateQuoteLineItemsPriceDataRecurring {
     /// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
     pub interval: CreateQuoteLineItemsPriceDataRecurringInterval,
@@ -846,6 +863,7 @@ impl<'de> serde::Deserialize<'de> for CreateQuoteLineItemsPriceDataTaxBehavior {
 /// There must be at least one line item with a recurring price for a subscription or subscription schedule to be created.
 /// A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateQuoteSubscriptionData<'a> {
     /// The subscription's description, meant to be displayable to the customer.
     /// Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
@@ -883,6 +901,7 @@ impl<'a> Default for CreateQuoteSubscriptionData<'a> {
 /// The special value `current_period_end` can be provided to update a subscription at the end of its current period.
 /// The `effective_date` is ignored if it is in the past when the quote is accepted.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum CreateQuoteSubscriptionDataEffectiveDate {
     CurrentPeriodEnd,
@@ -891,6 +910,7 @@ pub enum CreateQuoteSubscriptionDataEffectiveDate {
 /// A quote models prices and services for a customer.
 /// Default options for `header`, `description`, `footer`, and `expires_at` can be set in the dashboard via the [quote template](https://dashboard.stripe.com/settings/billing/quote).
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateQuote<'a> {
     inner: CreateQuoteBuilder<'a>,
 }
@@ -1055,6 +1075,7 @@ impl StripeRequest for CreateQuote<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdateQuoteBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     application_fee_amount: Option<i64>,
@@ -1119,6 +1140,7 @@ impl<'a> UpdateQuoteBuilder<'a> {
 }
 /// Settings for automatic tax lookup for this quote and resulting invoices and subscriptions.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateQuoteAutomaticTax<'a> {
     /// Controls whether Stripe will automatically compute tax on the resulting invoices or subscriptions as well as the quote itself.
     pub enabled: bool,
@@ -1137,6 +1159,7 @@ impl<'a> UpdateQuoteAutomaticTax<'a> {
 /// If set, the business address and tax registrations required to perform the tax calculation are loaded from this account.
 /// The tax transaction is returned in the report of the connected account.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateQuoteAutomaticTaxLiability<'a> {
     /// The connected account being referenced when `type` is `account`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1208,6 +1231,7 @@ impl<'de> serde::Deserialize<'de> for UpdateQuoteAutomaticTaxLiabilityType {
 }
 /// All invoices will be billed using the specified settings.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateQuoteInvoiceSettings<'a> {
     /// Number of days within which a customer must pay the invoice generated by this quote.
     /// This value will be `null` for quotes where `collection_method=charge_automatically`.
@@ -1231,6 +1255,7 @@ impl<'a> Default for UpdateQuoteInvoiceSettings<'a> {
 /// The connected account that issues the invoice.
 /// The invoice is presented with the branding and support information of the specified account.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateQuoteInvoiceSettingsIssuer<'a> {
     /// The connected account being referenced when `type` is `account`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1303,6 +1328,7 @@ impl<'de> serde::Deserialize<'de> for UpdateQuoteInvoiceSettingsIssuerType {
 /// A list of line items the customer is being quoted for.
 /// Each line item includes information about the product, the quantity, and the resulting cost.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateQuoteLineItems<'a> {
     /// The discounts applied to this line item.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1345,6 +1371,7 @@ impl<'a> Default for UpdateQuoteLineItems<'a> {
 /// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 /// One of `price` or `price_data` is required.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateQuoteLineItemsPriceData<'a> {
     /// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
     /// Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -1382,6 +1409,7 @@ impl<'a> UpdateQuoteLineItemsPriceData<'a> {
 }
 /// The recurring components of a price such as `interval` and `interval_count`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateQuoteLineItemsPriceDataRecurring {
     /// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
     pub interval: UpdateQuoteLineItemsPriceDataRecurringInterval,
@@ -1526,6 +1554,7 @@ impl<'de> serde::Deserialize<'de> for UpdateQuoteLineItemsPriceDataTaxBehavior {
 /// There must be at least one line item with a recurring price for a subscription or subscription schedule to be created.
 /// A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateQuoteSubscriptionData<'a> {
     /// The subscription's description, meant to be displayable to the customer.
     /// Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
@@ -1563,6 +1592,7 @@ impl<'a> Default for UpdateQuoteSubscriptionData<'a> {
 /// The special value `current_period_end` can be provided to update a subscription at the end of its current period.
 /// The `effective_date` is ignored if it is in the past when the quote is accepted.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum UpdateQuoteSubscriptionDataEffectiveDate {
     CurrentPeriodEnd,
@@ -1570,6 +1600,7 @@ pub enum UpdateQuoteSubscriptionDataEffectiveDate {
 }
 /// A quote models prices and services for a customer.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateQuote<'a> {
     inner: UpdateQuoteBuilder<'a>,
     quote: &'a stripe_shared::QuoteId,
@@ -1715,6 +1746,7 @@ impl StripeRequest for UpdateQuote<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct AcceptQuoteBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -1726,6 +1758,7 @@ impl<'a> AcceptQuoteBuilder<'a> {
 }
 /// Accepts the specified quote.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct AcceptQuote<'a> {
     inner: AcceptQuoteBuilder<'a>,
     quote: &'a stripe_shared::QuoteId,
@@ -1768,6 +1801,7 @@ impl StripeRequest for AcceptQuote<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CancelQuoteBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -1779,6 +1813,7 @@ impl<'a> CancelQuoteBuilder<'a> {
 }
 /// Cancels the quote.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CancelQuote<'a> {
     inner: CancelQuoteBuilder<'a>,
     quote: &'a stripe_shared::QuoteId,
@@ -1821,6 +1856,7 @@ impl StripeRequest for CancelQuote<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct FinalizeQuoteQuoteBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -1834,6 +1870,7 @@ impl<'a> FinalizeQuoteQuoteBuilder<'a> {
 }
 /// Finalizes the quote.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct FinalizeQuoteQuote<'a> {
     inner: FinalizeQuoteQuoteBuilder<'a>,
     quote: &'a stripe_shared::QuoteId,
@@ -1884,6 +1921,7 @@ impl StripeRequest for FinalizeQuoteQuote<'_> {
 }
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DiscountsDataParam<'a> {
     /// ID of the coupon to create a new discount for.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1906,6 +1944,7 @@ impl<'a> Default for DiscountsDataParam<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct TransferDataSpecs<'a> {
     /// The amount that will be transferred automatically when the invoice is paid.
     /// If no amount is set, the full amount is transferred.

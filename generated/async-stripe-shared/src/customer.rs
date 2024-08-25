@@ -5,6 +5,7 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/customers/object>>.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct Customer {
     /// The customer's address.

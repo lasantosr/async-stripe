@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListBillingPortalConfigurationBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     active: Option<bool>,
@@ -31,6 +32,7 @@ impl<'a> ListBillingPortalConfigurationBuilder<'a> {
 }
 /// Returns a list of configurations that describe the functionality of the customer portal.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListBillingPortalConfiguration<'a> {
     inner: ListBillingPortalConfigurationBuilder<'a>,
 }
@@ -114,6 +116,7 @@ impl StripeRequest for ListBillingPortalConfiguration<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveBillingPortalConfigurationBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -125,6 +128,7 @@ impl<'a> RetrieveBillingPortalConfigurationBuilder<'a> {
 }
 /// Retrieves a configuration that describes the functionality of the customer portal.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveBillingPortalConfiguration<'a> {
     inner: RetrieveBillingPortalConfigurationBuilder<'a>,
     configuration: &'a stripe_billing::BillingPortalConfigurationId,
@@ -171,6 +175,7 @@ impl StripeRequest for RetrieveBillingPortalConfiguration<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateBillingPortalConfigurationBuilder<'a> {
     business_profile: CreateBillingPortalConfigurationBusinessProfile<'a>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -200,6 +205,7 @@ impl<'a> CreateBillingPortalConfigurationBuilder<'a> {
 }
 /// The business information shown to customers in the portal.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateBillingPortalConfigurationBusinessProfile<'a> {
     /// The messaging shown to customers in the portal.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -223,6 +229,7 @@ impl<'a> Default for CreateBillingPortalConfigurationBusinessProfile<'a> {
 }
 /// Information about the features available in the portal.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateBillingPortalConfigurationFeatures<'a> {
     /// Information about updating the customer details in the portal.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -258,6 +265,7 @@ impl<'a> Default for CreateBillingPortalConfigurationFeatures<'a> {
 }
 /// Information about updating the customer details in the portal.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateBillingPortalConfigurationFeaturesCustomerUpdate<'a> {
     /// The types of customer updates that are supported. When empty, customers are not updateable.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -341,6 +349,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// Information about showing the billing history in the portal.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateBillingPortalConfigurationFeaturesInvoiceHistory {
     /// Whether the feature is enabled.
     pub enabled: bool,
@@ -352,6 +361,7 @@ impl CreateBillingPortalConfigurationFeaturesInvoiceHistory {
 }
 /// Information about updating payment methods in the portal.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateBillingPortalConfigurationFeaturesPaymentMethodUpdate {
     /// Whether the feature is enabled.
     pub enabled: bool,
@@ -363,6 +373,7 @@ impl CreateBillingPortalConfigurationFeaturesPaymentMethodUpdate {
 }
 /// Information about canceling subscriptions in the portal.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateBillingPortalConfigurationFeaturesSubscriptionCancel<'a> {
     /// Whether the cancellation reasons will be collected in the portal and which options are exposed to the customer.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -387,6 +398,7 @@ impl<'a> CreateBillingPortalConfigurationFeaturesSubscriptionCancel<'a> {
 }
 /// Whether the cancellation reasons will be collected in the portal and which options are exposed to the customer.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateBillingPortalConfigurationFeaturesSubscriptionCancelCancellationReason<'a> {
     /// Whether the feature is enabled.
     pub enabled: bool,
@@ -615,6 +627,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// Information about updating subscriptions in the portal.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateBillingPortalConfigurationFeaturesSubscriptionUpdate<'a> {
     /// The types of subscription updates that are supported. When empty, subscriptions are not updateable.
     pub default_allowed_updates:
@@ -776,6 +789,7 @@ impl<'de> serde::Deserialize<'de>
 /// The hosted login page for this configuration.
 /// Learn more about the portal login page in our [integration docs](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal#share).
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateBillingPortalConfigurationLoginPage {
     /// Set to `true` to generate a shareable URL [`login_page.url`](https://stripe.com/docs/api/customer_portal/configuration#portal_configuration_object-login_page-url) that will take your customers to a hosted login page for the customer portal.
     pub enabled: bool,
@@ -787,6 +801,7 @@ impl CreateBillingPortalConfigurationLoginPage {
 }
 /// Creates a configuration that describes the functionality and behavior of a PortalSession
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateBillingPortalConfiguration<'a> {
     inner: CreateBillingPortalConfigurationBuilder<'a>,
 }
@@ -850,6 +865,7 @@ impl StripeRequest for CreateBillingPortalConfiguration<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdateBillingPortalConfigurationBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     active: Option<bool>,
@@ -881,6 +897,7 @@ impl<'a> UpdateBillingPortalConfigurationBuilder<'a> {
 }
 /// The business information shown to customers in the portal.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateBillingPortalConfigurationBusinessProfile<'a> {
     /// The messaging shown to customers in the portal.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -904,6 +921,7 @@ impl<'a> Default for UpdateBillingPortalConfigurationBusinessProfile<'a> {
 }
 /// Information about the features available in the portal.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateBillingPortalConfigurationFeatures<'a> {
     /// Information about updating the customer details in the portal.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -939,6 +957,7 @@ impl<'a> Default for UpdateBillingPortalConfigurationFeatures<'a> {
 }
 /// Information about updating the customer details in the portal.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateBillingPortalConfigurationFeaturesCustomerUpdate<'a> {
     /// The types of customer updates that are supported. When empty, customers are not updateable.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1028,6 +1047,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// Information about showing the billing history in the portal.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateBillingPortalConfigurationFeaturesInvoiceHistory {
     /// Whether the feature is enabled.
     pub enabled: bool,
@@ -1039,6 +1059,7 @@ impl UpdateBillingPortalConfigurationFeaturesInvoiceHistory {
 }
 /// Information about updating payment methods in the portal.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateBillingPortalConfigurationFeaturesPaymentMethodUpdate {
     /// Whether the feature is enabled.
     pub enabled: bool,
@@ -1050,6 +1071,7 @@ impl UpdateBillingPortalConfigurationFeaturesPaymentMethodUpdate {
 }
 /// Information about canceling subscriptions in the portal.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateBillingPortalConfigurationFeaturesSubscriptionCancel<'a> {
     /// Whether the cancellation reasons will be collected in the portal and which options are exposed to the customer.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1080,6 +1102,7 @@ impl<'a> Default for UpdateBillingPortalConfigurationFeaturesSubscriptionCancel<
 }
 /// Whether the cancellation reasons will be collected in the portal and which options are exposed to the customer.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateBillingPortalConfigurationFeaturesSubscriptionCancelCancellationReason<'a> {
     /// Whether the feature is enabled.
     pub enabled: bool,
@@ -1307,6 +1330,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// Information about updating subscriptions in the portal.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateBillingPortalConfigurationFeaturesSubscriptionUpdate<'a> {
     /// The types of subscription updates that are supported. When empty, subscriptions are not updateable.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1478,6 +1502,7 @@ impl<'de> serde::Deserialize<'de>
 /// The hosted login page for this configuration.
 /// Learn more about the portal login page in our [integration docs](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal#share).
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateBillingPortalConfigurationLoginPage {
     /// Set to `true` to generate a shareable URL [`login_page.url`](https://stripe.com/docs/api/customer_portal/configuration#portal_configuration_object-login_page-url) that will take your customers to a hosted login page for the customer portal.
     ///
@@ -1491,6 +1516,7 @@ impl UpdateBillingPortalConfigurationLoginPage {
 }
 /// Updates a configuration that describes the functionality of the customer portal.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateBillingPortalConfiguration<'a> {
     inner: UpdateBillingPortalConfigurationBuilder<'a>,
     configuration: &'a stripe_billing::BillingPortalConfigurationId,
@@ -1576,6 +1602,7 @@ impl StripeRequest for UpdateBillingPortalConfiguration<'_> {
 }
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct SubscriptionUpdateProductParam<'a> {
     /// The list of price IDs for the product that a subscription can be updated to.
     pub prices: &'a [&'a str],

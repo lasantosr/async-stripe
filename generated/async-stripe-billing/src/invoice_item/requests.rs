@@ -5,6 +5,7 @@ use stripe_client_core::{
 /// Deletes an invoice item, removing it from an invoice.
 /// Deleting invoice items is only possible when they’re not attached to invoices, or if it’s attached to a draft invoice.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DeleteInvoiceItem<'a> {
     invoiceitem: &'a stripe_shared::InvoiceItemId,
 }
@@ -41,6 +42,7 @@ impl StripeRequest for DeleteInvoiceItem<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListInvoiceItemBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     created: Option<stripe_types::RangeQueryTs>,
@@ -76,6 +78,7 @@ impl<'a> ListInvoiceItemBuilder<'a> {
 /// Returns a list of your invoice items.
 /// Invoice items are returned sorted by creation date, with the most recently created invoice items appearing first.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListInvoiceItem<'a> {
     inner: ListInvoiceItemBuilder<'a>,
 }
@@ -172,6 +175,7 @@ impl StripeRequest for ListInvoiceItem<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveInvoiceItemBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -183,6 +187,7 @@ impl<'a> RetrieveInvoiceItemBuilder<'a> {
 }
 /// Retrieves the invoice item with the given ID.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveInvoiceItem<'a> {
     inner: RetrieveInvoiceItemBuilder<'a>,
     invoiceitem: &'a stripe_shared::InvoiceItemId,
@@ -226,6 +231,7 @@ impl StripeRequest for RetrieveInvoiceItem<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateInvoiceItemBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     amount: Option<i64>,
@@ -292,6 +298,7 @@ impl<'a> CreateInvoiceItemBuilder<'a> {
 }
 /// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoiceItemPriceData<'a> {
     /// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
     /// Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -443,6 +450,7 @@ impl<'de> serde::Deserialize<'de> for CreateInvoiceItemTaxBehavior {
 /// Creates an item to be added to a draft invoice (up to 250 items per invoice).
 /// If no invoice is specified, the item will be on the next invoice created for the customer specified.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoiceItem<'a> {
     inner: CreateInvoiceItemBuilder<'a>,
 }
@@ -591,6 +599,7 @@ impl StripeRequest for CreateInvoiceItem<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdateInvoiceItemBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     amount: Option<i64>,
@@ -646,6 +655,7 @@ impl<'a> UpdateInvoiceItemBuilder<'a> {
 }
 /// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoiceItemPriceData<'a> {
     /// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
     /// Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -797,6 +807,7 @@ impl<'de> serde::Deserialize<'de> for UpdateInvoiceItemTaxBehavior {
 /// Updates the amount or description of an invoice item on an upcoming invoice.
 /// Updating an invoice item is only possible before the invoice it’s attached to is closed.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoiceItem<'a> {
     inner: UpdateInvoiceItemBuilder<'a>,
     invoiceitem: &'a stripe_shared::InvoiceItemId,
@@ -931,6 +942,7 @@ impl StripeRequest for UpdateInvoiceItem<'_> {
 }
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DiscountsDataParam<'a> {
     /// ID of the coupon to create a new discount for.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -953,6 +965,7 @@ impl<'a> Default for DiscountsDataParam<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct Period {
     /// The end of the period, which must be greater than or equal to the start. This value is inclusive.
     pub end: stripe_types::Timestamp,

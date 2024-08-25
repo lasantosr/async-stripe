@@ -1,5 +1,6 @@
 /// Describes a snapshot of the owners of an account at a particular point in time.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct FinancialConnectionsAccountOwnership {
     /// Time at which the object was created. Measured in seconds since the Unix epoch.

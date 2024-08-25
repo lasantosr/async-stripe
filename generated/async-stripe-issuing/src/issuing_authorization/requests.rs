@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListIssuingAuthorizationBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     card: Option<&'a str>,
@@ -38,6 +39,7 @@ impl<'a> ListIssuingAuthorizationBuilder<'a> {
 /// Returns a list of Issuing `Authorization` objects.
 /// The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListIssuingAuthorization<'a> {
     inner: ListIssuingAuthorizationBuilder<'a>,
 }
@@ -130,6 +132,7 @@ impl StripeRequest for ListIssuingAuthorization<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveIssuingAuthorizationBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -141,6 +144,7 @@ impl<'a> RetrieveIssuingAuthorizationBuilder<'a> {
 }
 /// Retrieves an Issuing `Authorization` object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveIssuingAuthorization<'a> {
     inner: RetrieveIssuingAuthorizationBuilder<'a>,
     authorization: &'a stripe_shared::IssuingAuthorizationId,
@@ -184,6 +188,7 @@ impl StripeRequest for RetrieveIssuingAuthorization<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdateIssuingAuthorizationBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -198,6 +203,7 @@ impl<'a> UpdateIssuingAuthorizationBuilder<'a> {
 /// Updates the specified Issuing `Authorization` object by setting the values of the parameters passed.
 /// Any parameters not provided will be left unchanged.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateIssuingAuthorization<'a> {
     inner: UpdateIssuingAuthorizationBuilder<'a>,
     authorization: &'a stripe_shared::IssuingAuthorizationId,
@@ -249,6 +255,7 @@ impl StripeRequest for UpdateIssuingAuthorization<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ApproveIssuingAuthorizationBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     amount: Option<i64>,
@@ -268,6 +275,7 @@ impl<'a> ApproveIssuingAuthorizationBuilder<'a> {
 /// This method is deprecated.
 /// Instead, [respond directly to the webhook request to approve an authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ApproveIssuingAuthorization<'a> {
     inner: ApproveIssuingAuthorizationBuilder<'a>,
     authorization: &'a stripe_shared::IssuingAuthorizationId,
@@ -328,6 +336,7 @@ impl StripeRequest for ApproveIssuingAuthorization<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct DeclineIssuingAuthorizationBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -344,6 +353,7 @@ impl<'a> DeclineIssuingAuthorizationBuilder<'a> {
 /// This method is deprecated.
 /// Instead, [respond directly to the webhook request to decline an authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DeclineIssuingAuthorization<'a> {
     inner: DeclineIssuingAuthorizationBuilder<'a>,
     authorization: &'a stripe_shared::IssuingAuthorizationId,
@@ -398,6 +408,7 @@ impl StripeRequest for DeclineIssuingAuthorization<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateIssuingAuthorizationBuilder<'a> {
     amount: i64,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -440,6 +451,7 @@ impl<'a> CreateIssuingAuthorizationBuilder<'a> {
 /// Detailed breakdown of amount components.
 /// These amounts are denominated in `currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateIssuingAuthorizationAmountDetails {
     /// The ATM withdrawal fee.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -460,6 +472,7 @@ impl Default for CreateIssuingAuthorizationAmountDetails {
 }
 /// Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateIssuingAuthorizationMerchantData<'a> {
     /// A categorization of the seller's type of business.
     /// See our [merchant categories guide](https://stripe.com/docs/issuing/merchant-categories) for a list of possible values.
@@ -1540,6 +1553,7 @@ impl<'de> serde::Deserialize<'de> for CreateIssuingAuthorizationMerchantDataCate
 }
 /// Details about the authorization, such as identifiers, set by the card network.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateIssuingAuthorizationNetworkData<'a> {
     /// Identifier assigned to the acquirer by the card network.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1557,6 +1571,7 @@ impl<'a> Default for CreateIssuingAuthorizationNetworkData<'a> {
 }
 /// Verifications that Stripe performed on information that the cardholder provided to the merchant.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateIssuingAuthorizationVerificationData {
     /// Whether the cardholder provided an address first line and if it matched the cardholder’s `billing.address.line1`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1718,6 +1733,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// The exemption applied to this authorization.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateIssuingAuthorizationVerificationDataAuthenticationExemption {
     /// The entity that requested the exemption, either the acquiring merchant or the Issuing user.
     pub claimed_by: CreateIssuingAuthorizationVerificationDataAuthenticationExemptionClaimedBy,
@@ -1980,6 +1996,7 @@ impl<'de> serde::Deserialize<'de> for CreateIssuingAuthorizationVerificationData
 }
 /// 3D Secure details.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateIssuingAuthorizationVerificationDataThreeDSecure {
     /// The outcome of the 3D Secure authentication request.
     pub result: CreateIssuingAuthorizationVerificationDataThreeDSecureResult,
@@ -2116,6 +2133,7 @@ impl<'de> serde::Deserialize<'de> for CreateIssuingAuthorizationWallet {
 }
 /// Create a test-mode authorization.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateIssuingAuthorization<'a> {
     inner: CreateIssuingAuthorizationBuilder<'a>,
 }
@@ -2215,6 +2233,7 @@ impl StripeRequest for CreateIssuingAuthorization<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CaptureIssuingAuthorizationBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     capture_amount: Option<i64>,
@@ -2237,6 +2256,7 @@ impl<'a> CaptureIssuingAuthorizationBuilder<'a> {
 }
 /// Additional purchase information that is optionally provided by the merchant.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CaptureIssuingAuthorizationPurchaseDetails<'a> {
     /// Information about the flight that was purchased with this transaction.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -2266,6 +2286,7 @@ impl<'a> Default for CaptureIssuingAuthorizationPurchaseDetails<'a> {
 }
 /// Information about the flight that was purchased with this transaction.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CaptureIssuingAuthorizationPurchaseDetailsFlight<'a> {
     /// The time that the flight departed.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -2301,6 +2322,7 @@ impl<'a> Default for CaptureIssuingAuthorizationPurchaseDetailsFlight<'a> {
 }
 /// The legs of the trip.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CaptureIssuingAuthorizationPurchaseDetailsFlightSegments<'a> {
     /// The three-letter IATA airport code of the flight's destination.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -2340,6 +2362,7 @@ impl<'a> Default for CaptureIssuingAuthorizationPurchaseDetailsFlightSegments<'a
 }
 /// Information about fuel that was purchased with this transaction.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CaptureIssuingAuthorizationPurchaseDetailsFuel<'a> {
     /// The type of fuel that was purchased.
     /// One of `diesel`, `unleaded_plus`, `unleaded_regular`, `unleaded_super`, or `other`.
@@ -2497,6 +2520,7 @@ impl<'de> serde::Deserialize<'de> for CaptureIssuingAuthorizationPurchaseDetails
 }
 /// Information about lodging that was purchased with this transaction.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CaptureIssuingAuthorizationPurchaseDetailsLodging {
     /// The time of checking into the lodging.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -2517,6 +2541,7 @@ impl Default for CaptureIssuingAuthorizationPurchaseDetailsLodging {
 }
 /// The line items in the purchase.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CaptureIssuingAuthorizationPurchaseDetailsReceipt<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub description: Option<&'a str>,
@@ -2539,6 +2564,7 @@ impl<'a> Default for CaptureIssuingAuthorizationPurchaseDetailsReceipt<'a> {
 }
 /// Capture a test-mode authorization.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CaptureIssuingAuthorization<'a> {
     inner: CaptureIssuingAuthorizationBuilder<'a>,
     authorization: &'a str,
@@ -2607,6 +2633,7 @@ impl StripeRequest for CaptureIssuingAuthorization<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ExpireIssuingAuthorizationBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -2618,6 +2645,7 @@ impl<'a> ExpireIssuingAuthorizationBuilder<'a> {
 }
 /// Expire a test-mode Authorization.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ExpireIssuingAuthorization<'a> {
     inner: ExpireIssuingAuthorizationBuilder<'a>,
     authorization: &'a str,
@@ -2664,6 +2692,7 @@ impl StripeRequest for ExpireIssuingAuthorization<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct IncrementIssuingAuthorizationBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -2678,6 +2707,7 @@ impl<'a> IncrementIssuingAuthorizationBuilder<'a> {
 }
 /// Increment a test-mode Authorization.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct IncrementIssuingAuthorization<'a> {
     inner: IncrementIssuingAuthorizationBuilder<'a>,
     authorization: &'a str,
@@ -2729,6 +2759,7 @@ impl StripeRequest for IncrementIssuingAuthorization<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ReverseIssuingAuthorizationBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -2742,6 +2773,7 @@ impl<'a> ReverseIssuingAuthorizationBuilder<'a> {
 }
 /// Reverse a test-mode Authorization.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ReverseIssuingAuthorization<'a> {
     inner: ReverseIssuingAuthorizationBuilder<'a>,
     authorization: &'a str,

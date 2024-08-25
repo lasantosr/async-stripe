@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListCustomerPaymentSourceBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     ending_before: Option<&'a str>,
@@ -22,6 +23,7 @@ impl<'a> ListCustomerPaymentSourceBuilder<'a> {
 }
 /// List sources for a specified customer.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListCustomerPaymentSource<'a> {
     inner: ListCustomerPaymentSourceBuilder<'a>,
     customer: &'a stripe_shared::CustomerId,
@@ -101,6 +103,7 @@ impl StripeRequest for ListCustomerPaymentSource<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrievePaymentSourceBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -112,6 +115,7 @@ impl<'a> RetrievePaymentSourceBuilder<'a> {
 }
 /// Retrieve a specified source for a given customer.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrievePaymentSource<'a> {
     inner: RetrievePaymentSourceBuilder<'a>,
     customer: &'a stripe_shared::CustomerId,
@@ -157,6 +161,7 @@ impl StripeRequest for RetrievePaymentSource<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateCustomerPaymentSourceBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -177,6 +182,7 @@ impl<'a> CreateCustomerPaymentSourceBuilder<'a> {
 /// However, if the owner already has a default, then it will not change.
 /// To change the default, you should [update the customer](https://stripe.com/docs/api#update_customer) to have a new `default_source`.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateCustomerPaymentSource<'a> {
     inner: CreateCustomerPaymentSourceBuilder<'a>,
     customer: &'a stripe_shared::CustomerId,

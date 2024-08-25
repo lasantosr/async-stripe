@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateBillingMeterEventBuilder<'a> {
     event_name: &'a str,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -20,6 +21,7 @@ impl<'a> CreateBillingMeterEventBuilder<'a> {
 }
 /// Creates a billing meter event
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateBillingMeterEvent<'a> {
     inner: CreateBillingMeterEventBuilder<'a>,
 }

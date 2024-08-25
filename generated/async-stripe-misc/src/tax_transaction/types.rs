@@ -4,6 +4,7 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/tax/transactions/object>>.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct TaxTransaction {
     /// Time at which the object was created. Measured in seconds since the Unix epoch.
@@ -34,7 +35,7 @@ pub struct TaxTransaction {
     /// Timestamp of date at which the tax rules and rates in effect applies for the calculation.
     pub tax_date: stripe_types::Timestamp,
     /// If `reversal`, this transaction reverses an earlier transaction.
-    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
+    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
     pub type_: TaxTransactionType,
 }
 #[doc(hidden)]

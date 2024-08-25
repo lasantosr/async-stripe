@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListIssuingPhysicalBundleBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     ending_before: Option<&'a str>,
@@ -33,6 +34,7 @@ impl<'a> ListIssuingPhysicalBundleBuilder<'a> {
 /// Returns a list of physical bundle objects.
 /// The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListIssuingPhysicalBundle<'a> {
     inner: ListIssuingPhysicalBundleBuilder<'a>,
 }
@@ -115,6 +117,7 @@ impl StripeRequest for ListIssuingPhysicalBundle<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveIssuingPhysicalBundleBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -126,6 +129,7 @@ impl<'a> RetrieveIssuingPhysicalBundleBuilder<'a> {
 }
 /// Retrieves a physical bundle object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveIssuingPhysicalBundle<'a> {
     inner: RetrieveIssuingPhysicalBundleBuilder<'a>,
     physical_bundle: &'a stripe_shared::IssuingPhysicalBundleId,

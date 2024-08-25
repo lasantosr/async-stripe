@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListIssuingCardBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     cardholder: Option<&'a str>,
@@ -51,6 +52,7 @@ impl<'a> ListIssuingCardBuilder<'a> {
 /// Returns a list of Issuing `Card` objects.
 /// The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListIssuingCard<'a> {
     inner: ListIssuingCardBuilder<'a>,
 }
@@ -161,6 +163,7 @@ impl StripeRequest for ListIssuingCard<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveIssuingCardBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -172,6 +175,7 @@ impl<'a> RetrieveIssuingCardBuilder<'a> {
 }
 /// Retrieves an Issuing `Card` object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveIssuingCard<'a> {
     inner: RetrieveIssuingCardBuilder<'a>,
     card: &'a stripe_shared::IssuingCardId,
@@ -214,6 +218,7 @@ impl StripeRequest for RetrieveIssuingCard<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateIssuingCardBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     cardholder: Option<&'a str>,
@@ -265,6 +270,7 @@ impl<'a> CreateIssuingCardBuilder<'a> {
 }
 /// The address where the card will be shipped.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateIssuingCardShipping<'a> {
     /// The address that the card is shipped to.
     pub address: CreateIssuingCardShippingAddress<'a>,
@@ -302,6 +308,7 @@ impl<'a> CreateIssuingCardShipping<'a> {
 }
 /// The address that the card is shipped to.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateIssuingCardShippingAddress<'a> {
     /// City, district, suburb, town, or village.
     pub city: &'a str,
@@ -325,6 +332,7 @@ impl<'a> CreateIssuingCardShippingAddress<'a> {
 }
 /// Customs information for the shipment.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateIssuingCardShippingCustoms<'a> {
     /// The Economic Operators Registration and Identification (EORI) number to use for Customs.
     /// Required for bulk shipments to Europe.
@@ -459,6 +467,7 @@ impl<'de> serde::Deserialize<'de> for CreateIssuingCardShippingType {
 /// Rules that control spending for this card.
 /// Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateIssuingCardSpendingControls<'a> {
     /// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) of authorizations to allow.
     /// All other categories will be blocked.
@@ -2569,6 +2578,7 @@ impl<'de> serde::Deserialize<'de> for CreateIssuingCardSpendingControlsBlockedCa
 }
 /// Limit spending with amount-based rules that apply across any cards this card replaced (i.e., its `replacement_for` card and _that_ card's `replacement_for` card, up the chain).
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateIssuingCardSpendingControlsSpendingLimits<'a> {
     /// Maximum amount allowed to spend per interval.
     pub amount: i64,
@@ -3746,6 +3756,7 @@ impl<'de> serde::Deserialize<'de> for CreateIssuingCardStatus {
 }
 /// Creates an Issuing `Card` object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateIssuingCard<'a> {
     inner: CreateIssuingCardBuilder<'a>,
 }
@@ -3852,6 +3863,7 @@ impl StripeRequest for CreateIssuingCard<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdateIssuingCardBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     cancellation_reason: Option<UpdateIssuingCardCancellationReason>,
@@ -3940,6 +3952,7 @@ impl<'de> serde::Deserialize<'de> for UpdateIssuingCardCancellationReason {
 /// Rules that control spending for this card.
 /// Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateIssuingCardSpendingControls<'a> {
     /// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) of authorizations to allow.
     /// All other categories will be blocked.
@@ -6050,6 +6063,7 @@ impl<'de> serde::Deserialize<'de> for UpdateIssuingCardSpendingControlsBlockedCa
 }
 /// Limit spending with amount-based rules that apply across any cards this card replaced (i.e., its `replacement_for` card and _that_ card's `replacement_for` card, up the chain).
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateIssuingCardSpendingControlsSpendingLimits<'a> {
     /// Maximum amount allowed to spend per interval.
     pub amount: i64,
@@ -7171,6 +7185,7 @@ impl<'de> serde::Deserialize<'de> for UpdateIssuingCardSpendingControlsSpendingL
 /// Updates the specified Issuing `Card` object by setting the values of the parameters passed.
 /// Any parameters not provided will be left unchanged.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateIssuingCard<'a> {
     inner: UpdateIssuingCardBuilder<'a>,
     card: &'a stripe_shared::IssuingCardId,
@@ -7255,6 +7270,7 @@ impl StripeRequest for UpdateIssuingCard<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct DeliverCardIssuingCardBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -7266,6 +7282,7 @@ impl<'a> DeliverCardIssuingCardBuilder<'a> {
 }
 /// Updates the shipping status of the specified Issuing `Card` object to `delivered`.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DeliverCardIssuingCard<'a> {
     inner: DeliverCardIssuingCardBuilder<'a>,
     card: &'a str,
@@ -7312,6 +7329,7 @@ impl StripeRequest for DeliverCardIssuingCard<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct FailCardIssuingCardBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -7323,6 +7341,7 @@ impl<'a> FailCardIssuingCardBuilder<'a> {
 }
 /// Updates the shipping status of the specified Issuing `Card` object to `failure`.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct FailCardIssuingCard<'a> {
     inner: FailCardIssuingCardBuilder<'a>,
     card: &'a str,
@@ -7369,6 +7388,7 @@ impl StripeRequest for FailCardIssuingCard<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ReturnCardIssuingCardBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -7380,6 +7400,7 @@ impl<'a> ReturnCardIssuingCardBuilder<'a> {
 }
 /// Updates the shipping status of the specified Issuing `Card` object to `returned`.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ReturnCardIssuingCard<'a> {
     inner: ReturnCardIssuingCardBuilder<'a>,
     card: &'a str,
@@ -7426,6 +7447,7 @@ impl StripeRequest for ReturnCardIssuingCard<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ShipCardIssuingCardBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -7437,6 +7459,7 @@ impl<'a> ShipCardIssuingCardBuilder<'a> {
 }
 /// Updates the shipping status of the specified Issuing `Card` object to `shipped`.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ShipCardIssuingCard<'a> {
     inner: ShipCardIssuingCardBuilder<'a>,
     card: &'a str,
@@ -7484,6 +7507,7 @@ impl StripeRequest for ShipCardIssuingCard<'_> {
 }
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct EncryptedPinParam<'a> {
     /// The card's desired new PIN, encrypted under Stripe's public key.
     #[serde(skip_serializing_if = "Option::is_none")]

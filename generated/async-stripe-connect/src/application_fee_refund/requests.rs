@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveApplicationFeeRefundBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -14,6 +15,7 @@ impl<'a> RetrieveApplicationFeeRefundBuilder<'a> {
 }
 /// By default, you can see the 10 most recent refunds stored directly on the application fee object, but you can also retrieve details about a specific refund stored on the application fee.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveApplicationFeeRefund<'a> {
     inner: RetrieveApplicationFeeRefundBuilder<'a>,
     fee: &'a stripe_shared::ApplicationFeeId,
@@ -59,6 +61,7 @@ impl StripeRequest for RetrieveApplicationFeeRefund<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListIdApplicationFeeRefundBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     ending_before: Option<&'a str>,
@@ -78,6 +81,7 @@ impl<'a> ListIdApplicationFeeRefundBuilder<'a> {
 /// Note that the 10 most recent refunds are always available by default on the application fee object.
 /// If you need more than those 10, you can use this API method and the `limit` and `starting_after` parameters to page through additional refunds.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListIdApplicationFeeRefund<'a> {
     inner: ListIdApplicationFeeRefundBuilder<'a>,
     id: &'a stripe_shared::ApplicationFeeId,
@@ -153,6 +157,7 @@ impl StripeRequest for ListIdApplicationFeeRefund<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdateApplicationFeeRefundBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -169,6 +174,7 @@ impl<'a> UpdateApplicationFeeRefundBuilder<'a> {
 ///
 /// This request only accepts metadata as an argument.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateApplicationFeeRefund<'a> {
     inner: UpdateApplicationFeeRefundBuilder<'a>,
     fee: &'a stripe_shared::ApplicationFeeId,
@@ -222,6 +228,7 @@ impl StripeRequest for UpdateApplicationFeeRefund<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateIdApplicationFeeRefundBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     amount: Option<i64>,
@@ -245,6 +252,7 @@ impl<'a> CreateIdApplicationFeeRefundBuilder<'a> {
 /// This method will raise an error when called on an already-refunded application fee,
 /// or when trying to refund more money than is left on an application fee.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateIdApplicationFeeRefund<'a> {
     inner: CreateIdApplicationFeeRefundBuilder<'a>,
     id: &'a stripe_shared::ApplicationFeeId,

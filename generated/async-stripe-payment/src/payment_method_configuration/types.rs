@@ -22,6 +22,7 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/payment_method_configurations/object>>.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct PaymentMethodConfiguration {
     pub acss_debit: Option<stripe_payment::PaymentMethodConfigResourcePaymentMethodProperties>,

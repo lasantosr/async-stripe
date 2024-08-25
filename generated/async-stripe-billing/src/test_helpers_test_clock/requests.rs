@@ -4,6 +4,7 @@ use stripe_client_core::{
 
 /// Deletes a test clock.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DeleteTestHelpersTestClock<'a> {
     test_clock: &'a stripe_shared::TestHelpersTestClockId,
 }
@@ -40,6 +41,7 @@ impl StripeRequest for DeleteTestHelpersTestClock<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListTestHelpersTestClockBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     ending_before: Option<&'a str>,
@@ -57,6 +59,7 @@ impl<'a> ListTestHelpersTestClockBuilder<'a> {
 }
 /// Returns a list of your test clocks.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListTestHelpersTestClock<'a> {
     inner: ListTestHelpersTestClockBuilder<'a>,
 }
@@ -129,6 +132,7 @@ impl StripeRequest for ListTestHelpersTestClock<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveTestHelpersTestClockBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -140,6 +144,7 @@ impl<'a> RetrieveTestHelpersTestClockBuilder<'a> {
 }
 /// Retrieves a test clock.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveTestHelpersTestClock<'a> {
     inner: RetrieveTestHelpersTestClockBuilder<'a>,
     test_clock: &'a stripe_shared::TestHelpersTestClockId,
@@ -183,6 +188,7 @@ impl StripeRequest for RetrieveTestHelpersTestClock<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateTestHelpersTestClockBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -197,6 +203,7 @@ impl<'a> CreateTestHelpersTestClockBuilder<'a> {
 }
 /// Creates a new test clock that can be attached to new customers and quotes.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateTestHelpersTestClock<'a> {
     inner: CreateTestHelpersTestClockBuilder<'a>,
 }
@@ -242,6 +249,7 @@ impl StripeRequest for CreateTestHelpersTestClock<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct AdvanceTestHelpersTestClockBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -255,6 +263,7 @@ impl<'a> AdvanceTestHelpersTestClockBuilder<'a> {
 /// Starts advancing a test clock to a specified time in the future.
 /// Advancement is done when status changes to `Ready`.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct AdvanceTestHelpersTestClock<'a> {
     inner: AdvanceTestHelpersTestClockBuilder<'a>,
     test_clock: &'a stripe_shared::TestHelpersTestClockId,

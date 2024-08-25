@@ -4,6 +4,7 @@ use stripe_client_core::{
 
 /// Deletes a `Reader` object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DeleteTerminalReader<'a> {
     reader: &'a stripe_terminal::TerminalReaderId,
 }
@@ -40,6 +41,7 @@ impl StripeRequest for DeleteTerminalReader<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListTerminalReaderBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     device_type: Option<stripe_terminal::TerminalReaderDeviceType>,
@@ -74,6 +76,7 @@ impl<'a> ListTerminalReaderBuilder<'a> {
 }
 /// Returns a list of `Reader` objects.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListTerminalReader<'a> {
     inner: ListTerminalReaderBuilder<'a>,
 }
@@ -166,6 +169,7 @@ impl StripeRequest for ListTerminalReader<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveTerminalReaderBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -177,6 +181,7 @@ impl<'a> RetrieveTerminalReaderBuilder<'a> {
 }
 /// Retrieves a `Reader` object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveTerminalReader<'a> {
     inner: RetrieveTerminalReaderBuilder<'a>,
     reader: &'a stripe_terminal::TerminalReaderId,
@@ -302,6 +307,7 @@ const _: () = {
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateTerminalReaderBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -320,6 +326,7 @@ impl<'a> CreateTerminalReaderBuilder<'a> {
 }
 /// Creates a new `Reader` object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateTerminalReader<'a> {
     inner: CreateTerminalReaderBuilder<'a>,
 }
@@ -379,6 +386,7 @@ impl StripeRequest for CreateTerminalReader<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdateTerminalReaderBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -395,6 +403,7 @@ impl<'a> UpdateTerminalReaderBuilder<'a> {
 /// Updates a `Reader` object by setting the values of the parameters passed.
 /// Any parameters not provided will be left unchanged.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateTerminalReader<'a> {
     inner: UpdateTerminalReaderBuilder<'a>,
     reader: &'a stripe_terminal::TerminalReaderId,
@@ -533,6 +542,7 @@ const _: () = {
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CancelActionTerminalReaderBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -544,6 +554,7 @@ impl<'a> CancelActionTerminalReaderBuilder<'a> {
 }
 /// Cancels the current reader action.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CancelActionTerminalReader<'a> {
     inner: CancelActionTerminalReaderBuilder<'a>,
     reader: &'a stripe_terminal::TerminalReaderId,
@@ -587,6 +598,7 @@ impl StripeRequest for CancelActionTerminalReader<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ProcessPaymentIntentTerminalReaderBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -601,6 +613,7 @@ impl<'a> ProcessPaymentIntentTerminalReaderBuilder<'a> {
 }
 /// Configuration overrides
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ProcessPaymentIntentTerminalReaderProcessConfig {
     /// Enables cancel button on transaction screens.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -624,6 +637,7 @@ impl Default for ProcessPaymentIntentTerminalReaderProcessConfig {
 }
 /// Tipping configuration for this transaction.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ProcessPaymentIntentTerminalReaderProcessConfigTipping {
     /// Amount used to calculate tip suggestions on tipping selection screen for this transaction.
     /// Must be a positive integer in the smallest currency unit (e.g., 100 cents to represent $1.00 or 100 to represent ¥100, a zero-decimal currency).
@@ -642,6 +656,7 @@ impl Default for ProcessPaymentIntentTerminalReaderProcessConfigTipping {
 }
 /// Initiates a payment flow on a Reader.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ProcessPaymentIntentTerminalReader<'a> {
     inner: ProcessPaymentIntentTerminalReaderBuilder<'a>,
     reader: &'a stripe_terminal::TerminalReaderId,
@@ -696,6 +711,7 @@ impl StripeRequest for ProcessPaymentIntentTerminalReader<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ProcessSetupIntentTerminalReaderBuilder<'a> {
     customer_consent_collected: bool,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -711,6 +727,7 @@ impl<'a> ProcessSetupIntentTerminalReaderBuilder<'a> {
 }
 /// Configuration overrides
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ProcessSetupIntentTerminalReaderProcessConfig {
     /// Enables cancel button on transaction screens.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -728,6 +745,7 @@ impl Default for ProcessSetupIntentTerminalReaderProcessConfig {
 }
 /// Initiates a setup intent flow on a Reader.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ProcessSetupIntentTerminalReader<'a> {
     inner: ProcessSetupIntentTerminalReaderBuilder<'a>,
     reader: &'a stripe_terminal::TerminalReaderId,
@@ -792,6 +810,7 @@ impl StripeRequest for ProcessSetupIntentTerminalReader<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RefundPaymentTerminalReaderBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     amount: Option<i64>,
@@ -826,6 +845,7 @@ impl<'a> RefundPaymentTerminalReaderBuilder<'a> {
 }
 /// Configuration overrides
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RefundPaymentTerminalReaderRefundPaymentConfig {
     /// Enables cancel button on transaction screens.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -843,6 +863,7 @@ impl Default for RefundPaymentTerminalReaderRefundPaymentConfig {
 }
 /// Initiates a refund on a Reader
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RefundPaymentTerminalReader<'a> {
     inner: RefundPaymentTerminalReaderBuilder<'a>,
     reader: &'a stripe_terminal::TerminalReaderId,
@@ -935,6 +956,7 @@ impl StripeRequest for RefundPaymentTerminalReader<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct SetReaderDisplayTerminalReaderBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     cart: Option<SetReaderDisplayTerminalReaderCart<'a>>,
@@ -950,6 +972,7 @@ impl<'a> SetReaderDisplayTerminalReaderBuilder<'a> {
 }
 /// Cart
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct SetReaderDisplayTerminalReaderCart<'a> {
     /// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
     /// Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -973,6 +996,7 @@ impl<'a> SetReaderDisplayTerminalReaderCart<'a> {
 }
 /// Array of line items that were purchased.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct SetReaderDisplayTerminalReaderCartLineItems<'a> {
     /// The price of the item in cents.
     pub amount: i64,
@@ -1041,6 +1065,7 @@ impl<'de> serde::Deserialize<'de> for SetReaderDisplayTerminalReaderType {
 }
 /// Sets reader display to show cart details.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct SetReaderDisplayTerminalReader<'a> {
     inner: SetReaderDisplayTerminalReaderBuilder<'a>,
     reader: &'a stripe_terminal::TerminalReaderId,
@@ -1095,6 +1120,7 @@ impl StripeRequest for SetReaderDisplayTerminalReader<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct PresentPaymentMethodTerminalReaderBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     amount_tip: Option<i64>,
@@ -1121,6 +1147,7 @@ impl<'a> PresentPaymentMethodTerminalReaderBuilder<'a> {
 }
 /// Simulated data for the card_present payment method.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct PresentPaymentMethodTerminalReaderCardPresent<'a> {
     /// The card number, as a string without any separators.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1138,6 +1165,7 @@ impl<'a> Default for PresentPaymentMethodTerminalReaderCardPresent<'a> {
 }
 /// Simulated data for the interac_present payment method.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct PresentPaymentMethodTerminalReaderInteracPresent<'a> {
     /// Card Number
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1212,6 +1240,7 @@ impl<'de> serde::Deserialize<'de> for PresentPaymentMethodTerminalReaderType {
 /// Presents a payment method on a simulated reader.
 /// Can be used to simulate accepting a payment, saving a card or refunding a transaction.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct PresentPaymentMethodTerminalReader<'a> {
     inner: PresentPaymentMethodTerminalReaderBuilder<'a>,
     reader: &'a str,

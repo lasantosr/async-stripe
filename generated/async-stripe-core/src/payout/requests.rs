@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListPayoutBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     arrival_date: Option<stripe_types::RangeQueryTs>,
@@ -38,6 +39,7 @@ impl<'a> ListPayoutBuilder<'a> {
 /// Returns a list of existing payouts sent to third-party bank accounts or payouts that Stripe sent to you.
 /// The payouts return in sorted order, with the most recently created payouts appearing first.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListPayout<'a> {
     inner: ListPayoutBuilder<'a>,
 }
@@ -129,6 +131,7 @@ impl StripeRequest for ListPayout<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrievePayoutBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -142,6 +145,7 @@ impl<'a> RetrievePayoutBuilder<'a> {
 /// Supply the unique payout ID from either a payout creation request or the payout list.
 /// Stripe returns the corresponding payout information.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrievePayout<'a> {
     inner: RetrievePayoutBuilder<'a>,
     payout: &'a stripe_shared::PayoutId,
@@ -184,6 +188,7 @@ impl StripeRequest for RetrievePayout<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreatePayoutBuilder<'a> {
     amount: i64,
     currency: stripe_types::Currency,
@@ -344,6 +349,7 @@ impl<'de> serde::Deserialize<'de> for CreatePayoutSourceType {
 /// If you create a manual payout on a Stripe account that uses multiple payment source types, you need to specify the source type balance that the payout draws from.
 /// The [balance object](https://stripe.com/docs/api#balance_object) details available and pending amounts by source type.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePayout<'a> {
     inner: CreatePayoutBuilder<'a>,
 }
@@ -426,6 +432,7 @@ impl StripeRequest for CreatePayout<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdatePayoutBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -441,6 +448,7 @@ impl<'a> UpdatePayoutBuilder<'a> {
 /// We don’t change parameters that you don’t provide.
 /// This request only accepts the metadata as arguments.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdatePayout<'a> {
     inner: UpdatePayoutBuilder<'a>,
     payout: &'a stripe_shared::PayoutId,
@@ -491,6 +499,7 @@ impl StripeRequest for UpdatePayout<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CancelPayoutBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -504,6 +513,7 @@ impl<'a> CancelPayoutBuilder<'a> {
 /// Stripe refunds the funds to your available balance.
 /// You can’t cancel automatic Stripe payouts.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CancelPayout<'a> {
     inner: CancelPayoutBuilder<'a>,
     payout: &'a stripe_shared::PayoutId,
@@ -547,6 +557,7 @@ impl StripeRequest for CancelPayout<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ReversePayoutBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -564,6 +575,7 @@ impl<'a> ReversePayoutBuilder<'a> {
 ///
 /// By requesting a reversal through `/v1/payouts/:id/reverse`, you confirm that the authorized signatory of the selected bank account authorizes the debit on the bank account and that no other authorization is required.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ReversePayout<'a> {
     inner: ReversePayoutBuilder<'a>,
     payout: &'a stripe_shared::PayoutId,

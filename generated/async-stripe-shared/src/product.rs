@@ -9,6 +9,7 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/products/object>>.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct Product {
     /// Whether the product is currently available for purchase.
@@ -45,7 +46,7 @@ pub struct Product {
     pub tax_code: Option<stripe_types::Expandable<stripe_shared::TaxCode>>,
     /// The type of the product.
     /// The product is either of type `good`, which is eligible for use with Orders and SKUs, or `service`, which is eligible for use with Subscriptions and Plans.
-    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
+    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
     pub type_: stripe_shared::ProductType,
     /// A label that represents units of this product.
     /// When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.

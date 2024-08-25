@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListSetupAttemptBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     created: Option<stripe_types::RangeQueryTs>,
@@ -30,6 +31,7 @@ impl<'a> ListSetupAttemptBuilder<'a> {
 }
 /// Returns a list of SetupAttempts that associate with a provided SetupIntent.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListSetupAttempt<'a> {
     inner: ListSetupAttemptBuilder<'a>,
 }

@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListIdentityVerificationReportBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     client_reference_id: Option<&'a str>,
@@ -94,6 +95,7 @@ impl<'de> serde::Deserialize<'de> for ListIdentityVerificationReportType {
 }
 /// List all verification reports.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListIdentityVerificationReport<'a> {
     inner: ListIdentityVerificationReportBuilder<'a>,
 }
@@ -189,6 +191,7 @@ impl StripeRequest for ListIdentityVerificationReport<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveIdentityVerificationReportBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -200,6 +203,7 @@ impl<'a> RetrieveIdentityVerificationReportBuilder<'a> {
 }
 /// Retrieves an existing VerificationReport
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveIdentityVerificationReport<'a> {
     inner: RetrieveIdentityVerificationReportBuilder<'a>,
     report: &'a stripe_misc::IdentityVerificationReportId,

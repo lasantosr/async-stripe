@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveConfirmationTokenBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -14,6 +15,7 @@ impl<'a> RetrieveConfirmationTokenBuilder<'a> {
 }
 /// Retrieves an existing ConfirmationToken object
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveConfirmationToken<'a> {
     inner: RetrieveConfirmationTokenBuilder<'a>,
     confirmation_token: &'a stripe_payment::ConfirmationTokenId,
@@ -57,6 +59,7 @@ impl StripeRequest for RetrieveConfirmationToken<'_> {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateConfirmationTokenBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -85,6 +88,7 @@ impl<'a> CreateConfirmationTokenBuilder<'a> {
 }
 /// If provided, this hash will be used to create a PaymentMethod.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateConfirmationTokenPaymentMethodData<'a> {
     /// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -286,6 +290,7 @@ impl<'a> CreateConfirmationTokenPaymentMethodData<'a> {
 }
 /// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateConfirmationTokenPaymentMethodDataAcssDebit<'a> {
     /// Customer's bank account number.
     pub account_number: &'a str,
@@ -368,6 +373,7 @@ impl<'de> serde::Deserialize<'de> for CreateConfirmationTokenPaymentMethodDataAl
 }
 /// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateConfirmationTokenPaymentMethodDataAuBecsDebit<'a> {
     /// The account number for the bank account.
     pub account_number: &'a str,
@@ -381,6 +387,7 @@ impl<'a> CreateConfirmationTokenPaymentMethodDataAuBecsDebit<'a> {
 }
 /// If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateConfirmationTokenPaymentMethodDataBacsDebit<'a> {
     /// Account number of the bank account that the funds will be debited from.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -401,6 +408,7 @@ impl<'a> Default for CreateConfirmationTokenPaymentMethodDataBacsDebit<'a> {
 }
 /// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateConfirmationTokenPaymentMethodDataBillingDetails<'a> {
     /// Billing address.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -427,6 +435,7 @@ impl<'a> Default for CreateConfirmationTokenPaymentMethodDataBillingDetails<'a> 
 }
 /// Billing address.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateConfirmationTokenPaymentMethodDataBillingDetailsAddress<'a> {
     /// City, district, suburb, town, or village.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -459,6 +468,7 @@ impl<'a> Default for CreateConfirmationTokenPaymentMethodDataBillingDetailsAddre
 }
 /// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateConfirmationTokenPaymentMethodDataBoleto<'a> {
     /// The tax ID of the customer (CPF for individual consumers or CNPJ for businesses consumers)
     pub tax_id: &'a str,
@@ -470,6 +480,7 @@ impl<'a> CreateConfirmationTokenPaymentMethodDataBoleto<'a> {
 }
 /// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateConfirmationTokenPaymentMethodDataEps {
     /// The customer's bank.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -623,6 +634,7 @@ impl<'de> serde::Deserialize<'de> for CreateConfirmationTokenPaymentMethodDataEp
 }
 /// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateConfirmationTokenPaymentMethodDataFpx {
     /// Account holder type for FPX transaction
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -813,6 +825,7 @@ impl<'de> serde::Deserialize<'de> for CreateConfirmationTokenPaymentMethodDataFp
 }
 /// If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateConfirmationTokenPaymentMethodDataIdeal {
     /// The customer's bank.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -930,6 +943,7 @@ impl<'de> serde::Deserialize<'de> for CreateConfirmationTokenPaymentMethodDataId
 }
 /// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateConfirmationTokenPaymentMethodDataKlarna {
     /// Customer's date of birth
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -947,6 +961,7 @@ impl Default for CreateConfirmationTokenPaymentMethodDataKlarna {
 }
 /// Customer's date of birth
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateConfirmationTokenPaymentMethodDataKlarnaDob {
     /// The day of birth, between 1 and 31.
     pub day: i64,
@@ -962,6 +977,7 @@ impl CreateConfirmationTokenPaymentMethodDataKlarnaDob {
 }
 /// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateConfirmationTokenPaymentMethodDataP24 {
     /// The customer's bank.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1110,6 +1126,7 @@ impl<'de> serde::Deserialize<'de> for CreateConfirmationTokenPaymentMethodDataP2
 /// Options to configure Radar.
 /// See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateConfirmationTokenPaymentMethodDataRadarOptions<'a> {
     /// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1127,6 +1144,7 @@ impl<'a> Default for CreateConfirmationTokenPaymentMethodDataRadarOptions<'a> {
 }
 /// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateConfirmationTokenPaymentMethodDataSepaDebit<'a> {
     /// IBAN of the bank account.
     pub iban: &'a str,
@@ -1138,6 +1156,7 @@ impl<'a> CreateConfirmationTokenPaymentMethodDataSepaDebit<'a> {
 }
 /// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateConfirmationTokenPaymentMethodDataSofort {
     /// Two-letter ISO code representing the country the bank account is located in.
     pub country: CreateConfirmationTokenPaymentMethodDataSofortCountry,
@@ -1375,6 +1394,7 @@ impl<'de> serde::Deserialize<'de> for CreateConfirmationTokenPaymentMethodDataTy
 }
 /// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateConfirmationTokenPaymentMethodDataUsBankAccount<'a> {
     /// Account holder type: individual or company.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1523,6 +1543,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// Shipping information for this ConfirmationToken.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateConfirmationTokenShipping<'a> {
     /// Shipping address
     pub address: CreateConfirmationTokenShippingAddress<'a>,
@@ -1539,6 +1560,7 @@ impl<'a> CreateConfirmationTokenShipping<'a> {
 }
 /// Shipping address
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateConfirmationTokenShippingAddress<'a> {
     /// City, district, suburb, town, or village.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1571,6 +1593,7 @@ impl<'a> Default for CreateConfirmationTokenShippingAddress<'a> {
 }
 /// Creates a test mode Confirmation Token server side for your integration tests.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateConfirmationToken<'a> {
     inner: CreateConfirmationTokenBuilder<'a>,
 }

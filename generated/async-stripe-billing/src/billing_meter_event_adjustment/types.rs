@@ -1,6 +1,7 @@
 /// A billing meter event adjustment is a resource that allows you to cancel a meter event.
 /// For example, you might create a billing meter event adjustment to cancel a meter event that was created in error or attached to the wrong customer.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct BillingMeterEventAdjustment {
     /// Specifies which event to cancel.
@@ -13,7 +14,7 @@ pub struct BillingMeterEventAdjustment {
     pub status: BillingMeterEventAdjustmentStatus,
     /// Specifies whether to cancel a single event or a range of events for a time period.
     /// Time period cancellation is not supported yet.
-    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
+    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
     pub type_: stripe_billing::BillingMeterEventAdjustmentType,
 }
 #[doc(hidden)]

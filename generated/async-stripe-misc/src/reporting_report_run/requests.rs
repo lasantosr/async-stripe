@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListReportingReportRunBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     created: Option<stripe_types::RangeQueryTs>,
@@ -22,6 +23,7 @@ impl<'a> ListReportingReportRunBuilder<'a> {
 }
 /// Returns a list of Report Runs, with the most recent appearing first.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListReportingReportRun<'a> {
     inner: ListReportingReportRunBuilder<'a>,
 }
@@ -99,6 +101,7 @@ impl StripeRequest for ListReportingReportRun<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveReportingReportRunBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -110,6 +113,7 @@ impl<'a> RetrieveReportingReportRunBuilder<'a> {
 }
 /// Retrieves the details of an existing Report Run.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveReportingReportRun<'a> {
     inner: RetrieveReportingReportRunBuilder<'a>,
     report_run: &'a stripe_misc::ReportingReportRunId,
@@ -153,6 +157,7 @@ impl StripeRequest for RetrieveReportingReportRun<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateReportingReportRunBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -168,6 +173,7 @@ impl<'a> CreateReportingReportRunBuilder<'a> {
 /// Parameters specifying how the report should be run.
 /// Different Report Types have different required and optional parameters, listed in the [API Access to Reports](https://stripe.com/docs/reporting/statements/api) documentation.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateReportingReportRunParameters<'a> {
     /// The set of report columns to include in the report output.
     /// If omitted, the Report Type is run with its default column set.
@@ -2232,6 +2238,7 @@ impl<'de> serde::Deserialize<'de> for CreateReportingReportRunParametersTimezone
 /// Creates a new object and begin running the report.
 /// (Certain report types require a [live-mode API key](https://stripe.com/docs/keys#test-live-modes).).
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateReportingReportRun<'a> {
     inner: CreateReportingReportRunBuilder<'a>,
 }

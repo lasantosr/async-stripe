@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListEventBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     created: Option<stripe_types::RangeQueryTs>,
@@ -39,6 +40,7 @@ impl<'a> ListEventBuilder<'a> {
 /// List events, going back up to 30 days.
 /// Each event data is rendered according to Stripe API version at its creation time, specified in [event object](https://docs.stripe.com/api/events/object) `api_version` attribute (not according to your current Stripe API version or `Stripe-Version` header).
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListEvent<'a> {
     inner: ListEventBuilder<'a>,
 }
@@ -134,6 +136,7 @@ impl StripeRequest for ListEvent<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveEventBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -146,6 +149,7 @@ impl<'a> RetrieveEventBuilder<'a> {
 /// Retrieves the details of an event.
 /// Supply the unique identifier of the event, which you might have received in a webhook.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveEvent<'a> {
     inner: RetrieveEventBuilder<'a>,
     id: &'a stripe_shared::EventId,

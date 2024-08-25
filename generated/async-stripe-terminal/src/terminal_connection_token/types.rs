@@ -4,6 +4,7 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/terminal/connection_tokens/object>>.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct TerminalConnectionToken {
     /// The id of the location that this connection token is scoped to.

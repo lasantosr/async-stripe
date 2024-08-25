@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListScheduledQueryRunBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     ending_before: Option<&'a str>,
@@ -20,6 +21,7 @@ impl<'a> ListScheduledQueryRunBuilder<'a> {
 }
 /// Returns a list of scheduled query runs.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListScheduledQueryRun<'a> {
     inner: ListScheduledQueryRunBuilder<'a>,
 }
@@ -91,6 +93,7 @@ impl StripeRequest for ListScheduledQueryRun<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveScheduledQueryRunBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -102,6 +105,7 @@ impl<'a> RetrieveScheduledQueryRunBuilder<'a> {
 }
 /// Retrieves the details of an scheduled query run.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveScheduledQueryRun<'a> {
     inner: RetrieveScheduledQueryRunBuilder<'a>,
     scheduled_query_run: &'a str,

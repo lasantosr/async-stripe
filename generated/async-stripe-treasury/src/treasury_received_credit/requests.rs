@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListTreasuryReceivedCreditBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     ending_before: Option<&'a str>,
@@ -33,6 +34,7 @@ impl<'a> ListTreasuryReceivedCreditBuilder<'a> {
 }
 /// Only return ReceivedCredits described by the flow.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListTreasuryReceivedCreditLinkedFlows {
     /// The source flow type.
     pub source_flow_type: ListTreasuryReceivedCreditLinkedFlowsSourceFlowType,
@@ -108,6 +110,7 @@ impl<'de> serde::Deserialize<'de> for ListTreasuryReceivedCreditLinkedFlowsSourc
 }
 /// Returns a list of ReceivedCredits.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListTreasuryReceivedCredit<'a> {
     inner: ListTreasuryReceivedCreditBuilder<'a>,
 }
@@ -186,6 +189,7 @@ impl StripeRequest for ListTreasuryReceivedCredit<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveTreasuryReceivedCreditBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -197,6 +201,7 @@ impl<'a> RetrieveTreasuryReceivedCreditBuilder<'a> {
 }
 /// Retrieves the details of an existing ReceivedCredit by passing the unique ReceivedCredit ID from the ReceivedCredit list.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveTreasuryReceivedCredit<'a> {
     inner: RetrieveTreasuryReceivedCreditBuilder<'a>,
     id: &'a stripe_treasury::TreasuryReceivedCreditId,
@@ -240,6 +245,7 @@ impl StripeRequest for RetrieveTreasuryReceivedCredit<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateTreasuryReceivedCreditBuilder<'a> {
     amount: i64,
     currency: stripe_types::Currency,
@@ -273,6 +279,7 @@ impl<'a> CreateTreasuryReceivedCreditBuilder<'a> {
 }
 /// Initiating payment method details for the object.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateTreasuryReceivedCreditInitiatingPaymentMethodDetails<'a> {
     /// The source type.
     #[serde(rename = "type")]
@@ -346,6 +353,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// Optional fields for `us_bank_account`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateTreasuryReceivedCreditInitiatingPaymentMethodDetailsUsBankAccount<'a> {
     /// The bank account holder's name.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -428,6 +436,7 @@ impl<'de> serde::Deserialize<'de> for CreateTreasuryReceivedCreditNetwork {
 /// Use this endpoint to simulate a test mode ReceivedCredit initiated by a third party.
 /// In live mode, you can’t directly create ReceivedCredits initiated by third parties.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateTreasuryReceivedCredit<'a> {
     inner: CreateTreasuryReceivedCreditBuilder<'a>,
 }

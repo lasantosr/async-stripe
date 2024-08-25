@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct DeleteSubscriptionItemBuilder {
     #[serde(skip_serializing_if = "Option::is_none")]
     clear_usage: Option<bool>,
@@ -79,6 +80,7 @@ impl<'de> serde::Deserialize<'de> for DeleteSubscriptionItemProrationBehavior {
 /// Deletes an item from the subscription.
 /// Removing a subscription item from a subscription will not cancel the subscription.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DeleteSubscriptionItem<'a> {
     inner: DeleteSubscriptionItemBuilder,
     item: &'a stripe_shared::SubscriptionItemId,
@@ -138,6 +140,7 @@ impl StripeRequest for DeleteSubscriptionItem<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListSubscriptionItemBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     ending_before: Option<&'a str>,
@@ -156,6 +159,7 @@ impl<'a> ListSubscriptionItemBuilder<'a> {
 }
 /// Returns a list of your subscription items for a given subscription.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListSubscriptionItem<'a> {
     inner: ListSubscriptionItemBuilder<'a>,
 }
@@ -223,6 +227,7 @@ impl StripeRequest for ListSubscriptionItem<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveSubscriptionItemBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -234,6 +239,7 @@ impl<'a> RetrieveSubscriptionItemBuilder<'a> {
 }
 /// Retrieves the subscription item with the given ID.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveSubscriptionItem<'a> {
     inner: RetrieveSubscriptionItemBuilder<'a>,
     item: &'a stripe_shared::SubscriptionItemId,
@@ -277,6 +283,7 @@ impl StripeRequest for RetrieveSubscriptionItem<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UsageRecordSummariesSubscriptionItemBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     ending_before: Option<&'a str>,
@@ -299,6 +306,7 @@ impl<'a> UsageRecordSummariesSubscriptionItemBuilder<'a> {
 /// The first list item represents the most current usage period that hasn’t ended yet.
 /// Since new usage records can still be added, the returned summary information for the subscription item’s ID should be seen as unstable until the subscription billing period ends.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UsageRecordSummariesSubscriptionItem<'a> {
     inner: UsageRecordSummariesSubscriptionItemBuilder<'a>,
     subscription_item: &'a stripe_shared::SubscriptionItemId,
@@ -377,6 +385,7 @@ impl StripeRequest for UsageRecordSummariesSubscriptionItem<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateSubscriptionItemBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     billing_thresholds: Option<ItemBillingThresholdsParam>,
@@ -503,6 +512,7 @@ impl<'de> serde::Deserialize<'de> for CreateSubscriptionItemPaymentBehavior {
 }
 /// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateSubscriptionItemPriceData<'a> {
     /// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
     /// Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -543,6 +553,7 @@ impl<'a> CreateSubscriptionItemPriceData<'a> {
 }
 /// The recurring components of a price such as `interval` and `interval_count`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateSubscriptionItemPriceDataRecurring {
     /// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
     pub interval: CreateSubscriptionItemPriceDataRecurringInterval,
@@ -745,6 +756,7 @@ impl<'de> serde::Deserialize<'de> for CreateSubscriptionItemProrationBehavior {
 }
 /// Adds a new item to an existing subscription. No existing items will be changed or replaced.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateSubscriptionItem<'a> {
     inner: CreateSubscriptionItemBuilder<'a>,
 }
@@ -870,6 +882,7 @@ impl StripeRequest for CreateSubscriptionItem<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdateSubscriptionItemBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     billing_thresholds: Option<ItemBillingThresholdsParam>,
@@ -997,6 +1010,7 @@ impl<'de> serde::Deserialize<'de> for UpdateSubscriptionItemPaymentBehavior {
 }
 /// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateSubscriptionItemPriceData<'a> {
     /// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
     /// Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -1037,6 +1051,7 @@ impl<'a> UpdateSubscriptionItemPriceData<'a> {
 }
 /// The recurring components of a price such as `interval` and `interval_count`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateSubscriptionItemPriceDataRecurring {
     /// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
     pub interval: UpdateSubscriptionItemPriceDataRecurringInterval,
@@ -1239,6 +1254,7 @@ impl<'de> serde::Deserialize<'de> for UpdateSubscriptionItemProrationBehavior {
 }
 /// Updates the plan or quantity of an item on a current subscription.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateSubscriptionItem<'a> {
     inner: UpdateSubscriptionItemBuilder<'a>,
     item: &'a stripe_shared::SubscriptionItemId,
@@ -1374,6 +1390,7 @@ impl StripeRequest for UpdateSubscriptionItem<'_> {
 }
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ItemBillingThresholdsParam {
     /// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte)).
     pub usage_gte: i64,
@@ -1384,6 +1401,7 @@ impl ItemBillingThresholdsParam {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DiscountsDataParam<'a> {
     /// ID of the coupon to create a new discount for.
     #[serde(skip_serializing_if = "Option::is_none")]

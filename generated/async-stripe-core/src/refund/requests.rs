@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListRefundBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     charge: Option<&'a str>,
@@ -35,6 +36,7 @@ impl<'a> ListRefundBuilder<'a> {
 /// Returns a list of all refunds you created.
 /// We return the refunds in sorted order, with the most recent refunds appearing first The 10 most recent refunds are always available by default on the Charge object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListRefund<'a> {
     inner: ListRefundBuilder<'a>,
 }
@@ -121,6 +123,7 @@ impl StripeRequest for ListRefund<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveRefundBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -132,6 +135,7 @@ impl<'a> RetrieveRefundBuilder<'a> {
 }
 /// Retrieves the details of an existing refund.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveRefund<'a> {
     inner: RetrieveRefundBuilder<'a>,
     refund: &'a stripe_shared::RefundId,
@@ -174,6 +178,7 @@ impl StripeRequest for RetrieveRefund<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateRefundBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     amount: Option<i64>,
@@ -342,6 +347,7 @@ impl<'de> serde::Deserialize<'de> for CreateRefundReason {
 /// This method will raise an error when called on an already-refunded charge,
 /// or when trying to refund more money than is left on a charge.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateRefund<'a> {
     inner: CreateRefundBuilder<'a>,
 }
@@ -453,6 +459,7 @@ impl StripeRequest for CreateRefund<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdateRefundBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -469,6 +476,7 @@ impl<'a> UpdateRefundBuilder<'a> {
 ///
 /// This request only accepts `metadata` as an argument.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateRefund<'a> {
     inner: UpdateRefundBuilder<'a>,
     refund: &'a stripe_shared::RefundId,
@@ -519,6 +527,7 @@ impl StripeRequest for UpdateRefund<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CancelRefundBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -533,6 +542,7 @@ impl<'a> CancelRefundBuilder<'a> {
 /// You can’t cancel refunds in other states.
 /// Only refunds for payment methods that require customer action can enter the `requires_action` state.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CancelRefund<'a> {
     inner: CancelRefundBuilder<'a>,
     refund: &'a stripe_shared::RefundId,
@@ -576,6 +586,7 @@ impl StripeRequest for CancelRefund<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ExpireRefundBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -587,6 +598,7 @@ impl<'a> ExpireRefundBuilder<'a> {
 }
 /// Expire a refund with a status of `requires_action`.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ExpireRefund<'a> {
     inner: ExpireRefundBuilder<'a>,
     refund: &'a str,

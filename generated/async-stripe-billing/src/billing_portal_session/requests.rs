@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateBillingPortalSessionBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     configuration: Option<&'a str>,
@@ -34,6 +35,7 @@ impl<'a> CreateBillingPortalSessionBuilder<'a> {
 /// Information about a specific flow for the customer to go through.
 /// See the [docs](https://stripe.com/docs/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateBillingPortalSessionFlowData<'a> {
     /// Behavior after the flow is completed.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -65,6 +67,7 @@ impl<'a> CreateBillingPortalSessionFlowData<'a> {
 }
 /// Behavior after the flow is completed.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateBillingPortalSessionFlowDataAfterCompletion<'a> {
     /// Configuration when `after_completion.type=hosted_confirmation`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -84,6 +87,7 @@ impl<'a> CreateBillingPortalSessionFlowDataAfterCompletion<'a> {
 }
 /// Configuration when `after_completion.type=hosted_confirmation`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateBillingPortalSessionFlowDataAfterCompletionHostedConfirmation<'a> {
     /// A custom message to display to the customer after the flow is completed.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -101,6 +105,7 @@ impl<'a> Default for CreateBillingPortalSessionFlowDataAfterCompletionHostedConf
 }
 /// Configuration when `after_completion.type=redirect`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateBillingPortalSessionFlowDataAfterCompletionRedirect<'a> {
     /// The URL the customer will be redirected to after the flow is completed.
     pub return_url: &'a str,
@@ -173,6 +178,7 @@ impl<'de> serde::Deserialize<'de> for CreateBillingPortalSessionFlowDataAfterCom
 }
 /// Configuration when `flow_data.type=subscription_cancel`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateBillingPortalSessionFlowDataSubscriptionCancel<'a> {
     /// Specify a retention strategy to be used in the cancellation flow.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -187,6 +193,7 @@ impl<'a> CreateBillingPortalSessionFlowDataSubscriptionCancel<'a> {
 }
 /// Specify a retention strategy to be used in the cancellation flow.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateBillingPortalSessionFlowDataSubscriptionCancelRetention<'a> {
     /// Configuration when `retention.type=coupon_offer`.
     pub coupon_offer: CreateBillingPortalSessionFlowDataSubscriptionCancelRetentionCouponOffer<'a>,
@@ -204,6 +211,7 @@ impl<'a> CreateBillingPortalSessionFlowDataSubscriptionCancelRetention<'a> {
 }
 /// Configuration when `retention.type=coupon_offer`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateBillingPortalSessionFlowDataSubscriptionCancelRetentionCouponOffer<'a> {
     /// The ID of the coupon to be offered.
     pub coupon: &'a str,
@@ -268,6 +276,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// Configuration when `flow_data.type=subscription_update`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateBillingPortalSessionFlowDataSubscriptionUpdate<'a> {
     /// The ID of the subscription to be updated.
     pub subscription: &'a str,
@@ -279,6 +288,7 @@ impl<'a> CreateBillingPortalSessionFlowDataSubscriptionUpdate<'a> {
 }
 /// Configuration when `flow_data.type=subscription_update_confirm`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateBillingPortalSessionFlowDataSubscriptionUpdateConfirm<'a> {
     /// The coupon or promotion code to apply to this subscription update.
     /// Currently, only up to one may be specified.
@@ -302,6 +312,7 @@ impl<'a> CreateBillingPortalSessionFlowDataSubscriptionUpdateConfirm<'a> {
 /// The coupon or promotion code to apply to this subscription update.
 /// Currently, only up to one may be specified.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateBillingPortalSessionFlowDataSubscriptionUpdateConfirmDiscounts<'a> {
     /// The ID of the coupon to apply to this subscription update.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -323,6 +334,7 @@ impl<'a> Default for CreateBillingPortalSessionFlowDataSubscriptionUpdateConfirm
 /// The [subscription item](https://stripe.com/docs/api/subscription_items) to be updated through this flow.
 /// Currently, only up to one may be specified and subscriptions with multiple items are not updatable.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateBillingPortalSessionFlowDataSubscriptionUpdateConfirmItems<'a> {
     /// The ID of the [subscription item](https://stripe.com/docs/api/subscriptions/object#subscription_object-items-data-id) to be updated.
     pub id: &'a str,
@@ -403,6 +415,7 @@ impl<'de> serde::Deserialize<'de> for CreateBillingPortalSessionFlowDataType {
 }
 /// Creates a session of the customer portal.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateBillingPortalSession<'a> {
     inner: CreateBillingPortalSessionBuilder<'a>,
 }

@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListIssuingTransactionBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     card: Option<&'a str>,
@@ -39,6 +40,7 @@ impl<'a> ListIssuingTransactionBuilder<'a> {
 /// Returns a list of Issuing `Transaction` objects.
 /// The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListIssuingTransaction<'a> {
     inner: ListIssuingTransactionBuilder<'a>,
 }
@@ -131,6 +133,7 @@ impl StripeRequest for ListIssuingTransaction<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveIssuingTransactionBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -142,6 +145,7 @@ impl<'a> RetrieveIssuingTransactionBuilder<'a> {
 }
 /// Retrieves an Issuing `Transaction` object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveIssuingTransaction<'a> {
     inner: RetrieveIssuingTransactionBuilder<'a>,
     transaction: &'a stripe_shared::IssuingTransactionId,
@@ -185,6 +189,7 @@ impl StripeRequest for RetrieveIssuingTransaction<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdateIssuingTransactionBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -199,6 +204,7 @@ impl<'a> UpdateIssuingTransactionBuilder<'a> {
 /// Updates the specified Issuing `Transaction` object by setting the values of the parameters passed.
 /// Any parameters not provided will be left unchanged.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateIssuingTransaction<'a> {
     inner: UpdateIssuingTransactionBuilder<'a>,
     transaction: &'a stripe_shared::IssuingTransactionId,
@@ -250,6 +256,7 @@ impl StripeRequest for UpdateIssuingTransaction<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RefundIssuingTransactionBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -263,6 +270,7 @@ impl<'a> RefundIssuingTransactionBuilder<'a> {
 }
 /// Refund a test-mode Transaction.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RefundIssuingTransaction<'a> {
     inner: RefundIssuingTransactionBuilder<'a>,
     transaction: &'a str,
@@ -315,6 +323,7 @@ impl StripeRequest for RefundIssuingTransaction<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateForceCaptureIssuingTransactionBuilder<'a> {
     amount: i64,
     card: &'a str,
@@ -341,6 +350,7 @@ impl<'a> CreateForceCaptureIssuingTransactionBuilder<'a> {
 }
 /// Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateForceCaptureIssuingTransactionMerchantData<'a> {
     /// A categorization of the seller's type of business.
     /// See our [merchant categories guide](https://stripe.com/docs/issuing/merchant-categories) for a list of possible values.
@@ -1421,6 +1431,7 @@ impl<'de> serde::Deserialize<'de> for CreateForceCaptureIssuingTransactionMercha
 }
 /// Additional purchase information that is optionally provided by the merchant.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateForceCaptureIssuingTransactionPurchaseDetails<'a> {
     /// Information about the flight that was purchased with this transaction.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1450,6 +1461,7 @@ impl<'a> Default for CreateForceCaptureIssuingTransactionPurchaseDetails<'a> {
 }
 /// Information about fuel that was purchased with this transaction.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateForceCaptureIssuingTransactionPurchaseDetailsFuel<'a> {
     /// The type of fuel that was purchased.
     /// One of `diesel`, `unleaded_plus`, `unleaded_regular`, `unleaded_super`, or `other`.
@@ -1607,6 +1619,7 @@ impl<'de> serde::Deserialize<'de> for CreateForceCaptureIssuingTransactionPurcha
 }
 /// Allows the user to capture an arbitrary amount, also known as a forced capture.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateForceCaptureIssuingTransaction<'a> {
     inner: CreateForceCaptureIssuingTransactionBuilder<'a>,
 }
@@ -1675,6 +1688,7 @@ impl StripeRequest for CreateForceCaptureIssuingTransaction<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateUnlinkedRefundIssuingTransactionBuilder<'a> {
     amount: i64,
     card: &'a str,
@@ -1701,6 +1715,7 @@ impl<'a> CreateUnlinkedRefundIssuingTransactionBuilder<'a> {
 }
 /// Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateUnlinkedRefundIssuingTransactionMerchantData<'a> {
     /// A categorization of the seller's type of business.
     /// See our [merchant categories guide](https://stripe.com/docs/issuing/merchant-categories) for a list of possible values.
@@ -2781,6 +2796,7 @@ impl<'de> serde::Deserialize<'de> for CreateUnlinkedRefundIssuingTransactionMerc
 }
 /// Additional purchase information that is optionally provided by the merchant.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateUnlinkedRefundIssuingTransactionPurchaseDetails<'a> {
     /// Information about the flight that was purchased with this transaction.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -2810,6 +2826,7 @@ impl<'a> Default for CreateUnlinkedRefundIssuingTransactionPurchaseDetails<'a> {
 }
 /// Information about fuel that was purchased with this transaction.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateUnlinkedRefundIssuingTransactionPurchaseDetailsFuel<'a> {
     /// The type of fuel that was purchased.
     /// One of `diesel`, `unleaded_plus`, `unleaded_regular`, `unleaded_super`, or `other`.
@@ -2971,6 +2988,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// Allows the user to refund an arbitrary amount, also known as a unlinked refund.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateUnlinkedRefundIssuingTransaction<'a> {
     inner: CreateUnlinkedRefundIssuingTransactionBuilder<'a>,
 }
@@ -3040,6 +3058,7 @@ impl StripeRequest for CreateUnlinkedRefundIssuingTransaction<'_> {
 }
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct FlightSegmentSpecs<'a> {
     /// The three-letter IATA airport code of the flight's destination.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -3078,6 +3097,7 @@ impl<'a> Default for FlightSegmentSpecs<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct LodgingSpecs {
     /// The time of checking into the lodging.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -3097,6 +3117,7 @@ impl Default for LodgingSpecs {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ReceiptSpecs<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub description: Option<&'a str>,
@@ -3118,6 +3139,7 @@ impl<'a> Default for ReceiptSpecs<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct FlightSpecs<'a> {
     /// The time that the flight departed.
     #[serde(skip_serializing_if = "Option::is_none")]

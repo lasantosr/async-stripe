@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListTaxRateBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     active: Option<bool>,
@@ -35,6 +36,7 @@ impl<'a> ListTaxRateBuilder<'a> {
 /// Returns a list of your tax rates.
 /// Tax rates are returned sorted by creation date, with the most recently created tax rates appearing first.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListTaxRate<'a> {
     inner: ListTaxRateBuilder<'a>,
 }
@@ -121,6 +123,7 @@ impl StripeRequest for ListTaxRate<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveTaxRateBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -132,6 +135,7 @@ impl<'a> RetrieveTaxRateBuilder<'a> {
 }
 /// Retrieves a tax rate with the given ID
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveTaxRate<'a> {
     inner: RetrieveTaxRateBuilder<'a>,
     tax_rate: &'a stripe_shared::TaxRateId,
@@ -174,6 +178,7 @@ impl StripeRequest for RetrieveTaxRate<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateTaxRateBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     active: Option<bool>,
@@ -214,6 +219,7 @@ impl<'a> CreateTaxRateBuilder<'a> {
 }
 /// Creates a new tax rate.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateTaxRate<'a> {
     inner: CreateTaxRateBuilder<'a>,
 }
@@ -297,6 +303,7 @@ impl StripeRequest for CreateTaxRate<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdateTaxRateBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     active: Option<bool>,
@@ -334,6 +341,7 @@ impl<'a> UpdateTaxRateBuilder<'a> {
 }
 /// Updates an existing tax rate.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateTaxRate<'a> {
     inner: UpdateTaxRateBuilder<'a>,
     tax_rate: &'a stripe_shared::TaxRateId,

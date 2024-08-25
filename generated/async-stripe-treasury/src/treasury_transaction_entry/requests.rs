@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListTreasuryTransactionEntryBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     created: Option<stripe_types::RangeQueryTs>,
@@ -96,6 +97,7 @@ impl<'de> serde::Deserialize<'de> for ListTreasuryTransactionEntryOrderBy {
 }
 /// Retrieves a list of TransactionEntry objects.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListTreasuryTransactionEntry<'a> {
     inner: ListTreasuryTransactionEntryBuilder<'a>,
 }
@@ -184,6 +186,7 @@ impl StripeRequest for ListTreasuryTransactionEntry<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveTreasuryTransactionEntryBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -195,6 +198,7 @@ impl<'a> RetrieveTreasuryTransactionEntryBuilder<'a> {
 }
 /// Retrieves a TransactionEntry object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveTreasuryTransactionEntry<'a> {
     inner: RetrieveTreasuryTransactionEntryBuilder<'a>,
     id: &'a stripe_treasury::TreasuryTransactionEntryId,

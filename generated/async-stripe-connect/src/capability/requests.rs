@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListAccountCapabilityBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -15,6 +16,7 @@ impl<'a> ListAccountCapabilityBuilder<'a> {
 /// Returns a list of capabilities associated with the account.
 /// The capabilities are returned sorted by creation date, with the most recent capability appearing first.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListAccountCapability<'a> {
     inner: ListAccountCapabilityBuilder<'a>,
     account: &'a stripe_shared::AccountId,
@@ -69,6 +71,7 @@ impl StripeRequest for ListAccountCapability<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveCapabilityBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -80,6 +83,7 @@ impl<'a> RetrieveCapabilityBuilder<'a> {
 }
 /// Retrieves information about the specified Account Capability.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveCapability<'a> {
     inner: RetrieveCapabilityBuilder<'a>,
     account: &'a stripe_shared::AccountId,
@@ -128,6 +132,7 @@ impl StripeRequest for RetrieveCapability<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdateCapabilityBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -142,6 +147,7 @@ impl<'a> UpdateCapabilityBuilder<'a> {
 /// Updates an existing Account Capability.
 /// Request or remove a capability by updating its `requested` parameter.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateCapability<'a> {
     inner: UpdateCapabilityBuilder<'a>,
     account: &'a stripe_shared::AccountId,

@@ -6,6 +6,7 @@ use stripe_client_core::{
 /// Any person with a relationship for an account can be deleted through the API, except if the person is the `account_opener`.
 /// If your integration is using the `executive` parameter, you cannot delete the only verified `executive` on file.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DeletePerson<'a> {
     account: &'a stripe_shared::AccountId,
     person: &'a str,
@@ -44,6 +45,7 @@ impl StripeRequest for DeletePerson<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListAccountPersonBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     ending_before: Option<&'a str>,
@@ -69,6 +71,7 @@ impl<'a> ListAccountPersonBuilder<'a> {
 }
 /// Filters on the list of people returned based on the person's relationship to the account's company.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListAccountPersonRelationship {
     /// A filter on the list of people returned based on whether these people are directors of the account's company.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -105,6 +108,7 @@ impl Default for ListAccountPersonRelationship {
 /// Returns a list of people associated with the account’s legal entity.
 /// The people are returned sorted by creation date, with the most recent people appearing first.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListAccountPerson<'a> {
     inner: ListAccountPersonBuilder<'a>,
     account: &'a stripe_shared::AccountId,
@@ -184,6 +188,7 @@ impl StripeRequest for ListAccountPerson<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrievePersonBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -195,6 +200,7 @@ impl<'a> RetrievePersonBuilder<'a> {
 }
 /// Retrieves an existing person.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrievePerson<'a> {
     inner: RetrievePersonBuilder<'a>,
     account: &'a stripe_shared::AccountId,
@@ -240,6 +246,7 @@ impl StripeRequest for RetrievePerson<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateAccountPersonBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     additional_tos_acceptances: Option<PersonAdditionalTosAcceptancesSpecs<'a>>,
@@ -334,6 +341,7 @@ impl<'a> CreateAccountPersonBuilder<'a> {
 }
 /// The Kana variation of the person's address (Japan only).
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateAccountPersonAddressKana<'a> {
     /// City or ward.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -377,6 +385,7 @@ impl<'a> Default for CreateAccountPersonAddressKana<'a> {
 }
 /// The Kanji variation of the person's address (Japan only).
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateAccountPersonAddressKanji<'a> {
     /// City or ward.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -420,6 +429,7 @@ impl<'a> Default for CreateAccountPersonAddressKanji<'a> {
 }
 /// Creates a new person.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateAccountPerson<'a> {
     inner: CreateAccountPersonBuilder<'a>,
     account: &'a stripe_shared::AccountId,
@@ -609,6 +619,7 @@ impl StripeRequest for CreateAccountPerson<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdatePersonBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     additional_tos_acceptances: Option<PersonAdditionalTosAcceptancesSpecs<'a>>,
@@ -703,6 +714,7 @@ impl<'a> UpdatePersonBuilder<'a> {
 }
 /// The Kana variation of the person's address (Japan only).
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdatePersonAddressKana<'a> {
     /// City or ward.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -746,6 +758,7 @@ impl<'a> Default for UpdatePersonAddressKana<'a> {
 }
 /// The Kanji variation of the person's address (Japan only).
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdatePersonAddressKanji<'a> {
     /// City or ward.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -789,6 +802,7 @@ impl<'a> Default for UpdatePersonAddressKanji<'a> {
 }
 /// Updates an existing person.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdatePerson<'a> {
     inner: UpdatePersonBuilder<'a>,
     account: &'a stripe_shared::AccountId,
@@ -981,6 +995,7 @@ impl StripeRequest for UpdatePerson<'_> {
 }
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct SettingsTermsOfServiceSpecs<'a> {
     /// The Unix timestamp marking when the account representative accepted the service agreement.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1003,6 +1018,7 @@ impl<'a> Default for SettingsTermsOfServiceSpecs<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct AddressSpecs<'a> {
     /// City, district, suburb, town, or village.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1034,6 +1050,7 @@ impl<'a> Default for AddressSpecs<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DateOfBirthSpecs {
     /// The day of birth, between 1 and 31.
     pub day: i64,
@@ -1048,6 +1065,7 @@ impl DateOfBirthSpecs {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DocumentsParam<'a> {
     /// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1064,6 +1082,7 @@ impl<'a> Default for DocumentsParam<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RelationshipSpecs<'a> {
     /// Whether the person is a director of the account's legal entity.
     /// Directors are typically members of the governing board of the company, or responsible for ensuring the company meets its regulatory obligations.
@@ -1110,6 +1129,7 @@ impl<'a> Default for RelationshipSpecs<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct PersonVerificationDocumentSpecs<'a> {
     /// The back of an ID returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `identity_document`.
     /// The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
@@ -1131,6 +1151,7 @@ impl<'a> Default for PersonVerificationDocumentSpecs<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct PersonAdditionalTosAcceptancesSpecs<'a> {
     /// Details on the legal guardian's acceptance of the main Stripe service agreement.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1147,6 +1168,7 @@ impl<'a> Default for PersonAdditionalTosAcceptancesSpecs<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct PersonDocumentsSpecs<'a> {
     /// One or more documents that demonstrate proof that this person is authorized to represent the company.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1169,6 +1191,7 @@ impl<'a> Default for PersonDocumentsSpecs<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct PersonVerificationSpecs<'a> {
     /// A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
     #[serde(skip_serializing_if = "Option::is_none")]

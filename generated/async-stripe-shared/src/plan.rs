@@ -12,6 +12,7 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/plans/object>>.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct Plan {
     /// Whether the plan can be used for new purchases.

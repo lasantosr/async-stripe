@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListTreasuryInboundTransferBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     ending_before: Option<&'a str>,
@@ -30,6 +31,7 @@ impl<'a> ListTreasuryInboundTransferBuilder<'a> {
 }
 /// Returns a list of InboundTransfers sent from the specified FinancialAccount.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListTreasuryInboundTransfer<'a> {
     inner: ListTreasuryInboundTransferBuilder<'a>,
 }
@@ -103,6 +105,7 @@ impl StripeRequest for ListTreasuryInboundTransfer<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveTreasuryInboundTransferBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -114,6 +117,7 @@ impl<'a> RetrieveTreasuryInboundTransferBuilder<'a> {
 }
 /// Retrieves the details of an existing InboundTransfer.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveTreasuryInboundTransfer<'a> {
     inner: RetrieveTreasuryInboundTransferBuilder<'a>,
     id: &'a stripe_treasury::TreasuryInboundTransferId,
@@ -157,6 +161,7 @@ impl StripeRequest for RetrieveTreasuryInboundTransfer<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct FailTreasuryInboundTransferBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -170,6 +175,7 @@ impl<'a> FailTreasuryInboundTransferBuilder<'a> {
 }
 /// Details about a failed InboundTransfer.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct FailTreasuryInboundTransferFailureDetails {
     /// Reason for the failure.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -279,6 +285,7 @@ impl<'de> serde::Deserialize<'de> for FailTreasuryInboundTransferFailureDetailsC
 /// Transitions a test mode created InboundTransfer to the `failed` status.
 /// The InboundTransfer must already be in the `processing` state.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct FailTreasuryInboundTransfer<'a> {
     inner: FailTreasuryInboundTransferBuilder<'a>,
     id: &'a str,
@@ -333,6 +340,7 @@ impl StripeRequest for FailTreasuryInboundTransfer<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ReturnInboundTransferTreasuryInboundTransferBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -345,6 +353,7 @@ impl<'a> ReturnInboundTransferTreasuryInboundTransferBuilder<'a> {
 /// Marks the test mode InboundTransfer object as returned and links the InboundTransfer to a ReceivedDebit.
 /// The InboundTransfer must already be in the `succeeded` state.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ReturnInboundTransferTreasuryInboundTransfer<'a> {
     inner: ReturnInboundTransferTreasuryInboundTransferBuilder<'a>,
     id: &'a str,
@@ -391,6 +400,7 @@ impl StripeRequest for ReturnInboundTransferTreasuryInboundTransfer<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct SucceedTreasuryInboundTransferBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -403,6 +413,7 @@ impl<'a> SucceedTreasuryInboundTransferBuilder<'a> {
 /// Transitions a test mode created InboundTransfer to the `succeeded` status.
 /// The InboundTransfer must already be in the `processing` state.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct SucceedTreasuryInboundTransfer<'a> {
     inner: SucceedTreasuryInboundTransferBuilder<'a>,
     id: &'a str,
@@ -449,6 +460,7 @@ impl StripeRequest for SucceedTreasuryInboundTransfer<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateTreasuryInboundTransferBuilder<'a> {
     amount: i64,
     currency: stripe_types::Currency,
@@ -484,6 +496,7 @@ impl<'a> CreateTreasuryInboundTransferBuilder<'a> {
 }
 /// Creates an InboundTransfer.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateTreasuryInboundTransfer<'a> {
     inner: CreateTreasuryInboundTransferBuilder<'a>,
 }
@@ -554,6 +567,7 @@ impl StripeRequest for CreateTreasuryInboundTransfer<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CancelTreasuryInboundTransferBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -565,6 +579,7 @@ impl<'a> CancelTreasuryInboundTransferBuilder<'a> {
 }
 /// Cancels an InboundTransfer.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CancelTreasuryInboundTransfer<'a> {
     inner: CancelTreasuryInboundTransferBuilder<'a>,
     inbound_transfer: &'a stripe_treasury::TreasuryInboundTransferId,

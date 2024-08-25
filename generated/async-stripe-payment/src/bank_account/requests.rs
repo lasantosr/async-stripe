@@ -4,6 +4,7 @@ use stripe_client_core::{
 
 /// Delete a specified external account for a given account.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DeleteAccountBankAccount<'a> {
     account: &'a stripe_shared::AccountId,
     id: &'a str,
@@ -45,6 +46,7 @@ impl StripeRequest for DeleteAccountBankAccount<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct DeleteCustomerBankAccountBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -56,6 +58,7 @@ impl<'a> DeleteCustomerBankAccountBuilder<'a> {
 }
 /// Delete a specified source for a given customer.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DeleteCustomerBankAccount<'a> {
     inner: DeleteCustomerBankAccountBuilder<'a>,
     customer: &'a stripe_shared::CustomerId,
@@ -183,6 +186,7 @@ const _: () = {
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdateAccountBankAccountBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     account_holder_name: Option<&'a str>,
@@ -361,6 +365,7 @@ impl<'de> serde::Deserialize<'de> for UpdateAccountBankAccountAccountType {
 }
 /// Documents that may be submitted to satisfy various informational requests.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateAccountBankAccountDocuments<'a> {
     /// One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement.
     /// Must be a document associated with the bank account that displays the last 4 digits of the account number, either a statement or a voided check.
@@ -381,6 +386,7 @@ impl<'a> Default for UpdateAccountBankAccountDocuments<'a> {
 /// One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement.
 /// Must be a document associated with the bank account that displays the last 4 digits of the account number, either a statement or a voided check.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateAccountBankAccountDocumentsBankAccountOwnershipVerification<'a> {
     /// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -405,6 +411,7 @@ impl<'a> Default for UpdateAccountBankAccountDocumentsBankAccountOwnershipVerifi
 /// You can re-enable a disabled bank account by performing an update call without providing any
 /// arguments or changes.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateAccountBankAccount<'a> {
     inner: UpdateAccountBankAccountBuilder<'a>,
     account: &'a stripe_shared::AccountId,
@@ -536,6 +543,7 @@ impl StripeRequest for UpdateAccountBankAccount<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdateCustomerBankAccountBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     account_holder_name: Option<&'a str>,
@@ -643,6 +651,7 @@ impl<'de> serde::Deserialize<'de> for UpdateCustomerBankAccountAccountHolderType
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateCustomerBankAccountOwner<'a> {
     /// Owner's address.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -669,6 +678,7 @@ impl<'a> Default for UpdateCustomerBankAccountOwner<'a> {
 }
 /// Owner's address.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateCustomerBankAccountOwnerAddress<'a> {
     /// City, district, suburb, town, or village.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -701,6 +711,7 @@ impl<'a> Default for UpdateCustomerBankAccountOwnerAddress<'a> {
 }
 /// Update a specified source for a given customer.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateCustomerBankAccount<'a> {
     inner: UpdateCustomerBankAccountBuilder<'a>,
     customer: &'a stripe_shared::CustomerId,
@@ -915,6 +926,7 @@ const _: () = {
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct VerifyBankAccountBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     amounts: Option<&'a [i64]>,
@@ -928,6 +940,7 @@ impl<'a> VerifyBankAccountBuilder<'a> {
 }
 /// Verify a specified bank account for a given customer.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct VerifyBankAccount<'a> {
     inner: VerifyBankAccountBuilder<'a>,
     customer: &'a stripe_shared::CustomerId,

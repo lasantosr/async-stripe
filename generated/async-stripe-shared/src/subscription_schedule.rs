@@ -4,6 +4,7 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/subscription_schedules/object>>.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct SubscriptionSchedule {
     /// ID of the Connect Application that created the schedule.

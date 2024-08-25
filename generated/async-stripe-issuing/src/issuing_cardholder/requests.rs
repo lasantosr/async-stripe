@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListIssuingCardholderBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     created: Option<stripe_types::RangeQueryTs>,
@@ -42,6 +43,7 @@ impl<'a> ListIssuingCardholderBuilder<'a> {
 /// Returns a list of Issuing `Cardholder` objects.
 /// The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListIssuingCardholder<'a> {
     inner: ListIssuingCardholderBuilder<'a>,
 }
@@ -139,6 +141,7 @@ impl StripeRequest for ListIssuingCardholder<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveIssuingCardholderBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -150,6 +153,7 @@ impl<'a> RetrieveIssuingCardholderBuilder<'a> {
 }
 /// Retrieves an Issuing `Cardholder` object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveIssuingCardholder<'a> {
     inner: RetrieveIssuingCardholderBuilder<'a>,
     cardholder: &'a stripe_shared::IssuingCardholderId,
@@ -193,6 +197,7 @@ impl StripeRequest for RetrieveIssuingCardholder<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateIssuingCardholderBuilder<'a> {
     billing: BillingSpecs<'a>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -239,6 +244,7 @@ impl<'a> CreateIssuingCardholderBuilder<'a> {
 /// Rules that control spending across this cardholder's cards.
 /// Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateIssuingCardholderSpendingControls<'a> {
     /// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) of authorizations to allow.
     /// All other categories will be blocked.
@@ -2353,6 +2359,7 @@ impl<'de> serde::Deserialize<'de> for CreateIssuingCardholderSpendingControlsBlo
 }
 /// Limit spending with amount-based rules that apply across this cardholder's cards.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateIssuingCardholderSpendingControlsSpendingLimits<'a> {
     /// Maximum amount allowed to spend per interval.
     pub amount: i64,
@@ -3533,6 +3540,7 @@ impl<'de> serde::Deserialize<'de> for CreateIssuingCardholderStatus {
 }
 /// Creates a new Issuing `Cardholder` object that can be issued cards.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateIssuingCardholder<'a> {
     inner: CreateIssuingCardholderBuilder<'a>,
 }
@@ -3634,6 +3642,7 @@ impl StripeRequest for CreateIssuingCardholder<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdateIssuingCardholderBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     billing: Option<BillingSpecs<'a>>,
@@ -3675,6 +3684,7 @@ impl<'a> UpdateIssuingCardholderBuilder<'a> {
 /// Rules that control spending across this cardholder's cards.
 /// Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateIssuingCardholderSpendingControls<'a> {
     /// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) of authorizations to allow.
     /// All other categories will be blocked.
@@ -5789,6 +5799,7 @@ impl<'de> serde::Deserialize<'de> for UpdateIssuingCardholderSpendingControlsBlo
 }
 /// Limit spending with amount-based rules that apply across this cardholder's cards.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateIssuingCardholderSpendingControlsSpendingLimits<'a> {
     /// Maximum amount allowed to spend per interval.
     pub amount: i64,
@@ -6970,6 +6981,7 @@ impl<'de> serde::Deserialize<'de> for UpdateIssuingCardholderStatus {
 /// Updates the specified Issuing `Cardholder` object by setting the values of the parameters passed.
 /// Any parameters not provided will be left unchanged.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateIssuingCardholder<'a> {
     inner: UpdateIssuingCardholderBuilder<'a>,
     cardholder: &'a stripe_shared::IssuingCardholderId,
@@ -7073,6 +7085,7 @@ impl StripeRequest for UpdateIssuingCardholder<'_> {
 }
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RequiredAddress<'a> {
     /// City, district, suburb, town, or village.
     pub city: &'a str,
@@ -7095,6 +7108,7 @@ impl<'a> RequiredAddress<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CompanyParam<'a> {
     /// The entity's business ID number.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -7111,6 +7125,7 @@ impl<'a> Default for CompanyParam<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct TermsAcceptanceParam<'a> {
     /// The Unix timestamp marking when the cardholder accepted the Authorized User Terms.
     /// Required for Celtic Spend Card users.
@@ -7135,6 +7150,7 @@ impl<'a> Default for TermsAcceptanceParam<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DateOfBirthSpecs {
     /// The day of birth, between 1 and 31.
     pub day: i64,
@@ -7149,6 +7165,7 @@ impl DateOfBirthSpecs {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct PersonVerificationDocumentParam<'a> {
     /// The back of an ID returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `identity_document`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -7168,6 +7185,7 @@ impl<'a> Default for PersonVerificationDocumentParam<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct BillingSpecs<'a> {
     /// The cardholder’s billing address.
     pub address: RequiredAddress<'a>,
@@ -7178,6 +7196,7 @@ impl<'a> BillingSpecs<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CardIssuingParam<'a> {
     /// Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms).
     /// Required for cards backed by a Celtic program.
@@ -7195,6 +7214,7 @@ impl<'a> Default for CardIssuingParam<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct PersonVerificationParam<'a> {
     /// An identifying document, either a passport or local ID card.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -7211,6 +7231,7 @@ impl<'a> Default for PersonVerificationParam<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct IndividualParam<'a> {
     /// Information related to the card_issuing program for this cardholder.
     #[serde(skip_serializing_if = "Option::is_none")]

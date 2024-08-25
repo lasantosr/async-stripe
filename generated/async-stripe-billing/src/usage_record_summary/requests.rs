@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListSubscriptionItemUsageRecordSummaryBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     ending_before: Option<&'a str>,
@@ -25,6 +26,7 @@ impl<'a> ListSubscriptionItemUsageRecordSummaryBuilder<'a> {
 /// The first list item represents the most current usage period that hasn’t ended yet.
 /// Since new usage records can still be added, the returned summary information for the subscription item’s ID should be seen as unstable until the subscription billing period ends.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListSubscriptionItemUsageRecordSummary<'a> {
     inner: ListSubscriptionItemUsageRecordSummaryBuilder<'a>,
     subscription_item: &'a stripe_shared::SubscriptionItemId,

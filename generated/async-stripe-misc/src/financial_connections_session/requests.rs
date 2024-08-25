@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveFinancialConnectionsSessionBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -14,6 +15,7 @@ impl<'a> RetrieveFinancialConnectionsSessionBuilder<'a> {
 }
 /// Retrieves the details of a Financial Connections `Session`
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveFinancialConnectionsSession<'a> {
     inner: RetrieveFinancialConnectionsSessionBuilder<'a>,
     session: &'a stripe_misc::FinancialConnectionsSessionId,
@@ -57,6 +59,7 @@ impl StripeRequest for RetrieveFinancialConnectionsSession<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateFinancialConnectionsSessionBuilder<'a> {
     account_holder: CreateFinancialConnectionsSessionAccountHolder<'a>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -86,6 +89,7 @@ impl<'a> CreateFinancialConnectionsSessionBuilder<'a> {
 }
 /// The account holder to link accounts for.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateFinancialConnectionsSessionAccountHolder<'a> {
     /// The ID of the Stripe account whose accounts will be retrieved.
     /// Should only be present if `type` is `account`.
@@ -164,6 +168,7 @@ impl<'de> serde::Deserialize<'de> for CreateFinancialConnectionsSessionAccountHo
 }
 /// Filters to restrict the kinds of accounts to collect.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateFinancialConnectionsSessionFilters<'a> {
     /// List of countries from which to collect accounts.
     pub countries: &'a [&'a str],
@@ -176,6 +181,7 @@ impl<'a> CreateFinancialConnectionsSessionFilters<'a> {
 /// To launch the Financial Connections authorization flow, create a `Session`.
 /// The session’s `client_secret` can be used to launch the flow using Stripe.js.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateFinancialConnectionsSession<'a> {
     inner: CreateFinancialConnectionsSessionBuilder<'a>,
 }

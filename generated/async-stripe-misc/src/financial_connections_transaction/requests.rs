@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListFinancialConnectionsTransactionBuilder<'a> {
     account: &'a str,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -34,6 +35,7 @@ impl<'a> ListFinancialConnectionsTransactionBuilder<'a> {
 /// A filter on the list based on the object `transaction_refresh` field.
 /// The value can be a dictionary with the following options:.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListFinancialConnectionsTransactionTransactionRefresh<'a> {
     /// Return results where the transactions were created or updated by a refresh that took place after this refresh (non-inclusive).
     pub after: &'a str,
@@ -45,6 +47,7 @@ impl<'a> ListFinancialConnectionsTransactionTransactionRefresh<'a> {
 }
 /// Returns a list of Financial Connections `Transaction` objects.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListFinancialConnectionsTransaction<'a> {
     inner: ListFinancialConnectionsTransactionBuilder<'a>,
 }
@@ -132,6 +135,7 @@ impl StripeRequest for ListFinancialConnectionsTransaction<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveFinancialConnectionsTransactionBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -143,6 +147,7 @@ impl<'a> RetrieveFinancialConnectionsTransactionBuilder<'a> {
 }
 /// Retrieves the details of a Financial Connections `Transaction`
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveFinancialConnectionsTransaction<'a> {
     inner: RetrieveFinancialConnectionsTransactionBuilder<'a>,
     transaction: &'a stripe_misc::FinancialConnectionsTransactionId,

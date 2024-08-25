@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListEntitlementsActiveEntitlementBuilder<'a> {
     customer: &'a str,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -21,6 +22,7 @@ impl<'a> ListEntitlementsActiveEntitlementBuilder<'a> {
 }
 /// Retrieve a list of active entitlements for a customer
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListEntitlementsActiveEntitlement<'a> {
     inner: ListEntitlementsActiveEntitlementBuilder<'a>,
 }
@@ -90,6 +92,7 @@ impl StripeRequest for ListEntitlementsActiveEntitlement<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveEntitlementsActiveEntitlementBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -101,6 +104,7 @@ impl<'a> RetrieveEntitlementsActiveEntitlementBuilder<'a> {
 }
 /// Retrieve an active entitlement
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveEntitlementsActiveEntitlement<'a> {
     inner: RetrieveEntitlementsActiveEntitlementBuilder<'a>,
     id: &'a stripe_misc::EntitlementsActiveEntitlementId,

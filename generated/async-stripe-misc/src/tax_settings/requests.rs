@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveForMyAccountTaxSettingsBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -14,6 +15,7 @@ impl<'a> RetrieveForMyAccountTaxSettingsBuilder<'a> {
 }
 /// Retrieves Tax `Settings` for a merchant.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveForMyAccountTaxSettings<'a> {
     inner: RetrieveForMyAccountTaxSettingsBuilder<'a>,
 }
@@ -59,6 +61,7 @@ impl StripeRequest for RetrieveForMyAccountTaxSettings<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdateTaxSettingsBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     defaults: Option<UpdateTaxSettingsDefaults<'a>>,
@@ -74,6 +77,7 @@ impl<'a> UpdateTaxSettingsBuilder<'a> {
 }
 /// Default configuration to be used on Stripe Tax calculations.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateTaxSettingsDefaults<'a> {
     /// Specifies the default [tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#tax-behavior) to be used when the item's price has unspecified tax behavior.
     /// One of inclusive, exclusive, or inferred_by_currency.
@@ -157,6 +161,7 @@ impl<'de> serde::Deserialize<'de> for UpdateTaxSettingsDefaultsTaxBehavior {
 }
 /// The place where your business is located.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateTaxSettingsHeadOffice<'a> {
     /// The location of the business for tax purposes.
     pub address: UpdateTaxSettingsHeadOfficeAddress<'a>,
@@ -168,6 +173,7 @@ impl<'a> UpdateTaxSettingsHeadOffice<'a> {
 }
 /// The location of the business for tax purposes.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateTaxSettingsHeadOfficeAddress<'a> {
     /// City, district, suburb, town, or village.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -202,6 +208,7 @@ impl<'a> Default for UpdateTaxSettingsHeadOfficeAddress<'a> {
 /// Updates Tax `Settings` parameters used in tax calculations.
 /// All parameters are editable but none can be removed once set.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateTaxSettings<'a> {
     inner: UpdateTaxSettingsBuilder<'a>,
 }

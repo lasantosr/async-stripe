@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListTreasuryDebitReversalBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     ending_before: Option<&'a str>,
@@ -151,6 +152,7 @@ impl<'de> serde::Deserialize<'de> for ListTreasuryDebitReversalStatus {
 }
 /// Returns a list of DebitReversals.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListTreasuryDebitReversal<'a> {
     inner: ListTreasuryDebitReversalBuilder<'a>,
 }
@@ -233,6 +235,7 @@ impl StripeRequest for ListTreasuryDebitReversal<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveTreasuryDebitReversalBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -244,6 +247,7 @@ impl<'a> RetrieveTreasuryDebitReversalBuilder<'a> {
 }
 /// Retrieves a DebitReversal object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveTreasuryDebitReversal<'a> {
     inner: RetrieveTreasuryDebitReversalBuilder<'a>,
     debit_reversal: &'a stripe_treasury::TreasuryDebitReversalId,
@@ -290,6 +294,7 @@ impl StripeRequest for RetrieveTreasuryDebitReversal<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateTreasuryDebitReversalBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -304,6 +309,7 @@ impl<'a> CreateTreasuryDebitReversalBuilder<'a> {
 }
 /// Reverses a ReceivedDebit and creates a DebitReversal object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateTreasuryDebitReversal<'a> {
     inner: CreateTreasuryDebitReversalBuilder<'a>,
 }

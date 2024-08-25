@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveTaxTransactionBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -14,6 +15,7 @@ impl<'a> RetrieveTaxTransactionBuilder<'a> {
 }
 /// Retrieves a Tax `Transaction` object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveTaxTransaction<'a> {
     inner: RetrieveTaxTransactionBuilder<'a>,
     transaction: &'a stripe_misc::TaxTransactionId,
@@ -57,6 +59,7 @@ impl StripeRequest for RetrieveTaxTransaction<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListLineItemsTaxTransactionBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     ending_before: Option<&'a str>,
@@ -74,6 +77,7 @@ impl<'a> ListLineItemsTaxTransactionBuilder<'a> {
 }
 /// Retrieves the line items of a committed standalone transaction as a collection.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListLineItemsTaxTransaction<'a> {
     inner: ListLineItemsTaxTransactionBuilder<'a>,
     transaction: &'a stripe_misc::TaxTransactionId,
@@ -152,6 +156,7 @@ impl StripeRequest for ListLineItemsTaxTransaction<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateFromCalculationTaxTransactionBuilder<'a> {
     calculation: &'a str,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -167,6 +172,7 @@ impl<'a> CreateFromCalculationTaxTransactionBuilder<'a> {
 }
 /// Creates a Tax `Transaction` from a calculation.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateFromCalculationTaxTransaction<'a> {
     inner: CreateFromCalculationTaxTransactionBuilder<'a>,
 }
@@ -216,6 +222,7 @@ impl StripeRequest for CreateFromCalculationTaxTransaction<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateReversalTaxTransactionBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -251,6 +258,7 @@ impl<'a> CreateReversalTaxTransactionBuilder<'a> {
 }
 /// The line item amounts to reverse.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateReversalTaxTransactionLineItems<'a> {
     /// The amount to reverse, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) in negative.
     pub amount: i64,
@@ -338,6 +346,7 @@ impl<'de> serde::Deserialize<'de> for CreateReversalTaxTransactionMode {
 }
 /// The shipping cost to reverse.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateReversalTaxTransactionShippingCost {
     /// The amount to reverse, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) in negative.
     pub amount: i64,
@@ -351,6 +360,7 @@ impl CreateReversalTaxTransactionShippingCost {
 }
 /// Partially or fully reverses a previously created `Transaction`.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateReversalTaxTransaction<'a> {
     inner: CreateReversalTaxTransactionBuilder<'a>,
 }

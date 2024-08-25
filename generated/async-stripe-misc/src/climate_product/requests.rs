@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListClimateProductBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     ending_before: Option<&'a str>,
@@ -20,6 +21,7 @@ impl<'a> ListClimateProductBuilder<'a> {
 }
 /// Lists all available Climate product objects.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListClimateProduct<'a> {
     inner: ListClimateProductBuilder<'a>,
 }
@@ -91,6 +93,7 @@ impl StripeRequest for ListClimateProduct<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveClimateProductBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -102,6 +105,7 @@ impl<'a> RetrieveClimateProductBuilder<'a> {
 }
 /// Retrieves the details of a Climate product with the given ID.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveClimateProduct<'a> {
     inner: RetrieveClimateProductBuilder<'a>,
     product: &'a stripe_misc::ClimateProductId,

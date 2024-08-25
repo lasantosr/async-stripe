@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListTreasuryCreditReversalBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     ending_before: Option<&'a str>,
@@ -33,6 +34,7 @@ impl<'a> ListTreasuryCreditReversalBuilder<'a> {
 }
 /// Returns a list of CreditReversals.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListTreasuryCreditReversal<'a> {
     inner: ListTreasuryCreditReversalBuilder<'a>,
 }
@@ -111,6 +113,7 @@ impl StripeRequest for ListTreasuryCreditReversal<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveTreasuryCreditReversalBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -122,6 +125,7 @@ impl<'a> RetrieveTreasuryCreditReversalBuilder<'a> {
 }
 /// Retrieves the details of an existing CreditReversal by passing the unique CreditReversal ID from either the CreditReversal creation request or CreditReversal list.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveTreasuryCreditReversal<'a> {
     inner: RetrieveTreasuryCreditReversalBuilder<'a>,
     credit_reversal: &'a stripe_treasury::TreasuryCreditReversalId,
@@ -168,6 +172,7 @@ impl StripeRequest for RetrieveTreasuryCreditReversal<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateTreasuryCreditReversalBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -182,6 +187,7 @@ impl<'a> CreateTreasuryCreditReversalBuilder<'a> {
 }
 /// Reverses a ReceivedCredit and creates a CreditReversal object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateTreasuryCreditReversal<'a> {
     inner: CreateTreasuryCreditReversalBuilder<'a>,
 }

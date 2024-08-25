@@ -6,6 +6,7 @@ use stripe_client_core::{
 /// This cannot be undone.
 /// Attempts to delete invoices that are no longer in a draft state will fail; once an invoice has been finalized or if an invoice is for a subscription, it must be [voided](https://stripe.com/docs/api#void_invoice).
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DeleteInvoice<'a> {
     invoice: &'a stripe_shared::InvoiceId,
 }
@@ -42,6 +43,7 @@ impl StripeRequest for DeleteInvoice<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListInvoiceBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     collection_method: Option<stripe_shared::InvoiceCollectionMethod>,
@@ -83,6 +85,7 @@ impl<'a> ListInvoiceBuilder<'a> {
 /// You can list all invoices, or list the invoices for a specific customer.
 /// The invoices are returned sorted by creation date, with the most recently created invoices appearing first.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListInvoice<'a> {
     inner: ListInvoiceBuilder<'a>,
 }
@@ -187,6 +190,7 @@ impl StripeRequest for ListInvoice<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveInvoiceBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -198,6 +202,7 @@ impl<'a> RetrieveInvoiceBuilder<'a> {
 }
 /// Retrieves the invoice with the given ID.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveInvoice<'a> {
     inner: RetrieveInvoiceBuilder<'a>,
     invoice: &'a stripe_shared::InvoiceId,
@@ -240,6 +245,7 @@ impl StripeRequest for RetrieveInvoice<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct SearchInvoiceBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -261,6 +267,7 @@ impl<'a> SearchInvoiceBuilder<'a> {
 /// Occasionally, propagation of new or updated data can be up.
 /// to an hour behind during outages. Search functionality is not available to merchants in India.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct SearchInvoice<'a> {
     inner: SearchInvoiceBuilder<'a>,
 }
@@ -320,6 +327,7 @@ impl StripeRequest for SearchInvoice<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpcomingInvoiceBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     automatic_tax: Option<UpcomingInvoiceAutomaticTax<'a>>,
@@ -408,6 +416,7 @@ impl<'a> UpcomingInvoiceBuilder<'a> {
 }
 /// Settings for automatic tax lookup for this invoice preview.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoiceAutomaticTax<'a> {
     /// Whether Stripe automatically computes tax on this invoice.
     /// Note that incompatible invoice items (invoice items with manually specified [tax rates](https://stripe.com/docs/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
@@ -427,6 +436,7 @@ impl<'a> UpcomingInvoiceAutomaticTax<'a> {
 /// If set, the business address and tax registrations required to perform the tax calculation are loaded from this account.
 /// The tax transaction is returned in the report of the connected account.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoiceAutomaticTaxLiability<'a> {
     /// The connected account being referenced when `type` is `account`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -499,6 +509,7 @@ impl<'de> serde::Deserialize<'de> for UpcomingInvoiceAutomaticTaxLiabilityType {
 /// Details about the customer you want to invoice or overrides for an existing customer.
 /// If `automatic_tax` is enabled then one of `customer`, `customer_details`, `subscription`, or `schedule` must be set.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoiceCustomerDetails<'a> {
     /// The customer's address.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -587,6 +598,7 @@ impl<'de> serde::Deserialize<'de> for UpcomingInvoiceCustomerDetailsTaxExempt {
 }
 /// The customer's tax IDs.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoiceCustomerDetailsTaxIds<'a> {
     /// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `ar_cuit`, `au_abn`, `au_arn`, `bg_uic`, `bh_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_vat`, `cl_tin`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kr_brn`, `kz_bin`, `li_uid`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sv_nit`, `th_vat`, `tr_tin`, `tw_vat`, `ua_vat`, `us_ein`, `uy_ruc`, `ve_rif`, `vn_tin`, or `za_vat`.
     #[serde(rename = "type")]
@@ -866,6 +878,7 @@ impl<'de> serde::Deserialize<'de> for UpcomingInvoiceCustomerDetailsTaxIdsType {
 }
 /// List of invoice items to add or update in the upcoming invoice preview.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoiceInvoiceItems<'a> {
     /// The integer amount in cents (or local equivalent) of previewed invoice item.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -962,6 +975,7 @@ impl<'a> Default for UpcomingInvoiceInvoiceItems<'a> {
 }
 /// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoiceInvoiceItemsPriceData<'a> {
     /// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
     /// Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -1116,6 +1130,7 @@ impl<'de> serde::Deserialize<'de> for UpcomingInvoiceInvoiceItemsTaxBehavior {
 /// The connected account that issues the invoice.
 /// The invoice is presented with the branding and support information of the specified account.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoiceIssuer<'a> {
     /// The connected account being referenced when `type` is `account`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1187,6 +1202,7 @@ impl<'de> serde::Deserialize<'de> for UpcomingInvoiceIssuerType {
 /// The schedule creation or modification params to apply as a preview.
 /// Cannot be used with `subscription` or `subscription_` prefixed fields.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoiceScheduleDetails<'a> {
     /// Behavior of the subscription schedule and underlying subscription when it ends.
     /// Possible values are `release` or `cancel` with the default being `release`.
@@ -1276,6 +1292,7 @@ impl<'de> serde::Deserialize<'de> for UpcomingInvoiceScheduleDetailsEndBehavior 
 /// Each phase can be customized to have different durations, plans, and coupons.
 /// If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoiceScheduleDetailsPhases<'a> {
     /// A list of prices and quantities that will generate invoice items appended to the next invoice for this phase.
     /// You may pass up to 20 items.
@@ -1408,6 +1425,7 @@ impl<'a> UpcomingInvoiceScheduleDetailsPhases<'a> {
 /// A list of prices and quantities that will generate invoice items appended to the next invoice for this phase.
 /// You may pass up to 20 items.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoiceScheduleDetailsPhasesAddInvoiceItems<'a> {
     /// The coupons to redeem into discounts for the item.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1437,6 +1455,7 @@ impl<'a> Default for UpcomingInvoiceScheduleDetailsPhasesAddInvoiceItems<'a> {
 }
 /// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoiceScheduleDetailsPhasesAddInvoiceItemsPriceData<'a> {
     /// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
     /// Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -1527,6 +1546,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// Automatic tax settings for this phase.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoiceScheduleDetailsPhasesAutomaticTax<'a> {
     /// Enabled automatic tax calculation which will automatically compute tax rates on all invoices generated by the subscription.
     pub enabled: bool,
@@ -1545,6 +1565,7 @@ impl<'a> UpcomingInvoiceScheduleDetailsPhasesAutomaticTax<'a> {
 /// If set, the business address and tax registrations required to perform the tax calculation are loaded from this account.
 /// The tax transaction is returned in the report of the connected account.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoiceScheduleDetailsPhasesAutomaticTaxLiability<'a> {
     /// The connected account being referenced when `type` is `account`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1681,6 +1702,7 @@ impl<'de> serde::Deserialize<'de> for UpcomingInvoiceScheduleDetailsPhasesBillin
 /// The date at which this phase of the subscription schedule ends.
 /// If set, `iterations` must not be set.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum UpcomingInvoiceScheduleDetailsPhasesEndDate {
     Timestamp(stripe_types::Timestamp),
@@ -1688,6 +1710,7 @@ pub enum UpcomingInvoiceScheduleDetailsPhasesEndDate {
 }
 /// All invoices will be billed using the specified settings.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoiceScheduleDetailsPhasesInvoiceSettings<'a> {
     /// The account tax IDs associated with this phase of the subscription schedule.
     /// Will be set on invoices generated by this phase of the subscription schedule.
@@ -1715,6 +1738,7 @@ impl<'a> Default for UpcomingInvoiceScheduleDetailsPhasesInvoiceSettings<'a> {
 /// The connected account that issues the invoice.
 /// The invoice is presented with the branding and support information of the specified account.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoiceScheduleDetailsPhasesInvoiceSettingsIssuer<'a> {
     /// The connected account being referenced when `type` is `account`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1790,6 +1814,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoiceScheduleDetailsPhasesItems<'a> {
     /// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period.
     /// When updating, pass an empty string to remove previously-defined thresholds.
@@ -1844,6 +1869,7 @@ impl<'a> Default for UpcomingInvoiceScheduleDetailsPhasesItems<'a> {
 }
 /// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoiceScheduleDetailsPhasesItemsPriceData<'a> {
     /// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
     /// Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -1884,6 +1910,7 @@ impl<'a> UpcomingInvoiceScheduleDetailsPhasesItemsPriceData<'a> {
 }
 /// The recurring components of a price such as `interval` and `interval_count`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoiceScheduleDetailsPhasesItemsPriceDataRecurring {
     /// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
     pub interval: UpcomingInvoiceScheduleDetailsPhasesItemsPriceDataRecurringInterval,
@@ -2095,6 +2122,7 @@ impl<'de> serde::Deserialize<'de> for UpcomingInvoiceScheduleDetailsPhasesProrat
 /// The date at which this phase of the subscription schedule starts or `now`.
 /// Must be set on the first phase.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum UpcomingInvoiceScheduleDetailsPhasesStartDate {
     Timestamp(stripe_types::Timestamp),
@@ -2103,6 +2131,7 @@ pub enum UpcomingInvoiceScheduleDetailsPhasesStartDate {
 /// Sets the phase to trialing from the start date to this date.
 /// Must be before the phase end date, can not be combined with `trial`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum UpcomingInvoiceScheduleDetailsPhasesTrialEnd {
     Timestamp(stripe_types::Timestamp),
@@ -2175,6 +2204,7 @@ impl<'de> serde::Deserialize<'de> for UpcomingInvoiceScheduleDetailsProrationBeh
 /// This field has been deprecated and will be removed in a future API version.
 /// Use `subscription_details.billing_cycle_anchor` instead.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum UpcomingInvoiceSubscriptionBillingCycleAnchor {
     Now,
@@ -2184,6 +2214,7 @@ pub enum UpcomingInvoiceSubscriptionBillingCycleAnchor {
 /// The subscription creation or modification params to apply as a preview.
 /// Cannot be used with `schedule` or `schedule_details` fields.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoiceSubscriptionDetails<'a> {
     /// For new subscriptions, a future timestamp to anchor the subscription's [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle).
     /// This is used to determine the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices.
@@ -2255,6 +2286,7 @@ impl<'a> Default for UpcomingInvoiceSubscriptionDetails<'a> {
 /// This is used to determine the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices.
 /// For existing subscriptions, the value can only be set to `now` or `unchanged`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum UpcomingInvoiceSubscriptionDetailsBillingCycleAnchor {
     Now,
@@ -2263,6 +2295,7 @@ pub enum UpcomingInvoiceSubscriptionDetailsBillingCycleAnchor {
 }
 /// A list of up to 20 subscription items, each with an attached price.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoiceSubscriptionDetailsItems<'a> {
     /// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period.
     /// When updating, pass an empty string to remove previously-defined thresholds.
@@ -2330,6 +2363,7 @@ impl<'a> Default for UpcomingInvoiceSubscriptionDetailsItems<'a> {
 }
 /// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoiceSubscriptionDetailsItemsPriceData<'a> {
     /// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
     /// Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -2370,6 +2404,7 @@ impl<'a> UpcomingInvoiceSubscriptionDetailsItemsPriceData<'a> {
 }
 /// The recurring components of a price such as `interval` and `interval_count`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoiceSubscriptionDetailsItemsPriceDataRecurring {
     /// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
     pub interval: UpcomingInvoiceSubscriptionDetailsItemsPriceDataRecurringInterval,
@@ -2630,6 +2665,7 @@ impl<'de> serde::Deserialize<'de> for UpcomingInvoiceSubscriptionDetailsResumeAt
 /// If provided, the invoice returned will preview updating or creating a subscription with that trial end.
 /// If set, one of `subscription_details.items` or `subscription` is required.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum UpcomingInvoiceSubscriptionDetailsTrialEnd {
     Now,
@@ -2639,6 +2675,7 @@ pub enum UpcomingInvoiceSubscriptionDetailsTrialEnd {
 /// This field has been deprecated and will be removed in a future API version.
 /// Use `subscription_details.items` instead.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoiceSubscriptionItems<'a> {
     /// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period.
     /// When updating, pass an empty string to remove previously-defined thresholds.
@@ -2706,6 +2743,7 @@ impl<'a> Default for UpcomingInvoiceSubscriptionItems<'a> {
 }
 /// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoiceSubscriptionItemsPriceData<'a> {
     /// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
     /// Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -2746,6 +2784,7 @@ impl<'a> UpcomingInvoiceSubscriptionItemsPriceData<'a> {
 }
 /// The recurring components of a price such as `interval` and `interval_count`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoiceSubscriptionItemsPriceDataRecurring {
     /// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
     pub interval: UpcomingInvoiceSubscriptionItemsPriceDataRecurringInterval,
@@ -3012,6 +3051,7 @@ impl<'de> serde::Deserialize<'de> for UpcomingInvoiceSubscriptionResumeAt {
 /// This field has been deprecated and will be removed in a future API version.
 /// Use `subscription_details.trial_end` instead.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum UpcomingInvoiceSubscriptionTrialEnd {
     Now,
@@ -3029,6 +3069,7 @@ pub enum UpcomingInvoiceSubscriptionTrialEnd {
 /// To ensure that the actual proration is calculated exactly the same as the previewed proration, you should pass the `subscription_details.proration_date` parameter when doing the actual subscription update.
 /// The recommended way to get only the prorations being previewed is to consider only proration line items where `period[start]` is equal to the `subscription_details.proration_date` value passed in the request.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingInvoice<'a> {
     inner: UpcomingInvoiceBuilder<'a>,
 }
@@ -3288,6 +3329,7 @@ impl StripeRequest for UpcomingInvoice<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpcomingLinesInvoiceBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     automatic_tax: Option<UpcomingLinesInvoiceAutomaticTax<'a>>,
@@ -3385,6 +3427,7 @@ impl<'a> UpcomingLinesInvoiceBuilder<'a> {
 }
 /// Settings for automatic tax lookup for this invoice preview.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoiceAutomaticTax<'a> {
     /// Whether Stripe automatically computes tax on this invoice.
     /// Note that incompatible invoice items (invoice items with manually specified [tax rates](https://stripe.com/docs/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
@@ -3404,6 +3447,7 @@ impl<'a> UpcomingLinesInvoiceAutomaticTax<'a> {
 /// If set, the business address and tax registrations required to perform the tax calculation are loaded from this account.
 /// The tax transaction is returned in the report of the connected account.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoiceAutomaticTaxLiability<'a> {
     /// The connected account being referenced when `type` is `account`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -3478,6 +3522,7 @@ impl<'de> serde::Deserialize<'de> for UpcomingLinesInvoiceAutomaticTaxLiabilityT
 /// Details about the customer you want to invoice or overrides for an existing customer.
 /// If `automatic_tax` is enabled then one of `customer`, `customer_details`, `subscription`, or `schedule` must be set.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoiceCustomerDetails<'a> {
     /// The customer's address.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -3568,6 +3613,7 @@ impl<'de> serde::Deserialize<'de> for UpcomingLinesInvoiceCustomerDetailsTaxExem
 }
 /// The customer's tax IDs.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoiceCustomerDetailsTaxIds<'a> {
     /// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `ar_cuit`, `au_abn`, `au_arn`, `bg_uic`, `bh_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_vat`, `cl_tin`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kr_brn`, `kz_bin`, `li_uid`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sv_nit`, `th_vat`, `tr_tin`, `tw_vat`, `ua_vat`, `us_ein`, `uy_ruc`, `ve_rif`, `vn_tin`, or `za_vat`.
     #[serde(rename = "type")]
@@ -3847,6 +3893,7 @@ impl<'de> serde::Deserialize<'de> for UpcomingLinesInvoiceCustomerDetailsTaxIdsT
 }
 /// List of invoice items to add or update in the upcoming invoice preview.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoiceInvoiceItems<'a> {
     /// The integer amount in cents (or local equivalent) of previewed invoice item.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -3943,6 +3990,7 @@ impl<'a> Default for UpcomingLinesInvoiceInvoiceItems<'a> {
 }
 /// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoiceInvoiceItemsPriceData<'a> {
     /// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
     /// Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -4099,6 +4147,7 @@ impl<'de> serde::Deserialize<'de> for UpcomingLinesInvoiceInvoiceItemsTaxBehavio
 /// The connected account that issues the invoice.
 /// The invoice is presented with the branding and support information of the specified account.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoiceIssuer<'a> {
     /// The connected account being referenced when `type` is `account`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -4171,6 +4220,7 @@ impl<'de> serde::Deserialize<'de> for UpcomingLinesInvoiceIssuerType {
 /// The schedule creation or modification params to apply as a preview.
 /// Cannot be used with `subscription` or `subscription_` prefixed fields.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoiceScheduleDetails<'a> {
     /// Behavior of the subscription schedule and underlying subscription when it ends.
     /// Possible values are `release` or `cancel` with the default being `release`.
@@ -4262,6 +4312,7 @@ impl<'de> serde::Deserialize<'de> for UpcomingLinesInvoiceScheduleDetailsEndBeha
 /// Each phase can be customized to have different durations, plans, and coupons.
 /// If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoiceScheduleDetailsPhases<'a> {
     /// A list of prices and quantities that will generate invoice items appended to the next invoice for this phase.
     /// You may pass up to 20 items.
@@ -4395,6 +4446,7 @@ impl<'a> UpcomingLinesInvoiceScheduleDetailsPhases<'a> {
 /// A list of prices and quantities that will generate invoice items appended to the next invoice for this phase.
 /// You may pass up to 20 items.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoiceScheduleDetailsPhasesAddInvoiceItems<'a> {
     /// The coupons to redeem into discounts for the item.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -4424,6 +4476,7 @@ impl<'a> Default for UpcomingLinesInvoiceScheduleDetailsPhasesAddInvoiceItems<'a
 }
 /// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoiceScheduleDetailsPhasesAddInvoiceItemsPriceData<'a> {
     /// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
     /// Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -4522,6 +4575,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// Automatic tax settings for this phase.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoiceScheduleDetailsPhasesAutomaticTax<'a> {
     /// Enabled automatic tax calculation which will automatically compute tax rates on all invoices generated by the subscription.
     pub enabled: bool,
@@ -4540,6 +4594,7 @@ impl<'a> UpcomingLinesInvoiceScheduleDetailsPhasesAutomaticTax<'a> {
 /// If set, the business address and tax registrations required to perform the tax calculation are loaded from this account.
 /// The tax transaction is returned in the report of the connected account.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoiceScheduleDetailsPhasesAutomaticTaxLiability<'a> {
     /// The connected account being referenced when `type` is `account`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -4672,6 +4727,7 @@ impl<'de> serde::Deserialize<'de> for UpcomingLinesInvoiceScheduleDetailsPhasesB
 /// The date at which this phase of the subscription schedule ends.
 /// If set, `iterations` must not be set.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum UpcomingLinesInvoiceScheduleDetailsPhasesEndDate {
     Timestamp(stripe_types::Timestamp),
@@ -4679,6 +4735,7 @@ pub enum UpcomingLinesInvoiceScheduleDetailsPhasesEndDate {
 }
 /// All invoices will be billed using the specified settings.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoiceScheduleDetailsPhasesInvoiceSettings<'a> {
     /// The account tax IDs associated with this phase of the subscription schedule.
     /// Will be set on invoices generated by this phase of the subscription schedule.
@@ -4706,6 +4763,7 @@ impl<'a> Default for UpcomingLinesInvoiceScheduleDetailsPhasesInvoiceSettings<'a
 /// The connected account that issues the invoice.
 /// The invoice is presented with the branding and support information of the specified account.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoiceScheduleDetailsPhasesInvoiceSettingsIssuer<'a> {
     /// The connected account being referenced when `type` is `account`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -4777,6 +4835,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoiceScheduleDetailsPhasesItems<'a> {
     /// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period.
     /// When updating, pass an empty string to remove previously-defined thresholds.
@@ -4831,6 +4890,7 @@ impl<'a> Default for UpcomingLinesInvoiceScheduleDetailsPhasesItems<'a> {
 }
 /// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoiceScheduleDetailsPhasesItemsPriceData<'a> {
     /// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
     /// Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -4871,6 +4931,7 @@ impl<'a> UpcomingLinesInvoiceScheduleDetailsPhasesItemsPriceData<'a> {
 }
 /// The recurring components of a price such as `interval` and `interval_count`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoiceScheduleDetailsPhasesItemsPriceDataRecurring {
     /// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
     pub interval: UpcomingLinesInvoiceScheduleDetailsPhasesItemsPriceDataRecurringInterval,
@@ -5082,6 +5143,7 @@ impl<'de> serde::Deserialize<'de> for UpcomingLinesInvoiceScheduleDetailsPhasesP
 /// The date at which this phase of the subscription schedule starts or `now`.
 /// Must be set on the first phase.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum UpcomingLinesInvoiceScheduleDetailsPhasesStartDate {
     Timestamp(stripe_types::Timestamp),
@@ -5090,6 +5152,7 @@ pub enum UpcomingLinesInvoiceScheduleDetailsPhasesStartDate {
 /// Sets the phase to trialing from the start date to this date.
 /// Must be before the phase end date, can not be combined with `trial`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum UpcomingLinesInvoiceScheduleDetailsPhasesTrialEnd {
     Timestamp(stripe_types::Timestamp),
@@ -5162,6 +5225,7 @@ impl<'de> serde::Deserialize<'de> for UpcomingLinesInvoiceScheduleDetailsProrati
 /// This field has been deprecated and will be removed in a future API version.
 /// Use `subscription_details.billing_cycle_anchor` instead.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum UpcomingLinesInvoiceSubscriptionBillingCycleAnchor {
     Now,
@@ -5171,6 +5235,7 @@ pub enum UpcomingLinesInvoiceSubscriptionBillingCycleAnchor {
 /// The subscription creation or modification params to apply as a preview.
 /// Cannot be used with `schedule` or `schedule_details` fields.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoiceSubscriptionDetails<'a> {
     /// For new subscriptions, a future timestamp to anchor the subscription's [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle).
     /// This is used to determine the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices.
@@ -5242,6 +5307,7 @@ impl<'a> Default for UpcomingLinesInvoiceSubscriptionDetails<'a> {
 /// This is used to determine the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices.
 /// For existing subscriptions, the value can only be set to `now` or `unchanged`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum UpcomingLinesInvoiceSubscriptionDetailsBillingCycleAnchor {
     Now,
@@ -5250,6 +5316,7 @@ pub enum UpcomingLinesInvoiceSubscriptionDetailsBillingCycleAnchor {
 }
 /// A list of up to 20 subscription items, each with an attached price.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoiceSubscriptionDetailsItems<'a> {
     /// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period.
     /// When updating, pass an empty string to remove previously-defined thresholds.
@@ -5317,6 +5384,7 @@ impl<'a> Default for UpcomingLinesInvoiceSubscriptionDetailsItems<'a> {
 }
 /// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoiceSubscriptionDetailsItemsPriceData<'a> {
     /// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
     /// Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -5357,6 +5425,7 @@ impl<'a> UpcomingLinesInvoiceSubscriptionDetailsItemsPriceData<'a> {
 }
 /// The recurring components of a price such as `interval` and `interval_count`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoiceSubscriptionDetailsItemsPriceDataRecurring {
     /// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
     pub interval: UpcomingLinesInvoiceSubscriptionDetailsItemsPriceDataRecurringInterval,
@@ -5617,6 +5686,7 @@ impl<'de> serde::Deserialize<'de> for UpcomingLinesInvoiceSubscriptionDetailsRes
 /// If provided, the invoice returned will preview updating or creating a subscription with that trial end.
 /// If set, one of `subscription_details.items` or `subscription` is required.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum UpcomingLinesInvoiceSubscriptionDetailsTrialEnd {
     Now,
@@ -5626,6 +5696,7 @@ pub enum UpcomingLinesInvoiceSubscriptionDetailsTrialEnd {
 /// This field has been deprecated and will be removed in a future API version.
 /// Use `subscription_details.items` instead.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoiceSubscriptionItems<'a> {
     /// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period.
     /// When updating, pass an empty string to remove previously-defined thresholds.
@@ -5693,6 +5764,7 @@ impl<'a> Default for UpcomingLinesInvoiceSubscriptionItems<'a> {
 }
 /// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoiceSubscriptionItemsPriceData<'a> {
     /// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
     /// Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -5733,6 +5805,7 @@ impl<'a> UpcomingLinesInvoiceSubscriptionItemsPriceData<'a> {
 }
 /// The recurring components of a price such as `interval` and `interval_count`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoiceSubscriptionItemsPriceDataRecurring {
     /// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
     pub interval: UpcomingLinesInvoiceSubscriptionItemsPriceDataRecurringInterval,
@@ -6001,6 +6074,7 @@ impl<'de> serde::Deserialize<'de> for UpcomingLinesInvoiceSubscriptionResumeAt {
 /// This field has been deprecated and will be removed in a future API version.
 /// Use `subscription_details.trial_end` instead.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum UpcomingLinesInvoiceSubscriptionTrialEnd {
     Now,
@@ -6009,6 +6083,7 @@ pub enum UpcomingLinesInvoiceSubscriptionTrialEnd {
 /// When retrieving an upcoming invoice, you’ll get a **lines** property containing the total count of line items and the first handful of those items.
 /// There is also a URL where you can retrieve the full (paginated) list of line items.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpcomingLinesInvoice<'a> {
     inner: UpcomingLinesInvoiceBuilder<'a>,
 }
@@ -6297,6 +6372,7 @@ impl StripeRequest for UpcomingLinesInvoice<'_> {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateInvoiceBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     account_tax_ids: Option<&'a [&'a str]>,
@@ -6400,6 +6476,7 @@ impl<'a> CreateInvoiceBuilder<'a> {
 }
 /// Settings for automatic tax lookup for this invoice.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoiceAutomaticTax<'a> {
     /// Whether Stripe automatically computes tax on this invoice.
     /// Note that incompatible invoice items (invoice items with manually specified [tax rates](https://stripe.com/docs/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
@@ -6419,6 +6496,7 @@ impl<'a> CreateInvoiceAutomaticTax<'a> {
 /// If set, the business address and tax registrations required to perform the tax calculation are loaded from this account.
 /// The tax transaction is returned in the report of the connected account.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoiceAutomaticTaxLiability<'a> {
     /// The connected account being referenced when `type` is `account`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -6492,6 +6570,7 @@ impl<'de> serde::Deserialize<'de> for CreateInvoiceAutomaticTaxLiabilityType {
 /// The new invoice will be created in `status=draft`.
 /// See the [revision documentation](https://stripe.com/docs/invoicing/invoice-revisions) for more details.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoiceFromInvoice<'a> {
     /// The relation between the new invoice and the original invoice.
     /// Currently, only 'revision' is permitted.
@@ -6561,6 +6640,7 @@ impl<'de> serde::Deserialize<'de> for CreateInvoiceFromInvoiceAction {
 /// The connected account that issues the invoice.
 /// The invoice is presented with the branding and support information of the specified account.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoiceIssuer<'a> {
     /// The connected account being referenced when `type` is `account`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -6631,6 +6711,7 @@ impl<'de> serde::Deserialize<'de> for CreateInvoiceIssuerType {
 }
 /// Configuration settings for the PaymentIntent that is generated when the invoice is finalized.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoicePaymentSettings<'a> {
     /// ID of the mandate to be used for this invoice.
     /// It must correspond to the payment method used to pay the invoice, including the invoice's default_payment_method or default_source, if set.
@@ -6657,6 +6738,7 @@ impl<'a> Default for CreateInvoicePaymentSettings<'a> {
 }
 /// Payment-method-specific configuration to provide to the invoice’s PaymentIntent.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoicePaymentSettingsPaymentMethodOptions<'a> {
     /// If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice’s PaymentIntent.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -6702,6 +6784,7 @@ impl<'a> Default for CreateInvoicePaymentSettingsPaymentMethodOptions<'a> {
 }
 /// If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice’s PaymentIntent.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoicePaymentSettingsPaymentMethodOptionsAcssDebit {
     /// Additional fields for Mandate creation
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -6724,6 +6807,7 @@ impl Default for CreateInvoicePaymentSettingsPaymentMethodOptionsAcssDebit {
 }
 /// Additional fields for Mandate creation
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoicePaymentSettingsPaymentMethodOptionsAcssDebitMandateOptions {
     /// Transaction type of the mandate.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -6874,6 +6958,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice’s PaymentIntent.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoicePaymentSettingsPaymentMethodOptionsBancontact {
     /// Preferred language of the Bancontact authorization page that the customer is redirected to.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -6962,6 +7047,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice’s PaymentIntent.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoicePaymentSettingsPaymentMethodOptionsCard {
     /// Installment configuration for payments attempted on this invoice (Mexico Only).
     ///
@@ -6989,6 +7075,7 @@ impl Default for CreateInvoicePaymentSettingsPaymentMethodOptionsCard {
 ///
 /// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoicePaymentSettingsPaymentMethodOptionsCardInstallments {
     /// Setting to true enables installments for this invoice.
     /// Setting to false will prevent any selected plan from applying to a payment.
@@ -7010,6 +7097,7 @@ impl Default for CreateInvoicePaymentSettingsPaymentMethodOptionsCardInstallment
 }
 /// The selected installment plan to use for this invoice.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoicePaymentSettingsPaymentMethodOptionsCardInstallmentsPlan {
     /// For `fixed_count` installment plans, this is the number of installment payments your customer will make to their credit card.
     pub count: u64,
@@ -7211,6 +7299,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// If paying by `us_bank_account`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice’s PaymentIntent.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoicePaymentSettingsPaymentMethodOptionsUsBankAccount<'a> {
     /// Additional fields for Financial Connections Session creation
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -7234,6 +7323,7 @@ impl<'a> Default for CreateInvoicePaymentSettingsPaymentMethodOptionsUsBankAccou
 }
 /// Additional fields for Financial Connections Session creation
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoicePaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnections<'a> {
         /// The list of permissions to request.
     /// If this parameter is passed, the `payment_method` permission must be included.
@@ -7661,6 +7751,7 @@ impl<'de> serde::Deserialize<'de> for CreateInvoicePendingInvoiceItemsBehavior {
 }
 /// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoiceRendering {
     /// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
     /// One of `exclude_tax` or `include_inclusive_tax`.
@@ -7743,6 +7834,7 @@ impl<'de> serde::Deserialize<'de> for CreateInvoiceRenderingAmountTaxDisplay {
 }
 /// Invoice pdf rendering options
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoiceRenderingPdf {
     /// Page size for invoice PDF. Can be set to `a4`, `letter`, or `auto`.
     ///  If set to `auto`, invoice PDF page size defaults to `a4` for customers with
@@ -7823,6 +7915,7 @@ impl<'de> serde::Deserialize<'de> for CreateInvoiceRenderingPdfPageSize {
 }
 /// Settings for the cost of shipping for this invoice.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoiceShippingCost<'a> {
     /// The ID of the shipping rate to use for this order.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -7843,6 +7936,7 @@ impl<'a> Default for CreateInvoiceShippingCost<'a> {
 }
 /// Parameters to create a new ad-hoc shipping rate for this order.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoiceShippingCostShippingRateData<'a> {
     /// The estimated range for how long shipping will take, meant to be displayable to the customer.
     /// This will appear on CheckoutSessions.
@@ -7889,6 +7983,7 @@ impl<'a> CreateInvoiceShippingCostShippingRateData<'a> {
 /// The estimated range for how long shipping will take, meant to be displayable to the customer.
 /// This will appear on CheckoutSessions.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoiceShippingCostShippingRateDataDeliveryEstimate {
     /// The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -7909,6 +8004,7 @@ impl Default for CreateInvoiceShippingCostShippingRateDataDeliveryEstimate {
 }
 /// The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoiceShippingCostShippingRateDataDeliveryEstimateMaximum {
     /// A unit of time.
     pub unit: CreateInvoiceShippingCostShippingRateDataDeliveryEstimateMaximumUnit,
@@ -7990,6 +8086,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// The lower bound of the estimated range. If empty, represents no lower bound.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoiceShippingCostShippingRateDataDeliveryEstimateMinimum {
     /// A unit of time.
     pub unit: CreateInvoiceShippingCostShippingRateDataDeliveryEstimateMinimumUnit,
@@ -8071,6 +8168,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoiceShippingCostShippingRateDataFixedAmount<'a> {
     /// A non-negative integer in cents representing how much to charge.
     pub amount: i64,
@@ -8095,6 +8193,7 @@ impl<'a> CreateInvoiceShippingCostShippingRateDataFixedAmount<'a> {
 /// Shipping rates defined in each available currency option.
 /// Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoiceShippingCostShippingRateDataFixedAmountCurrencyOptions {
     /// A non-negative integer in cents representing how much to charge.
     pub amount: i64,
@@ -8296,6 +8395,7 @@ impl<'de> serde::Deserialize<'de> for CreateInvoiceShippingCostShippingRateDataT
 }
 /// If specified, the funds from the invoice will be transferred to the destination and the ID of the resulting transfer will be found on the invoice's charge.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoiceTransferData<'a> {
     /// The amount that will be transferred automatically when the invoice is paid.
     /// If no amount is set, the full amount is transferred.
@@ -8312,6 +8412,7 @@ impl<'a> CreateInvoiceTransferData<'a> {
 /// This endpoint creates a draft invoice for a given customer.
 /// The invoice remains a draft until you [finalize](https://stripe.com/docs/api#finalize_invoice) the invoice, which allows you to [pay](https://stripe.com/docs/api#pay_invoice) or [send](https://stripe.com/docs/api#send_invoice) the invoice to your customers.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateInvoice<'a> {
     inner: CreateInvoiceBuilder<'a>,
 }
@@ -8552,6 +8653,7 @@ impl StripeRequest for CreateInvoice<'_> {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdateInvoiceBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     account_tax_ids: Option<&'a [&'a str]>,
@@ -8640,6 +8742,7 @@ impl<'a> UpdateInvoiceBuilder<'a> {
 }
 /// Settings for automatic tax lookup for this invoice.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoiceAutomaticTax<'a> {
     /// Whether Stripe automatically computes tax on this invoice.
     /// Note that incompatible invoice items (invoice items with manually specified [tax rates](https://stripe.com/docs/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
@@ -8659,6 +8762,7 @@ impl<'a> UpdateInvoiceAutomaticTax<'a> {
 /// If set, the business address and tax registrations required to perform the tax calculation are loaded from this account.
 /// The tax transaction is returned in the report of the connected account.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoiceAutomaticTaxLiability<'a> {
     /// The connected account being referenced when `type` is `account`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -8731,6 +8835,7 @@ impl<'de> serde::Deserialize<'de> for UpdateInvoiceAutomaticTaxLiabilityType {
 /// The connected account that issues the invoice.
 /// The invoice is presented with the branding and support information of the specified account.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoiceIssuer<'a> {
     /// The connected account being referenced when `type` is `account`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -8801,6 +8906,7 @@ impl<'de> serde::Deserialize<'de> for UpdateInvoiceIssuerType {
 }
 /// Configuration settings for the PaymentIntent that is generated when the invoice is finalized.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoicePaymentSettings<'a> {
     /// ID of the mandate to be used for this invoice.
     /// It must correspond to the payment method used to pay the invoice, including the invoice's default_payment_method or default_source, if set.
@@ -8827,6 +8933,7 @@ impl<'a> Default for UpdateInvoicePaymentSettings<'a> {
 }
 /// Payment-method-specific configuration to provide to the invoice’s PaymentIntent.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoicePaymentSettingsPaymentMethodOptions<'a> {
     /// If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice’s PaymentIntent.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -8872,6 +8979,7 @@ impl<'a> Default for UpdateInvoicePaymentSettingsPaymentMethodOptions<'a> {
 }
 /// If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice’s PaymentIntent.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoicePaymentSettingsPaymentMethodOptionsAcssDebit {
     /// Additional fields for Mandate creation
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -8894,6 +9002,7 @@ impl Default for UpdateInvoicePaymentSettingsPaymentMethodOptionsAcssDebit {
 }
 /// Additional fields for Mandate creation
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoicePaymentSettingsPaymentMethodOptionsAcssDebitMandateOptions {
     /// Transaction type of the mandate.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -9044,6 +9153,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice’s PaymentIntent.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoicePaymentSettingsPaymentMethodOptionsBancontact {
     /// Preferred language of the Bancontact authorization page that the customer is redirected to.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -9132,6 +9242,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice’s PaymentIntent.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoicePaymentSettingsPaymentMethodOptionsCard {
     /// Installment configuration for payments attempted on this invoice (Mexico Only).
     ///
@@ -9159,6 +9270,7 @@ impl Default for UpdateInvoicePaymentSettingsPaymentMethodOptionsCard {
 ///
 /// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoicePaymentSettingsPaymentMethodOptionsCardInstallments {
     /// Setting to true enables installments for this invoice.
     /// Setting to false will prevent any selected plan from applying to a payment.
@@ -9180,6 +9292,7 @@ impl Default for UpdateInvoicePaymentSettingsPaymentMethodOptionsCardInstallment
 }
 /// The selected installment plan to use for this invoice.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoicePaymentSettingsPaymentMethodOptionsCardInstallmentsPlan {
     /// For `fixed_count` installment plans, this is the number of installment payments your customer will make to their credit card.
     pub count: u64,
@@ -9381,6 +9494,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// If paying by `us_bank_account`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice’s PaymentIntent.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoicePaymentSettingsPaymentMethodOptionsUsBankAccount<'a> {
     /// Additional fields for Financial Connections Session creation
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -9404,6 +9518,7 @@ impl<'a> Default for UpdateInvoicePaymentSettingsPaymentMethodOptionsUsBankAccou
 }
 /// Additional fields for Financial Connections Session creation
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoicePaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnections<'a> {
         /// The list of permissions to request.
     /// If this parameter is passed, the `payment_method` permission must be included.
@@ -9774,6 +9889,7 @@ impl<'de> serde::Deserialize<'de> for UpdateInvoicePaymentSettingsPaymentMethodT
 }
 /// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoiceRendering {
     /// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
     /// One of `exclude_tax` or `include_inclusive_tax`.
@@ -9856,6 +9972,7 @@ impl<'de> serde::Deserialize<'de> for UpdateInvoiceRenderingAmountTaxDisplay {
 }
 /// Invoice pdf rendering options
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoiceRenderingPdf {
     /// Page size for invoice PDF. Can be set to `a4`, `letter`, or `auto`.
     ///  If set to `auto`, invoice PDF page size defaults to `a4` for customers with
@@ -9936,6 +10053,7 @@ impl<'de> serde::Deserialize<'de> for UpdateInvoiceRenderingPdfPageSize {
 }
 /// Settings for the cost of shipping for this invoice.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoiceShippingCost<'a> {
     /// The ID of the shipping rate to use for this order.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -9956,6 +10074,7 @@ impl<'a> Default for UpdateInvoiceShippingCost<'a> {
 }
 /// Parameters to create a new ad-hoc shipping rate for this order.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoiceShippingCostShippingRateData<'a> {
     /// The estimated range for how long shipping will take, meant to be displayable to the customer.
     /// This will appear on CheckoutSessions.
@@ -10002,6 +10121,7 @@ impl<'a> UpdateInvoiceShippingCostShippingRateData<'a> {
 /// The estimated range for how long shipping will take, meant to be displayable to the customer.
 /// This will appear on CheckoutSessions.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoiceShippingCostShippingRateDataDeliveryEstimate {
     /// The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -10022,6 +10142,7 @@ impl Default for UpdateInvoiceShippingCostShippingRateDataDeliveryEstimate {
 }
 /// The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoiceShippingCostShippingRateDataDeliveryEstimateMaximum {
     /// A unit of time.
     pub unit: UpdateInvoiceShippingCostShippingRateDataDeliveryEstimateMaximumUnit,
@@ -10103,6 +10224,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// The lower bound of the estimated range. If empty, represents no lower bound.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoiceShippingCostShippingRateDataDeliveryEstimateMinimum {
     /// A unit of time.
     pub unit: UpdateInvoiceShippingCostShippingRateDataDeliveryEstimateMinimumUnit,
@@ -10184,6 +10306,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoiceShippingCostShippingRateDataFixedAmount<'a> {
     /// A non-negative integer in cents representing how much to charge.
     pub amount: i64,
@@ -10208,6 +10331,7 @@ impl<'a> UpdateInvoiceShippingCostShippingRateDataFixedAmount<'a> {
 /// Shipping rates defined in each available currency option.
 /// Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoiceShippingCostShippingRateDataFixedAmountCurrencyOptions {
     /// A non-negative integer in cents representing how much to charge.
     pub amount: i64,
@@ -10410,6 +10534,7 @@ impl<'de> serde::Deserialize<'de> for UpdateInvoiceShippingCostShippingRateDataT
 /// If specified, the funds from the invoice will be transferred to the destination and the ID of the resulting transfer will be found on the invoice's charge.
 /// This will be unset if you POST an empty value.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoiceTransferData<'a> {
     /// The amount that will be transferred automatically when the invoice is paid.
     /// If no amount is set, the full amount is transferred.
@@ -10431,6 +10556,7 @@ impl<'a> UpdateInvoiceTransferData<'a> {
 /// sending reminders for, or [automatically reconciling](https://stripe.com/docs/billing/invoices/reconciliation) invoices, pass.
 /// `auto_advance=false`.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateInvoice<'a> {
     inner: UpdateInvoiceBuilder<'a>,
     invoice: &'a stripe_shared::InvoiceId,
@@ -10637,6 +10763,7 @@ impl StripeRequest for UpdateInvoice<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct FinalizeInvoiceInvoiceBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     auto_advance: Option<bool>,
@@ -10651,6 +10778,7 @@ impl<'a> FinalizeInvoiceInvoiceBuilder<'a> {
 /// Stripe automatically finalizes drafts before sending and attempting payment on invoices.
 /// However, if you’d like to finalize a draft invoice manually, you can do so using this method.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct FinalizeInvoiceInvoice<'a> {
     inner: FinalizeInvoiceInvoiceBuilder<'a>,
     invoice: &'a stripe_shared::InvoiceId,
@@ -10700,6 +10828,7 @@ impl StripeRequest for FinalizeInvoiceInvoice<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct MarkUncollectibleInvoiceBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -10711,6 +10840,7 @@ impl<'a> MarkUncollectibleInvoiceBuilder<'a> {
 }
 /// Marking an invoice as uncollectible is useful for keeping track of bad debts that can be written off for accounting purposes.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct MarkUncollectibleInvoice<'a> {
     inner: MarkUncollectibleInvoiceBuilder<'a>,
     invoice: &'a stripe_shared::InvoiceId,
@@ -10754,6 +10884,7 @@ impl StripeRequest for MarkUncollectibleInvoice<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct PayInvoiceBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -10786,6 +10917,7 @@ impl<'a> PayInvoiceBuilder<'a> {
 /// Stripe automatically creates and then attempts to collect payment on invoices for customers on subscriptions according to your [subscriptions settings](https://dashboard.stripe.com/account/billing/automatic).
 /// However, if you’d like to attempt payment on an invoice out of the normal collection schedule or for some other reason, you can do so.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct PayInvoice<'a> {
     inner: PayInvoiceBuilder<'a>,
     invoice: &'a stripe_shared::InvoiceId,
@@ -10871,6 +11003,7 @@ impl StripeRequest for PayInvoice<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct SendInvoiceInvoiceBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -10886,6 +11019,7 @@ impl<'a> SendInvoiceInvoiceBuilder<'a> {
 ///
 /// Requests made in test-mode result in no emails being sent, despite sending an `invoice.sent` event.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct SendInvoiceInvoice<'a> {
     inner: SendInvoiceInvoiceBuilder<'a>,
     invoice: &'a stripe_shared::InvoiceId,
@@ -10929,6 +11063,7 @@ impl StripeRequest for SendInvoiceInvoice<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct VoidInvoiceInvoiceBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -10946,6 +11081,7 @@ impl<'a> VoidInvoiceInvoiceBuilder<'a> {
 /// You might need to [issue another invoice](https://stripe.com/docs/api#create_invoice) or [credit note](https://stripe.com/docs/api#create_credit_note) instead.
 /// Stripe recommends that you consult with your legal counsel for advice specific to your business.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct VoidInvoiceInvoice<'a> {
     inner: VoidInvoiceInvoiceBuilder<'a>,
     invoice: &'a stripe_shared::InvoiceId,
@@ -10989,6 +11125,7 @@ impl StripeRequest for VoidInvoiceInvoice<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreatePreviewInvoiceBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     automatic_tax: Option<CreatePreviewInvoiceAutomaticTax<'a>>,
@@ -11041,6 +11178,7 @@ impl<'a> CreatePreviewInvoiceBuilder<'a> {
 }
 /// Settings for automatic tax lookup for this invoice preview.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePreviewInvoiceAutomaticTax<'a> {
     /// Whether Stripe automatically computes tax on this invoice.
     /// Note that incompatible invoice items (invoice items with manually specified [tax rates](https://stripe.com/docs/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
@@ -11060,6 +11198,7 @@ impl<'a> CreatePreviewInvoiceAutomaticTax<'a> {
 /// If set, the business address and tax registrations required to perform the tax calculation are loaded from this account.
 /// The tax transaction is returned in the report of the connected account.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePreviewInvoiceAutomaticTaxLiability<'a> {
     /// The connected account being referenced when `type` is `account`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -11134,6 +11273,7 @@ impl<'de> serde::Deserialize<'de> for CreatePreviewInvoiceAutomaticTaxLiabilityT
 /// Details about the customer you want to invoice or overrides for an existing customer.
 /// If `automatic_tax` is enabled then one of `customer`, `customer_details`, `subscription`, or `schedule` must be set.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePreviewInvoiceCustomerDetails<'a> {
     /// The customer's address.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -11224,6 +11364,7 @@ impl<'de> serde::Deserialize<'de> for CreatePreviewInvoiceCustomerDetailsTaxExem
 }
 /// The customer's tax IDs.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePreviewInvoiceCustomerDetailsTaxIds<'a> {
     /// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `ar_cuit`, `au_abn`, `au_arn`, `bg_uic`, `bh_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_vat`, `cl_tin`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kr_brn`, `kz_bin`, `li_uid`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sv_nit`, `th_vat`, `tr_tin`, `tw_vat`, `ua_vat`, `us_ein`, `uy_ruc`, `ve_rif`, `vn_tin`, or `za_vat`.
     #[serde(rename = "type")]
@@ -11503,6 +11644,7 @@ impl<'de> serde::Deserialize<'de> for CreatePreviewInvoiceCustomerDetailsTaxIdsT
 }
 /// List of invoice items to add or update in the upcoming invoice preview.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePreviewInvoiceInvoiceItems<'a> {
     /// The integer amount in cents (or local equivalent) of previewed invoice item.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -11599,6 +11741,7 @@ impl<'a> Default for CreatePreviewInvoiceInvoiceItems<'a> {
 }
 /// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePreviewInvoiceInvoiceItemsPriceData<'a> {
     /// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
     /// Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -11755,6 +11898,7 @@ impl<'de> serde::Deserialize<'de> for CreatePreviewInvoiceInvoiceItemsTaxBehavio
 /// The connected account that issues the invoice.
 /// The invoice is presented with the branding and support information of the specified account.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePreviewInvoiceIssuer<'a> {
     /// The connected account being referenced when `type` is `account`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -11827,6 +11971,7 @@ impl<'de> serde::Deserialize<'de> for CreatePreviewInvoiceIssuerType {
 /// The schedule creation or modification params to apply as a preview.
 /// Cannot be used with `subscription` or `subscription_` prefixed fields.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePreviewInvoiceScheduleDetails<'a> {
     /// Behavior of the subscription schedule and underlying subscription when it ends.
     /// Possible values are `release` or `cancel` with the default being `release`.
@@ -11918,6 +12063,7 @@ impl<'de> serde::Deserialize<'de> for CreatePreviewInvoiceScheduleDetailsEndBeha
 /// Each phase can be customized to have different durations, plans, and coupons.
 /// If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePreviewInvoiceScheduleDetailsPhases<'a> {
     /// A list of prices and quantities that will generate invoice items appended to the next invoice for this phase.
     /// You may pass up to 20 items.
@@ -12051,6 +12197,7 @@ impl<'a> CreatePreviewInvoiceScheduleDetailsPhases<'a> {
 /// A list of prices and quantities that will generate invoice items appended to the next invoice for this phase.
 /// You may pass up to 20 items.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePreviewInvoiceScheduleDetailsPhasesAddInvoiceItems<'a> {
     /// The coupons to redeem into discounts for the item.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -12080,6 +12227,7 @@ impl<'a> Default for CreatePreviewInvoiceScheduleDetailsPhasesAddInvoiceItems<'a
 }
 /// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePreviewInvoiceScheduleDetailsPhasesAddInvoiceItemsPriceData<'a> {
     /// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
     /// Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -12178,6 +12326,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// Automatic tax settings for this phase.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePreviewInvoiceScheduleDetailsPhasesAutomaticTax<'a> {
     /// Enabled automatic tax calculation which will automatically compute tax rates on all invoices generated by the subscription.
     pub enabled: bool,
@@ -12196,6 +12345,7 @@ impl<'a> CreatePreviewInvoiceScheduleDetailsPhasesAutomaticTax<'a> {
 /// If set, the business address and tax registrations required to perform the tax calculation are loaded from this account.
 /// The tax transaction is returned in the report of the connected account.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePreviewInvoiceScheduleDetailsPhasesAutomaticTaxLiability<'a> {
     /// The connected account being referenced when `type` is `account`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -12328,6 +12478,7 @@ impl<'de> serde::Deserialize<'de> for CreatePreviewInvoiceScheduleDetailsPhasesB
 /// The date at which this phase of the subscription schedule ends.
 /// If set, `iterations` must not be set.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum CreatePreviewInvoiceScheduleDetailsPhasesEndDate {
     Timestamp(stripe_types::Timestamp),
@@ -12335,6 +12486,7 @@ pub enum CreatePreviewInvoiceScheduleDetailsPhasesEndDate {
 }
 /// All invoices will be billed using the specified settings.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePreviewInvoiceScheduleDetailsPhasesInvoiceSettings<'a> {
     /// The account tax IDs associated with this phase of the subscription schedule.
     /// Will be set on invoices generated by this phase of the subscription schedule.
@@ -12362,6 +12514,7 @@ impl<'a> Default for CreatePreviewInvoiceScheduleDetailsPhasesInvoiceSettings<'a
 /// The connected account that issues the invoice.
 /// The invoice is presented with the branding and support information of the specified account.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePreviewInvoiceScheduleDetailsPhasesInvoiceSettingsIssuer<'a> {
     /// The connected account being referenced when `type` is `account`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -12433,6 +12586,7 @@ impl<'de> serde::Deserialize<'de>
 }
 /// List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePreviewInvoiceScheduleDetailsPhasesItems<'a> {
     /// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period.
     /// When updating, pass an empty string to remove previously-defined thresholds.
@@ -12487,6 +12641,7 @@ impl<'a> Default for CreatePreviewInvoiceScheduleDetailsPhasesItems<'a> {
 }
 /// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePreviewInvoiceScheduleDetailsPhasesItemsPriceData<'a> {
     /// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
     /// Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -12527,6 +12682,7 @@ impl<'a> CreatePreviewInvoiceScheduleDetailsPhasesItemsPriceData<'a> {
 }
 /// The recurring components of a price such as `interval` and `interval_count`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePreviewInvoiceScheduleDetailsPhasesItemsPriceDataRecurring {
     /// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
     pub interval: CreatePreviewInvoiceScheduleDetailsPhasesItemsPriceDataRecurringInterval,
@@ -12738,6 +12894,7 @@ impl<'de> serde::Deserialize<'de> for CreatePreviewInvoiceScheduleDetailsPhasesP
 /// The date at which this phase of the subscription schedule starts or `now`.
 /// Must be set on the first phase.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum CreatePreviewInvoiceScheduleDetailsPhasesStartDate {
     Timestamp(stripe_types::Timestamp),
@@ -12746,6 +12903,7 @@ pub enum CreatePreviewInvoiceScheduleDetailsPhasesStartDate {
 /// Sets the phase to trialing from the start date to this date.
 /// Must be before the phase end date, can not be combined with `trial`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum CreatePreviewInvoiceScheduleDetailsPhasesTrialEnd {
     Timestamp(stripe_types::Timestamp),
@@ -12815,6 +12973,7 @@ impl<'de> serde::Deserialize<'de> for CreatePreviewInvoiceScheduleDetailsProrati
 /// The subscription creation or modification params to apply as a preview.
 /// Cannot be used with `schedule` or `schedule_details` fields.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePreviewInvoiceSubscriptionDetails<'a> {
     /// For new subscriptions, a future timestamp to anchor the subscription's [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle).
     /// This is used to determine the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices.
@@ -12886,6 +13045,7 @@ impl<'a> Default for CreatePreviewInvoiceSubscriptionDetails<'a> {
 /// This is used to determine the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices.
 /// For existing subscriptions, the value can only be set to `now` or `unchanged`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum CreatePreviewInvoiceSubscriptionDetailsBillingCycleAnchor {
     Now,
@@ -12894,6 +13054,7 @@ pub enum CreatePreviewInvoiceSubscriptionDetailsBillingCycleAnchor {
 }
 /// A list of up to 20 subscription items, each with an attached price.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePreviewInvoiceSubscriptionDetailsItems<'a> {
     /// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period.
     /// When updating, pass an empty string to remove previously-defined thresholds.
@@ -12961,6 +13122,7 @@ impl<'a> Default for CreatePreviewInvoiceSubscriptionDetailsItems<'a> {
 }
 /// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePreviewInvoiceSubscriptionDetailsItemsPriceData<'a> {
     /// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
     /// Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -13001,6 +13163,7 @@ impl<'a> CreatePreviewInvoiceSubscriptionDetailsItemsPriceData<'a> {
 }
 /// The recurring components of a price such as `interval` and `interval_count`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePreviewInvoiceSubscriptionDetailsItemsPriceDataRecurring {
     /// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
     pub interval: CreatePreviewInvoiceSubscriptionDetailsItemsPriceDataRecurringInterval,
@@ -13261,6 +13424,7 @@ impl<'de> serde::Deserialize<'de> for CreatePreviewInvoiceSubscriptionDetailsRes
 /// If provided, the invoice returned will preview updating or creating a subscription with that trial end.
 /// If set, one of `subscription_details.items` or `subscription` is required.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum CreatePreviewInvoiceSubscriptionDetailsTrialEnd {
     Now,
@@ -13278,6 +13442,7 @@ pub enum CreatePreviewInvoiceSubscriptionDetailsTrialEnd {
 /// To ensure that the actual proration is calculated exactly the same as the previewed proration, you should pass the `subscription_details.proration_date` parameter when doing the actual subscription update.
 /// The recommended way to get only the prorations being previewed is to consider only proration line items where `period[start]` is equal to the `subscription_details.proration_date` value passed in the request.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePreviewInvoice<'a> {
     inner: CreatePreviewInvoiceBuilder<'a>,
 }
@@ -13416,6 +13581,7 @@ impl StripeRequest for CreatePreviewInvoice<'_> {
 }
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct OptionalFieldsAddress<'a> {
     /// City, district, suburb, town, or village.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -13447,6 +13613,7 @@ impl<'a> Default for OptionalFieldsAddress<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct TaxParam<'a> {
     /// A recent IP address of the customer used for tax reporting and tax location inference.
     /// Stripe recommends updating the IP address when a new PaymentMethod is attached or the address field on the customer is updated.
@@ -13465,6 +13632,7 @@ impl<'a> Default for TaxParam<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DiscountsDataParam<'a> {
     /// ID of the coupon to create a new discount for.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -13487,6 +13655,7 @@ impl<'a> Default for DiscountsDataParam<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct Period {
     /// The end of the period, which must be greater than or equal to the start. This value is inclusive.
     pub end: stripe_types::Timestamp,
@@ -13499,6 +13668,7 @@ impl Period {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct BillingThresholdsParam {
     /// Monetary threshold that triggers the subscription to advance to a new billing period
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -13519,6 +13689,7 @@ impl Default for BillingThresholdsParam {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ItemBillingThresholdsParam {
     /// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte)).
     pub usage_gte: i64,
@@ -13529,6 +13700,7 @@ impl ItemBillingThresholdsParam {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct TransferDataSpecs<'a> {
     /// A non-negative decimal between 0 and 100, with at most two decimal places.
     /// This represents the percentage of the subscription invoice total that will be transferred to the destination account.
@@ -13544,6 +13716,7 @@ impl<'a> TransferDataSpecs<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CustomFieldParams<'a> {
     /// The name of the custom field. This may be up to 40 characters.
     pub name: &'a str,
@@ -13556,6 +13729,7 @@ impl<'a> CustomFieldParams<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct EuBankTransferParam<'a> {
     /// The desired country code of the bank account information.
     /// Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
@@ -13567,6 +13741,7 @@ impl<'a> EuBankTransferParam<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CustomerShipping<'a> {
     /// Customer shipping address.
     pub address: OptionalFieldsAddress<'a>,
@@ -13582,6 +13757,7 @@ impl<'a> CustomerShipping<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct BankTransferParam<'a> {
     /// Configuration for eu_bank_transfer funding type.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -13603,6 +13779,7 @@ impl<'a> Default for BankTransferParam<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RecipientShippingWithOptionalFieldsAddress<'a> {
     /// Shipping address
     pub address: OptionalFieldsAddress<'a>,
@@ -13618,6 +13795,7 @@ impl<'a> RecipientShippingWithOptionalFieldsAddress<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct InvoicePaymentMethodOptionsParam<'a> {
     /// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
     #[serde(skip_serializing_if = "Option::is_none")]

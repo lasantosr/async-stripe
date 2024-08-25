@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateAccountSessionBuilder<'a> {
     account: &'a str,
     components: CreateAccountSessionComponents,
@@ -17,6 +18,7 @@ impl<'a> CreateAccountSessionBuilder<'a> {
 /// Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g.
 /// whether it has been enabled or not).
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateAccountSessionComponents {
     /// Configuration for the account management embedded component.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -68,6 +70,7 @@ impl Default for CreateAccountSessionComponents {
 }
 /// Creates a AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateAccountSession<'a> {
     inner: CreateAccountSessionBuilder<'a>,
 }
@@ -109,6 +112,7 @@ impl StripeRequest for CreateAccountSession<'_> {
 }
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct AccountFeaturesParam {
     /// Whether to allow platforms to control bank account collection for their connected accounts.
     /// This feature can only be false for custom accounts (or accounts where the platform is compliance owner).
@@ -127,6 +131,7 @@ impl Default for AccountFeaturesParam {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct PayoutsFeaturesParam {
     /// Whether to allow payout schedule to be changed.
     /// Default `true` when Stripe owns Loss Liability, default `false` otherwise.
@@ -152,6 +157,7 @@ impl Default for PayoutsFeaturesParam {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct BaseConfigParam {
     /// Whether the embedded component is enabled.
     pub enabled: bool,
@@ -166,6 +172,7 @@ impl BaseConfigParam {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct PaymentsFeaturesParam {
     /// Whether to allow capturing and cancelling payment intents. This is `true` by default.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -198,6 +205,7 @@ impl Default for PaymentsFeaturesParam {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct AccountConfigParam {
     /// Whether the embedded component is enabled.
     pub enabled: bool,
@@ -211,6 +219,7 @@ impl AccountConfigParam {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct PayoutsConfigParam {
     /// Whether the embedded component is enabled.
     pub enabled: bool,
@@ -224,6 +233,7 @@ impl PayoutsConfigParam {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct PaymentsConfigParam {
     /// Whether the embedded component is enabled.
     pub enabled: bool,

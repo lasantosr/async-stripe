@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListTopupBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     amount: Option<stripe_types::RangeQueryTs>,
@@ -96,6 +97,7 @@ impl<'de> serde::Deserialize<'de> for ListTopupStatus {
 }
 /// Returns a list of top-ups.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListTopup<'a> {
     inner: ListTopupBuilder<'a>,
 }
@@ -184,6 +186,7 @@ impl StripeRequest for ListTopup<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveTopupBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -196,6 +199,7 @@ impl<'a> RetrieveTopupBuilder<'a> {
 /// Retrieves the details of a top-up that has previously been created.
 /// Supply the unique top-up ID that was returned from your previous request, and Stripe will return the corresponding top-up information.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveTopup<'a> {
     inner: RetrieveTopupBuilder<'a>,
     topup: &'a stripe_shared::TopupId,
@@ -238,6 +242,7 @@ impl StripeRequest for RetrieveTopup<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateTopupBuilder<'a> {
     amount: i64,
     currency: stripe_types::Currency,
@@ -270,6 +275,7 @@ impl<'a> CreateTopupBuilder<'a> {
 }
 /// Top up the balance of an account
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateTopup<'a> {
     inner: CreateTopupBuilder<'a>,
 }
@@ -340,6 +346,7 @@ impl StripeRequest for CreateTopup<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdateTopupBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     description: Option<&'a str>,
@@ -355,6 +362,7 @@ impl<'a> UpdateTopupBuilder<'a> {
 }
 /// Updates the metadata of a top-up. Other top-up details are not editable by design.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateTopup<'a> {
     inner: UpdateTopupBuilder<'a>,
     topup: &'a stripe_shared::TopupId,
@@ -410,6 +418,7 @@ impl StripeRequest for UpdateTopup<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CancelTopupBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -421,6 +430,7 @@ impl<'a> CancelTopupBuilder<'a> {
 }
 /// Cancels a top-up. Only pending top-ups can be canceled.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CancelTopup<'a> {
     inner: CancelTopupBuilder<'a>,
     topup: &'a stripe_shared::TopupId,

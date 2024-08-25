@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListCreditNoteBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     created: Option<stripe_types::RangeQueryTs>,
@@ -34,6 +35,7 @@ impl<'a> ListCreditNoteBuilder<'a> {
 }
 /// Returns a list of credit notes.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListCreditNote<'a> {
     inner: ListCreditNoteBuilder<'a>,
 }
@@ -120,6 +122,7 @@ impl StripeRequest for ListCreditNote<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveCreditNoteBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -131,6 +134,7 @@ impl<'a> RetrieveCreditNoteBuilder<'a> {
 }
 /// Retrieves the credit note object with the given identifier.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveCreditNote<'a> {
     inner: RetrieveCreditNoteBuilder<'a>,
     id: &'a stripe_shared::CreditNoteId,
@@ -173,6 +177,7 @@ impl StripeRequest for RetrieveCreditNote<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct PreviewCreditNoteBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     amount: Option<i64>,
@@ -221,6 +226,7 @@ impl<'a> PreviewCreditNoteBuilder<'a> {
 }
 /// Line items that make up the credit note.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct PreviewCreditNoteLines<'a> {
     /// The line item amount to credit. Only valid when `type` is `invoice_line_item`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -326,6 +332,7 @@ impl<'de> serde::Deserialize<'de> for PreviewCreditNoteLinesType {
 }
 /// Get a preview of a credit note without creating it.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct PreviewCreditNote<'a> {
     inner: PreviewCreditNoteBuilder<'a>,
 }
@@ -427,6 +434,7 @@ impl StripeRequest for PreviewCreditNote<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct PreviewLinesCreditNoteBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     amount: Option<i64>,
@@ -484,6 +492,7 @@ impl<'a> PreviewLinesCreditNoteBuilder<'a> {
 }
 /// Line items that make up the credit note.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct PreviewLinesCreditNoteLines<'a> {
     /// The line item amount to credit. Only valid when `type` is `invoice_line_item`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -591,6 +600,7 @@ impl<'de> serde::Deserialize<'de> for PreviewLinesCreditNoteLinesType {
 /// When retrieving a credit note preview, you’ll get a **lines** property containing the first handful of those items.
 /// This URL you can retrieve the full (paginated) list of line items.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct PreviewLinesCreditNote<'a> {
     inner: PreviewLinesCreditNoteBuilder<'a>,
 }
@@ -719,6 +729,7 @@ impl StripeRequest for PreviewLinesCreditNote<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateCreditNoteBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     amount: Option<i64>,
@@ -767,6 +778,7 @@ impl<'a> CreateCreditNoteBuilder<'a> {
 }
 /// Line items that make up the credit note.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateCreditNoteLines<'a> {
     /// The line item amount to credit. Only valid when `type` is `invoice_line_item`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -889,6 +901,7 @@ impl<'de> serde::Deserialize<'de> for CreateCreditNoteLinesType {
 /// Each credit note will increment the invoice’s `pre_payment_credit_notes_amount`.
 /// or `post_payment_credit_notes_amount` depending on its `status` at the time of credit note creation.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateCreditNote<'a> {
     inner: CreateCreditNoteBuilder<'a>,
 }
@@ -990,6 +1003,7 @@ impl StripeRequest for CreateCreditNote<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdateCreditNoteBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -1005,6 +1019,7 @@ impl<'a> UpdateCreditNoteBuilder<'a> {
 }
 /// Updates an existing credit note.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateCreditNote<'a> {
     inner: UpdateCreditNoteBuilder<'a>,
     id: &'a stripe_shared::CreditNoteId,
@@ -1060,6 +1075,7 @@ impl StripeRequest for UpdateCreditNote<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct VoidCreditNoteCreditNoteBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -1072,6 +1088,7 @@ impl<'a> VoidCreditNoteCreditNoteBuilder<'a> {
 /// Marks a credit note as void.
 /// Learn more about [voiding credit notes](https://stripe.com/docs/billing/invoices/credit-notes#voiding).
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct VoidCreditNoteCreditNote<'a> {
     inner: VoidCreditNoteCreditNoteBuilder<'a>,
     id: &'a stripe_shared::CreditNoteId,
@@ -1116,6 +1133,7 @@ impl StripeRequest for VoidCreditNoteCreditNote<'_> {
 }
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct TaxAmountWithTaxRateParam<'a> {
     /// The amount, in cents (or local equivalent), of the tax.
     pub amount: i64,
@@ -1131,6 +1149,7 @@ impl<'a> TaxAmountWithTaxRateParam<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreditNoteShippingCost<'a> {
     /// The ID of the shipping rate to use for this order.
     #[serde(skip_serializing_if = "Option::is_none")]

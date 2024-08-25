@@ -4,6 +4,7 @@ use stripe_client_core::{
 
 /// Deletes a `Configuration` object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DeleteTerminalConfiguration<'a> {
     configuration: &'a stripe_terminal::TerminalConfigurationId,
 }
@@ -43,6 +44,7 @@ impl StripeRequest for DeleteTerminalConfiguration<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListTerminalConfigurationBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     ending_before: Option<&'a str>,
@@ -68,6 +70,7 @@ impl<'a> ListTerminalConfigurationBuilder<'a> {
 }
 /// Returns a list of `Configuration` objects.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListTerminalConfiguration<'a> {
     inner: ListTerminalConfigurationBuilder<'a>,
 }
@@ -145,6 +148,7 @@ impl StripeRequest for ListTerminalConfiguration<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveTerminalConfigurationBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -156,6 +160,7 @@ impl<'a> RetrieveTerminalConfigurationBuilder<'a> {
 }
 /// Retrieves a `Configuration` object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveTerminalConfiguration<'a> {
     inner: RetrieveTerminalConfigurationBuilder<'a>,
     configuration: &'a stripe_terminal::TerminalConfigurationId,
@@ -281,6 +286,7 @@ const _: () = {
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateTerminalConfigurationBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     bbpos_wisepos_e: Option<CreateTerminalConfigurationBbposWiseposE<'a>>,
@@ -309,6 +315,7 @@ impl<'a> CreateTerminalConfigurationBuilder<'a> {
 }
 /// An object containing device type specific settings for BBPOS WisePOS E readers
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateTerminalConfigurationBbposWiseposE<'a> {
     /// A File ID representing an image you would like displayed on the reader.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -326,6 +333,7 @@ impl<'a> Default for CreateTerminalConfigurationBbposWiseposE<'a> {
 }
 /// An object containing device type specific settings for Verifone P400 readers
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateTerminalConfigurationVerifoneP400<'a> {
     /// A File ID representing an image you would like displayed on the reader.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -343,6 +351,7 @@ impl<'a> Default for CreateTerminalConfigurationVerifoneP400<'a> {
 }
 /// Creates a new `Configuration` object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateTerminalConfiguration<'a> {
     inner: CreateTerminalConfigurationBuilder<'a>,
 }
@@ -419,6 +428,7 @@ impl StripeRequest for CreateTerminalConfiguration<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdateTerminalConfigurationBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     bbpos_wisepos_e: Option<UpdateTerminalConfigurationBbposWiseposE<'a>>,
@@ -447,6 +457,7 @@ impl<'a> UpdateTerminalConfigurationBuilder<'a> {
 }
 /// An object containing device type specific settings for BBPOS WisePOS E readers
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateTerminalConfigurationBbposWiseposE<'a> {
     /// A File ID representing an image you would like displayed on the reader.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -464,6 +475,7 @@ impl<'a> Default for UpdateTerminalConfigurationBbposWiseposE<'a> {
 }
 /// An object containing device type specific settings for Verifone P400 readers
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateTerminalConfigurationVerifoneP400<'a> {
     /// A File ID representing an image you would like displayed on the reader.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -481,6 +493,7 @@ impl<'a> Default for UpdateTerminalConfigurationVerifoneP400<'a> {
 }
 /// Updates a new `Configuration` object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateTerminalConfiguration<'a> {
     inner: UpdateTerminalConfigurationBuilder<'a>,
     configuration: &'a stripe_terminal::TerminalConfigurationId,
@@ -637,6 +650,7 @@ const _: () = {
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct Offline {
     /// Determines whether to allow transactions to be collected while reader is offline.
     /// Defaults to false.
@@ -648,6 +662,7 @@ impl Offline {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CurrencySpecificConfig<'a> {
     /// Fixed amounts displayed when collecting a tip
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -670,6 +685,7 @@ impl<'a> Default for CurrencySpecificConfig<'a> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct Tipping<'a> {
     /// Tipping configuration for AUD
     #[serde(skip_serializing_if = "Option::is_none")]

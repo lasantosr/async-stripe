@@ -6,6 +6,7 @@ use stripe_client_core::{
 /// However, deleting a coupon does not affect any customers who have already applied the coupon; it means that new customers can’t redeem the coupon.
 /// You can also delete coupons via the API.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DeleteCoupon<'a> {
     coupon: &'a stripe_shared::CouponId,
 }
@@ -42,6 +43,7 @@ impl StripeRequest for DeleteCoupon<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListCouponBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     created: Option<stripe_types::RangeQueryTs>,
@@ -61,6 +63,7 @@ impl<'a> ListCouponBuilder<'a> {
 }
 /// Returns a list of your coupons.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListCoupon<'a> {
     inner: ListCouponBuilder<'a>,
 }
@@ -138,6 +141,7 @@ impl StripeRequest for ListCoupon<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveCouponBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -149,6 +153,7 @@ impl<'a> RetrieveCouponBuilder<'a> {
 }
 /// Retrieves the coupon with the given ID.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveCoupon<'a> {
     inner: RetrieveCouponBuilder<'a>,
     coupon: &'a stripe_shared::CouponId,
@@ -191,6 +196,7 @@ impl StripeRequest for RetrieveCoupon<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateCouponBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     amount_off: Option<i64>,
@@ -240,6 +246,7 @@ impl<'a> CreateCouponBuilder<'a> {
 }
 /// A hash containing directions for what this Coupon will apply discounts to.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateCouponAppliesTo<'a> {
     /// An array of Product IDs that this Coupon will apply to.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -262,6 +269,7 @@ impl<'a> Default for CreateCouponAppliesTo<'a> {
 /// If you set an `amount_off`, that amount will be subtracted from any invoice’s subtotal.
 /// For example, an invoice with a subtotal of $100 will have a final total of $0 if a coupon with an `amount_off` of 20000 is applied to it and an invoice with a subtotal of $300 will have a final total of $100 if a coupon with an `amount_off` of 20000 is applied to it.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateCoupon<'a> {
     inner: CreateCouponBuilder<'a>,
 }
@@ -378,6 +386,7 @@ impl StripeRequest for CreateCoupon<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdateCouponBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     currency_options: Option<&'a std::collections::HashMap<stripe_types::Currency, CurrencyOption>>,
@@ -396,6 +405,7 @@ impl<'a> UpdateCouponBuilder<'a> {
 /// Updates the metadata of a coupon.
 /// Other coupon details (currency, duration, amount_off) are, by design, not editable.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateCoupon<'a> {
     inner: UpdateCouponBuilder<'a>,
     coupon: &'a stripe_shared::CouponId,
@@ -462,6 +472,7 @@ impl StripeRequest for UpdateCoupon<'_> {
 }
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CurrencyOption {
     /// A positive integer representing the amount to subtract from an invoice total.
     pub amount_off: i64,

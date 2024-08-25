@@ -4,6 +4,7 @@ use stripe_client_core::{
 
 /// Deletes a `Location` object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DeleteTerminalLocation<'a> {
     location: &'a stripe_terminal::TerminalLocationId,
 }
@@ -40,6 +41,7 @@ impl StripeRequest for DeleteTerminalLocation<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListTerminalLocationBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     ending_before: Option<&'a str>,
@@ -57,6 +59,7 @@ impl<'a> ListTerminalLocationBuilder<'a> {
 }
 /// Returns a list of `Location` objects.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListTerminalLocation<'a> {
     inner: ListTerminalLocationBuilder<'a>,
 }
@@ -129,6 +132,7 @@ impl StripeRequest for ListTerminalLocation<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveTerminalLocationBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -140,6 +144,7 @@ impl<'a> RetrieveTerminalLocationBuilder<'a> {
 }
 /// Retrieves a `Location` object.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveTerminalLocation<'a> {
     inner: RetrieveTerminalLocationBuilder<'a>,
     location: &'a stripe_terminal::TerminalLocationId,
@@ -265,6 +270,7 @@ const _: () = {
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateTerminalLocationBuilder<'a> {
     address: CreateTerminalLocationAddress<'a>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -282,6 +288,7 @@ impl<'a> CreateTerminalLocationBuilder<'a> {
 }
 /// The full address of the location.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateTerminalLocationAddress<'a> {
     /// City, district, suburb, town, or village.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -309,6 +316,7 @@ impl<'a> CreateTerminalLocationAddress<'a> {
 /// Creates a new `Location` object.
 /// For further details, including which address fields are required in each country, see the [Manage locations](https://stripe.com/docs/terminal/fleet/locations) guide.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateTerminalLocation<'a> {
     inner: CreateTerminalLocationBuilder<'a>,
 }
@@ -362,6 +370,7 @@ impl StripeRequest for CreateTerminalLocation<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdateTerminalLocationBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     address: Option<UpdateTerminalLocationAddress<'a>>,
@@ -387,6 +396,7 @@ impl<'a> UpdateTerminalLocationBuilder<'a> {
 }
 /// The full address of the location.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateTerminalLocationAddress<'a> {
     /// City, district, suburb, town, or village.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -420,6 +430,7 @@ impl<'a> Default for UpdateTerminalLocationAddress<'a> {
 /// Updates a `Location` object by setting the values of the parameters passed.
 /// Any parameters not provided will be left unchanged.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateTerminalLocation<'a> {
     inner: UpdateTerminalLocationBuilder<'a>,
     location: &'a stripe_terminal::TerminalLocationId,

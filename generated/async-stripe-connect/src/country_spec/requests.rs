@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListCountrySpecBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     ending_before: Option<&'a str>,
@@ -20,6 +21,7 @@ impl<'a> ListCountrySpecBuilder<'a> {
 }
 /// Lists all Country Spec objects available in the API.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListCountrySpec<'a> {
     inner: ListCountrySpecBuilder<'a>,
 }
@@ -91,6 +93,7 @@ impl StripeRequest for ListCountrySpec<'_> {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveCountrySpecBuilder<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<&'a [&'a str]>,
@@ -102,6 +105,7 @@ impl<'a> RetrieveCountrySpecBuilder<'a> {
 }
 /// Returns a Country Spec for a given Country code.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveCountrySpec<'a> {
     inner: RetrieveCountrySpecBuilder<'a>,
     country: &'a stripe_connect::CountrySpecId,
