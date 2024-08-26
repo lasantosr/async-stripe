@@ -106,6 +106,20 @@ macro_rules! def_id {
             }
         }
 
+        impl From<$struct_name> for String {
+            #[inline]
+            fn from(id: $struct_name) -> Self {
+                id.0.to_string()
+            }
+        }
+
+        impl From<&$struct_name> for String {
+            #[inline]
+            fn from(id: &$struct_name) -> Self {
+                id.0.to_string()
+            }
+        }
+
         #[cfg(feature = "deserialize")]
         impl<'de> serde::Deserialize<'de> for $struct_name {
             fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>

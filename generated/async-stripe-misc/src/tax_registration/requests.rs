@@ -2,20 +2,20 @@ use stripe_client_core::{
     RequestBuilder, StripeBlockingClient, StripeClient, StripeMethod, StripeRequest,
 };
 
-#[derive(Copy, Clone, Debug, serde::Serialize)]
-struct ListTaxRegistrationBuilder<'a> {
+#[derive(Clone, Debug, serde::Serialize)]
+struct ListTaxRegistrationBuilder {
     #[serde(skip_serializing_if = "Option::is_none")]
-    ending_before: Option<&'a str>,
+    ending_before: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    expand: Option<&'a [&'a str]>,
+    expand: Option<Vec<String>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     limit: Option<i64>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    starting_after: Option<&'a str>,
+    starting_after: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     status: Option<ListTaxRegistrationStatus>,
 }
-impl<'a> ListTaxRegistrationBuilder<'a> {
+impl ListTaxRegistrationBuilder {
     fn new() -> Self {
         Self { ending_before: None, expand: None, limit: None, starting_after: None, status: None }
     }
@@ -83,10 +83,10 @@ impl<'de> serde::Deserialize<'de> for ListTaxRegistrationStatus {
 }
 /// Returns a list of Tax `Registration` objects.
 #[derive(Clone, Debug, serde::Serialize)]
-pub struct ListTaxRegistration<'a> {
-    inner: ListTaxRegistrationBuilder<'a>,
+pub struct ListTaxRegistration {
+    inner: ListTaxRegistrationBuilder,
 }
-impl<'a> ListTaxRegistration<'a> {
+impl ListTaxRegistration {
     /// Construct a new `ListTaxRegistration`.
     pub fn new() -> Self {
         Self { inner: ListTaxRegistrationBuilder::new() }
@@ -94,40 +94,40 @@ impl<'a> ListTaxRegistration<'a> {
     /// A cursor for use in pagination.
     /// `ending_before` is an object ID that defines your place in the list.
     /// For instance, if you make a list request and receive 100 objects, starting with `obj_bar`, your subsequent call can include `ending_before=obj_bar` in order to fetch the previous page of the list.
-    pub fn ending_before(mut self, ending_before: &'a str) -> Self {
-        self.inner.ending_before = Some(ending_before);
+    pub fn ending_before(mut self, ending_before: impl Into<String>) -> Self {
+        self.inner.ending_before = Some(ending_before.into());
         self
     }
     /// Specifies which fields in the response should be expanded.
-    pub fn expand(mut self, expand: &'a [&'a str]) -> Self {
-        self.inner.expand = Some(expand);
+    pub fn expand(mut self, expand: impl Into<Vec<String>>) -> Self {
+        self.inner.expand = Some(expand.into());
         self
     }
     /// A limit on the number of objects to be returned.
     /// Limit can range between 1 and 100, and the default is 10.
-    pub fn limit(mut self, limit: i64) -> Self {
-        self.inner.limit = Some(limit);
+    pub fn limit(mut self, limit: impl Into<i64>) -> Self {
+        self.inner.limit = Some(limit.into());
         self
     }
     /// A cursor for use in pagination.
     /// `starting_after` is an object ID that defines your place in the list.
     /// For instance, if you make a list request and receive 100 objects, ending with `obj_foo`, your subsequent call can include `starting_after=obj_foo` in order to fetch the next page of the list.
-    pub fn starting_after(mut self, starting_after: &'a str) -> Self {
-        self.inner.starting_after = Some(starting_after);
+    pub fn starting_after(mut self, starting_after: impl Into<String>) -> Self {
+        self.inner.starting_after = Some(starting_after.into());
         self
     }
     /// The status of the Tax Registration.
-    pub fn status(mut self, status: ListTaxRegistrationStatus) -> Self {
-        self.inner.status = Some(status);
+    pub fn status(mut self, status: impl Into<ListTaxRegistrationStatus>) -> Self {
+        self.inner.status = Some(status.into());
         self
     }
 }
-impl<'a> Default for ListTaxRegistration<'a> {
+impl Default for ListTaxRegistration {
     fn default() -> Self {
         Self::new()
     }
 }
-impl ListTaxRegistration<'_> {
+impl ListTaxRegistration {
     /// Send the request and return the deserialized response.
     pub async fn send<C: StripeClient>(
         &self,
@@ -147,45 +147,45 @@ impl ListTaxRegistration<'_> {
     pub fn paginate(
         &self,
     ) -> stripe_client_core::ListPaginator<stripe_types::List<stripe_misc::TaxRegistration>> {
-        stripe_client_core::ListPaginator::new_list("/tax/registrations", self.inner)
+        stripe_client_core::ListPaginator::new_list("/tax/registrations", &self.inner)
     }
 }
 
-impl StripeRequest for ListTaxRegistration<'_> {
+impl StripeRequest for ListTaxRegistration {
     type Output = stripe_types::List<stripe_misc::TaxRegistration>;
 
     fn build(&self) -> RequestBuilder {
         RequestBuilder::new(StripeMethod::Get, "/tax/registrations").query(&self.inner)
     }
 }
-#[derive(Copy, Clone, Debug, serde::Serialize)]
-struct RetrieveTaxRegistrationBuilder<'a> {
+#[derive(Clone, Debug, serde::Serialize)]
+struct RetrieveTaxRegistrationBuilder {
     #[serde(skip_serializing_if = "Option::is_none")]
-    expand: Option<&'a [&'a str]>,
+    expand: Option<Vec<String>>,
 }
-impl<'a> RetrieveTaxRegistrationBuilder<'a> {
+impl RetrieveTaxRegistrationBuilder {
     fn new() -> Self {
         Self { expand: None }
     }
 }
 /// Returns a Tax `Registration` object.
 #[derive(Clone, Debug, serde::Serialize)]
-pub struct RetrieveTaxRegistration<'a> {
-    inner: RetrieveTaxRegistrationBuilder<'a>,
-    id: &'a stripe_misc::TaxRegistrationId,
+pub struct RetrieveTaxRegistration {
+    inner: RetrieveTaxRegistrationBuilder,
+    id: stripe_misc::TaxRegistrationId,
 }
-impl<'a> RetrieveTaxRegistration<'a> {
+impl RetrieveTaxRegistration {
     /// Construct a new `RetrieveTaxRegistration`.
-    pub fn new(id: &'a stripe_misc::TaxRegistrationId) -> Self {
-        Self { id, inner: RetrieveTaxRegistrationBuilder::new() }
+    pub fn new(id: impl Into<stripe_misc::TaxRegistrationId>) -> Self {
+        Self { id: id.into(), inner: RetrieveTaxRegistrationBuilder::new() }
     }
     /// Specifies which fields in the response should be expanded.
-    pub fn expand(mut self, expand: &'a [&'a str]) -> Self {
-        self.inner.expand = Some(expand);
+    pub fn expand(mut self, expand: impl Into<Vec<String>>) -> Self {
+        self.inner.expand = Some(expand.into());
         self
     }
 }
-impl RetrieveTaxRegistration<'_> {
+impl RetrieveTaxRegistration {
     /// Send the request and return the deserialized response.
     pub async fn send<C: StripeClient>(
         &self,
@@ -203,32 +203,38 @@ impl RetrieveTaxRegistration<'_> {
     }
 }
 
-impl StripeRequest for RetrieveTaxRegistration<'_> {
+impl StripeRequest for RetrieveTaxRegistration {
     type Output = stripe_misc::TaxRegistration;
 
     fn build(&self) -> RequestBuilder {
-        let id = self.id;
+        let id = &self.id;
         RequestBuilder::new(StripeMethod::Get, format!("/tax/registrations/{id}"))
             .query(&self.inner)
     }
 }
-#[derive(Copy, Clone, Debug, serde::Serialize)]
-struct CreateTaxRegistrationBuilder<'a> {
+#[derive(Clone, Debug, serde::Serialize)]
+struct CreateTaxRegistrationBuilder {
     active_from: CreateTaxRegistrationActiveFrom,
-    country: &'a str,
-    country_options: CreateTaxRegistrationCountryOptions<'a>,
+    country: String,
+    country_options: CreateTaxRegistrationCountryOptions,
     #[serde(skip_serializing_if = "Option::is_none")]
-    expand: Option<&'a [&'a str]>,
+    expand: Option<Vec<String>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     expires_at: Option<stripe_types::Timestamp>,
 }
-impl<'a> CreateTaxRegistrationBuilder<'a> {
+impl CreateTaxRegistrationBuilder {
     fn new(
-        active_from: CreateTaxRegistrationActiveFrom,
-        country: &'a str,
-        country_options: CreateTaxRegistrationCountryOptions<'a>,
+        active_from: impl Into<CreateTaxRegistrationActiveFrom>,
+        country: impl Into<String>,
+        country_options: impl Into<CreateTaxRegistrationCountryOptions>,
     ) -> Self {
-        Self { active_from, country, country_options, expand: None, expires_at: None }
+        Self {
+            active_from: active_from.into(),
+            country: country.into(),
+            country_options: country_options.into(),
+            expand: None,
+            expires_at: None,
+        }
     }
 }
 /// Time at which the Tax Registration becomes active.
@@ -240,8 +246,8 @@ pub enum CreateTaxRegistrationActiveFrom {
     Timestamp(stripe_types::Timestamp),
 }
 /// Specific options for a registration in the specified `country`.
-#[derive(Copy, Clone, Debug, serde::Serialize)]
-pub struct CreateTaxRegistrationCountryOptions<'a> {
+#[derive(Clone, Debug, serde::Serialize)]
+pub struct CreateTaxRegistrationCountryOptions {
     /// Options for the registration in AE.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub ae: Option<CreateTaxRegistrationCountryOptionsAe>,
@@ -259,7 +265,7 @@ pub struct CreateTaxRegistrationCountryOptions<'a> {
     pub bg: Option<CreateTaxRegistrationCountryOptionsBg>,
     /// Options for the registration in CA.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub ca: Option<CreateTaxRegistrationCountryOptionsCa<'a>>,
+    pub ca: Option<CreateTaxRegistrationCountryOptionsCa>,
     /// Options for the registration in CH.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub ch: Option<CreateTaxRegistrationCountryOptionsCh>,
@@ -382,7 +388,7 @@ pub struct CreateTaxRegistrationCountryOptions<'a> {
     pub tr: Option<CreateTaxRegistrationCountryOptionsTr>,
     /// Options for the registration in US.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub us: Option<CreateTaxRegistrationCountryOptionsUs<'a>>,
+    pub us: Option<CreateTaxRegistrationCountryOptionsUs>,
     /// Options for the registration in VN.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub vn: Option<CreateTaxRegistrationCountryOptionsVn>,
@@ -390,7 +396,7 @@ pub struct CreateTaxRegistrationCountryOptions<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub za: Option<CreateTaxRegistrationCountryOptionsZa>,
 }
-impl<'a> CreateTaxRegistrationCountryOptions<'a> {
+impl CreateTaxRegistrationCountryOptions {
     pub fn new() -> Self {
         Self {
             ae: None,
@@ -445,7 +451,7 @@ impl<'a> CreateTaxRegistrationCountryOptions<'a> {
         }
     }
 }
-impl<'a> Default for CreateTaxRegistrationCountryOptions<'a> {
+impl Default for CreateTaxRegistrationCountryOptions {
     fn default() -> Self {
         Self::new()
     }
@@ -458,8 +464,8 @@ pub struct CreateTaxRegistrationCountryOptionsAe {
     pub type_: CreateTaxRegistrationCountryOptionsAeType,
 }
 impl CreateTaxRegistrationCountryOptionsAe {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsAeType) -> Self {
-        Self { type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsAeType>) -> Self {
+        Self { type_: type_.into() }
     }
 }
 /// Type of registration to be created in `country`.
@@ -526,8 +532,8 @@ pub struct CreateTaxRegistrationCountryOptionsAt {
     pub type_: CreateTaxRegistrationCountryOptionsAtType,
 }
 impl CreateTaxRegistrationCountryOptionsAt {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsAtType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsAtType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -538,9 +544,11 @@ pub struct CreateTaxRegistrationCountryOptionsAtStandard {
 }
 impl CreateTaxRegistrationCountryOptionsAtStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsAtStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsAtStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -669,8 +677,8 @@ pub struct CreateTaxRegistrationCountryOptionsAu {
     pub type_: CreateTaxRegistrationCountryOptionsAuType,
 }
 impl CreateTaxRegistrationCountryOptionsAu {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsAuType) -> Self {
-        Self { type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsAuType>) -> Self {
+        Self { type_: type_.into() }
     }
 }
 /// Type of registration to be created in `country`.
@@ -737,8 +745,8 @@ pub struct CreateTaxRegistrationCountryOptionsBe {
     pub type_: CreateTaxRegistrationCountryOptionsBeType,
 }
 impl CreateTaxRegistrationCountryOptionsBe {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsBeType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsBeType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -749,9 +757,11 @@ pub struct CreateTaxRegistrationCountryOptionsBeStandard {
 }
 impl CreateTaxRegistrationCountryOptionsBeStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsBeStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsBeStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -883,8 +893,8 @@ pub struct CreateTaxRegistrationCountryOptionsBg {
     pub type_: CreateTaxRegistrationCountryOptionsBgType,
 }
 impl CreateTaxRegistrationCountryOptionsBg {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsBgType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsBgType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -895,9 +905,11 @@ pub struct CreateTaxRegistrationCountryOptionsBgStandard {
 }
 impl CreateTaxRegistrationCountryOptionsBgStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsBgStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsBgStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -1019,29 +1031,29 @@ impl<'de> serde::Deserialize<'de> for CreateTaxRegistrationCountryOptionsBgType 
     }
 }
 /// Options for the registration in CA.
-#[derive(Copy, Clone, Debug, serde::Serialize)]
-pub struct CreateTaxRegistrationCountryOptionsCa<'a> {
+#[derive(Clone, Debug, serde::Serialize)]
+pub struct CreateTaxRegistrationCountryOptionsCa {
     /// Options for the provincial tax registration.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub province_standard: Option<CreateTaxRegistrationCountryOptionsCaProvinceStandard<'a>>,
+    pub province_standard: Option<CreateTaxRegistrationCountryOptionsCaProvinceStandard>,
     /// Type of registration to be created in Canada.
     #[serde(rename = "type")]
     pub type_: CreateTaxRegistrationCountryOptionsCaType,
 }
-impl<'a> CreateTaxRegistrationCountryOptionsCa<'a> {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsCaType) -> Self {
-        Self { province_standard: None, type_ }
+impl CreateTaxRegistrationCountryOptionsCa {
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsCaType>) -> Self {
+        Self { province_standard: None, type_: type_.into() }
     }
 }
 /// Options for the provincial tax registration.
-#[derive(Copy, Clone, Debug, serde::Serialize)]
-pub struct CreateTaxRegistrationCountryOptionsCaProvinceStandard<'a> {
+#[derive(Clone, Debug, serde::Serialize)]
+pub struct CreateTaxRegistrationCountryOptionsCaProvinceStandard {
     /// Two-letter CA province code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)).
-    pub province: &'a str,
+    pub province: String,
 }
-impl<'a> CreateTaxRegistrationCountryOptionsCaProvinceStandard<'a> {
-    pub fn new(province: &'a str) -> Self {
-        Self { province }
+impl CreateTaxRegistrationCountryOptionsCaProvinceStandard {
+    pub fn new(province: impl Into<String>) -> Self {
+        Self { province: province.into() }
     }
 }
 /// Type of registration to be created in Canada.
@@ -1111,8 +1123,8 @@ pub struct CreateTaxRegistrationCountryOptionsCh {
     pub type_: CreateTaxRegistrationCountryOptionsChType,
 }
 impl CreateTaxRegistrationCountryOptionsCh {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsChType) -> Self {
-        Self { type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsChType>) -> Self {
+        Self { type_: type_.into() }
     }
 }
 /// Type of registration to be created in `country`.
@@ -1176,8 +1188,8 @@ pub struct CreateTaxRegistrationCountryOptionsCl {
     pub type_: CreateTaxRegistrationCountryOptionsClType,
 }
 impl CreateTaxRegistrationCountryOptionsCl {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsClType) -> Self {
-        Self { type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsClType>) -> Self {
+        Self { type_: type_.into() }
     }
 }
 /// Type of registration to be created in `country`.
@@ -1241,8 +1253,8 @@ pub struct CreateTaxRegistrationCountryOptionsCo {
     pub type_: CreateTaxRegistrationCountryOptionsCoType,
 }
 impl CreateTaxRegistrationCountryOptionsCo {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsCoType) -> Self {
-        Self { type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsCoType>) -> Self {
+        Self { type_: type_.into() }
     }
 }
 /// Type of registration to be created in `country`.
@@ -1309,8 +1321,8 @@ pub struct CreateTaxRegistrationCountryOptionsCy {
     pub type_: CreateTaxRegistrationCountryOptionsCyType,
 }
 impl CreateTaxRegistrationCountryOptionsCy {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsCyType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsCyType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -1321,9 +1333,11 @@ pub struct CreateTaxRegistrationCountryOptionsCyStandard {
 }
 impl CreateTaxRegistrationCountryOptionsCyStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsCyStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsCyStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -1455,8 +1469,8 @@ pub struct CreateTaxRegistrationCountryOptionsCz {
     pub type_: CreateTaxRegistrationCountryOptionsCzType,
 }
 impl CreateTaxRegistrationCountryOptionsCz {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsCzType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsCzType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -1467,9 +1481,11 @@ pub struct CreateTaxRegistrationCountryOptionsCzStandard {
 }
 impl CreateTaxRegistrationCountryOptionsCzStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsCzStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsCzStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -1601,8 +1617,8 @@ pub struct CreateTaxRegistrationCountryOptionsDe {
     pub type_: CreateTaxRegistrationCountryOptionsDeType,
 }
 impl CreateTaxRegistrationCountryOptionsDe {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsDeType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsDeType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -1613,9 +1629,11 @@ pub struct CreateTaxRegistrationCountryOptionsDeStandard {
 }
 impl CreateTaxRegistrationCountryOptionsDeStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsDeStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsDeStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -1747,8 +1765,8 @@ pub struct CreateTaxRegistrationCountryOptionsDk {
     pub type_: CreateTaxRegistrationCountryOptionsDkType,
 }
 impl CreateTaxRegistrationCountryOptionsDk {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsDkType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsDkType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -1759,9 +1777,11 @@ pub struct CreateTaxRegistrationCountryOptionsDkStandard {
 }
 impl CreateTaxRegistrationCountryOptionsDkStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsDkStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsDkStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -1893,8 +1913,8 @@ pub struct CreateTaxRegistrationCountryOptionsEe {
     pub type_: CreateTaxRegistrationCountryOptionsEeType,
 }
 impl CreateTaxRegistrationCountryOptionsEe {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsEeType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsEeType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -1905,9 +1925,11 @@ pub struct CreateTaxRegistrationCountryOptionsEeStandard {
 }
 impl CreateTaxRegistrationCountryOptionsEeStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsEeStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsEeStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -2039,8 +2061,8 @@ pub struct CreateTaxRegistrationCountryOptionsEs {
     pub type_: CreateTaxRegistrationCountryOptionsEsType,
 }
 impl CreateTaxRegistrationCountryOptionsEs {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsEsType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsEsType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -2051,9 +2073,11 @@ pub struct CreateTaxRegistrationCountryOptionsEsStandard {
 }
 impl CreateTaxRegistrationCountryOptionsEsStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsEsStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsEsStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -2185,8 +2209,8 @@ pub struct CreateTaxRegistrationCountryOptionsFi {
     pub type_: CreateTaxRegistrationCountryOptionsFiType,
 }
 impl CreateTaxRegistrationCountryOptionsFi {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsFiType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsFiType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -2197,9 +2221,11 @@ pub struct CreateTaxRegistrationCountryOptionsFiStandard {
 }
 impl CreateTaxRegistrationCountryOptionsFiStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsFiStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsFiStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -2331,8 +2357,8 @@ pub struct CreateTaxRegistrationCountryOptionsFr {
     pub type_: CreateTaxRegistrationCountryOptionsFrType,
 }
 impl CreateTaxRegistrationCountryOptionsFr {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsFrType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsFrType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -2343,9 +2369,11 @@ pub struct CreateTaxRegistrationCountryOptionsFrStandard {
 }
 impl CreateTaxRegistrationCountryOptionsFrStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsFrStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsFrStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -2474,8 +2502,8 @@ pub struct CreateTaxRegistrationCountryOptionsGb {
     pub type_: CreateTaxRegistrationCountryOptionsGbType,
 }
 impl CreateTaxRegistrationCountryOptionsGb {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsGbType) -> Self {
-        Self { type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsGbType>) -> Self {
+        Self { type_: type_.into() }
     }
 }
 /// Type of registration to be created in `country`.
@@ -2542,8 +2570,8 @@ pub struct CreateTaxRegistrationCountryOptionsGr {
     pub type_: CreateTaxRegistrationCountryOptionsGrType,
 }
 impl CreateTaxRegistrationCountryOptionsGr {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsGrType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsGrType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -2554,9 +2582,11 @@ pub struct CreateTaxRegistrationCountryOptionsGrStandard {
 }
 impl CreateTaxRegistrationCountryOptionsGrStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsGrStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsGrStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -2688,8 +2718,8 @@ pub struct CreateTaxRegistrationCountryOptionsHr {
     pub type_: CreateTaxRegistrationCountryOptionsHrType,
 }
 impl CreateTaxRegistrationCountryOptionsHr {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsHrType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsHrType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -2700,9 +2730,11 @@ pub struct CreateTaxRegistrationCountryOptionsHrStandard {
 }
 impl CreateTaxRegistrationCountryOptionsHrStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsHrStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsHrStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -2834,8 +2866,8 @@ pub struct CreateTaxRegistrationCountryOptionsHu {
     pub type_: CreateTaxRegistrationCountryOptionsHuType,
 }
 impl CreateTaxRegistrationCountryOptionsHu {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsHuType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsHuType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -2846,9 +2878,11 @@ pub struct CreateTaxRegistrationCountryOptionsHuStandard {
 }
 impl CreateTaxRegistrationCountryOptionsHuStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsHuStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsHuStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -2977,8 +3011,8 @@ pub struct CreateTaxRegistrationCountryOptionsId {
     pub type_: CreateTaxRegistrationCountryOptionsIdType,
 }
 impl CreateTaxRegistrationCountryOptionsId {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsIdType) -> Self {
-        Self { type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsIdType>) -> Self {
+        Self { type_: type_.into() }
     }
 }
 /// Type of registration to be created in `country`.
@@ -3045,8 +3079,8 @@ pub struct CreateTaxRegistrationCountryOptionsIe {
     pub type_: CreateTaxRegistrationCountryOptionsIeType,
 }
 impl CreateTaxRegistrationCountryOptionsIe {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsIeType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsIeType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -3057,9 +3091,11 @@ pub struct CreateTaxRegistrationCountryOptionsIeStandard {
 }
 impl CreateTaxRegistrationCountryOptionsIeStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsIeStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsIeStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -3188,8 +3224,8 @@ pub struct CreateTaxRegistrationCountryOptionsIs {
     pub type_: CreateTaxRegistrationCountryOptionsIsType,
 }
 impl CreateTaxRegistrationCountryOptionsIs {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsIsType) -> Self {
-        Self { type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsIsType>) -> Self {
+        Self { type_: type_.into() }
     }
 }
 /// Type of registration to be created in `country`.
@@ -3256,8 +3292,8 @@ pub struct CreateTaxRegistrationCountryOptionsIt {
     pub type_: CreateTaxRegistrationCountryOptionsItType,
 }
 impl CreateTaxRegistrationCountryOptionsIt {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsItType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsItType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -3268,9 +3304,11 @@ pub struct CreateTaxRegistrationCountryOptionsItStandard {
 }
 impl CreateTaxRegistrationCountryOptionsItStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsItStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsItStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -3399,8 +3437,8 @@ pub struct CreateTaxRegistrationCountryOptionsJp {
     pub type_: CreateTaxRegistrationCountryOptionsJpType,
 }
 impl CreateTaxRegistrationCountryOptionsJp {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsJpType) -> Self {
-        Self { type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsJpType>) -> Self {
+        Self { type_: type_.into() }
     }
 }
 /// Type of registration to be created in `country`.
@@ -3464,8 +3502,8 @@ pub struct CreateTaxRegistrationCountryOptionsKr {
     pub type_: CreateTaxRegistrationCountryOptionsKrType,
 }
 impl CreateTaxRegistrationCountryOptionsKr {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsKrType) -> Self {
-        Self { type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsKrType>) -> Self {
+        Self { type_: type_.into() }
     }
 }
 /// Type of registration to be created in `country`.
@@ -3532,8 +3570,8 @@ pub struct CreateTaxRegistrationCountryOptionsLt {
     pub type_: CreateTaxRegistrationCountryOptionsLtType,
 }
 impl CreateTaxRegistrationCountryOptionsLt {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsLtType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsLtType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -3544,9 +3582,11 @@ pub struct CreateTaxRegistrationCountryOptionsLtStandard {
 }
 impl CreateTaxRegistrationCountryOptionsLtStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsLtStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsLtStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -3678,8 +3718,8 @@ pub struct CreateTaxRegistrationCountryOptionsLu {
     pub type_: CreateTaxRegistrationCountryOptionsLuType,
 }
 impl CreateTaxRegistrationCountryOptionsLu {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsLuType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsLuType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -3690,9 +3730,11 @@ pub struct CreateTaxRegistrationCountryOptionsLuStandard {
 }
 impl CreateTaxRegistrationCountryOptionsLuStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsLuStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsLuStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -3824,8 +3866,8 @@ pub struct CreateTaxRegistrationCountryOptionsLv {
     pub type_: CreateTaxRegistrationCountryOptionsLvType,
 }
 impl CreateTaxRegistrationCountryOptionsLv {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsLvType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsLvType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -3836,9 +3878,11 @@ pub struct CreateTaxRegistrationCountryOptionsLvStandard {
 }
 impl CreateTaxRegistrationCountryOptionsLvStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsLvStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsLvStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -3970,8 +4014,8 @@ pub struct CreateTaxRegistrationCountryOptionsMt {
     pub type_: CreateTaxRegistrationCountryOptionsMtType,
 }
 impl CreateTaxRegistrationCountryOptionsMt {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsMtType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsMtType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -3982,9 +4026,11 @@ pub struct CreateTaxRegistrationCountryOptionsMtStandard {
 }
 impl CreateTaxRegistrationCountryOptionsMtStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsMtStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsMtStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -4113,8 +4159,8 @@ pub struct CreateTaxRegistrationCountryOptionsMx {
     pub type_: CreateTaxRegistrationCountryOptionsMxType,
 }
 impl CreateTaxRegistrationCountryOptionsMx {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsMxType) -> Self {
-        Self { type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsMxType>) -> Self {
+        Self { type_: type_.into() }
     }
 }
 /// Type of registration to be created in `country`.
@@ -4178,8 +4224,8 @@ pub struct CreateTaxRegistrationCountryOptionsMy {
     pub type_: CreateTaxRegistrationCountryOptionsMyType,
 }
 impl CreateTaxRegistrationCountryOptionsMy {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsMyType) -> Self {
-        Self { type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsMyType>) -> Self {
+        Self { type_: type_.into() }
     }
 }
 /// Type of registration to be created in `country`.
@@ -4246,8 +4292,8 @@ pub struct CreateTaxRegistrationCountryOptionsNl {
     pub type_: CreateTaxRegistrationCountryOptionsNlType,
 }
 impl CreateTaxRegistrationCountryOptionsNl {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsNlType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsNlType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -4258,9 +4304,11 @@ pub struct CreateTaxRegistrationCountryOptionsNlStandard {
 }
 impl CreateTaxRegistrationCountryOptionsNlStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsNlStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsNlStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -4389,8 +4437,8 @@ pub struct CreateTaxRegistrationCountryOptionsNo {
     pub type_: CreateTaxRegistrationCountryOptionsNoType,
 }
 impl CreateTaxRegistrationCountryOptionsNo {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsNoType) -> Self {
-        Self { type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsNoType>) -> Self {
+        Self { type_: type_.into() }
     }
 }
 /// Type of registration to be created in `country`.
@@ -4454,8 +4502,8 @@ pub struct CreateTaxRegistrationCountryOptionsNz {
     pub type_: CreateTaxRegistrationCountryOptionsNzType,
 }
 impl CreateTaxRegistrationCountryOptionsNz {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsNzType) -> Self {
-        Self { type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsNzType>) -> Self {
+        Self { type_: type_.into() }
     }
 }
 /// Type of registration to be created in `country`.
@@ -4522,8 +4570,8 @@ pub struct CreateTaxRegistrationCountryOptionsPl {
     pub type_: CreateTaxRegistrationCountryOptionsPlType,
 }
 impl CreateTaxRegistrationCountryOptionsPl {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsPlType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsPlType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -4534,9 +4582,11 @@ pub struct CreateTaxRegistrationCountryOptionsPlStandard {
 }
 impl CreateTaxRegistrationCountryOptionsPlStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsPlStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsPlStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -4668,8 +4718,8 @@ pub struct CreateTaxRegistrationCountryOptionsPt {
     pub type_: CreateTaxRegistrationCountryOptionsPtType,
 }
 impl CreateTaxRegistrationCountryOptionsPt {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsPtType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsPtType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -4680,9 +4730,11 @@ pub struct CreateTaxRegistrationCountryOptionsPtStandard {
 }
 impl CreateTaxRegistrationCountryOptionsPtStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsPtStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsPtStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -4814,8 +4866,8 @@ pub struct CreateTaxRegistrationCountryOptionsRo {
     pub type_: CreateTaxRegistrationCountryOptionsRoType,
 }
 impl CreateTaxRegistrationCountryOptionsRo {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsRoType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsRoType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -4826,9 +4878,11 @@ pub struct CreateTaxRegistrationCountryOptionsRoStandard {
 }
 impl CreateTaxRegistrationCountryOptionsRoStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsRoStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsRoStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -4957,8 +5011,8 @@ pub struct CreateTaxRegistrationCountryOptionsSa {
     pub type_: CreateTaxRegistrationCountryOptionsSaType,
 }
 impl CreateTaxRegistrationCountryOptionsSa {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsSaType) -> Self {
-        Self { type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsSaType>) -> Self {
+        Self { type_: type_.into() }
     }
 }
 /// Type of registration to be created in `country`.
@@ -5025,8 +5079,8 @@ pub struct CreateTaxRegistrationCountryOptionsSe {
     pub type_: CreateTaxRegistrationCountryOptionsSeType,
 }
 impl CreateTaxRegistrationCountryOptionsSe {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsSeType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsSeType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -5037,9 +5091,11 @@ pub struct CreateTaxRegistrationCountryOptionsSeStandard {
 }
 impl CreateTaxRegistrationCountryOptionsSeStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsSeStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsSeStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -5168,8 +5224,8 @@ pub struct CreateTaxRegistrationCountryOptionsSg {
     pub type_: CreateTaxRegistrationCountryOptionsSgType,
 }
 impl CreateTaxRegistrationCountryOptionsSg {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsSgType) -> Self {
-        Self { type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsSgType>) -> Self {
+        Self { type_: type_.into() }
     }
 }
 /// Type of registration to be created in `country`.
@@ -5236,8 +5292,8 @@ pub struct CreateTaxRegistrationCountryOptionsSi {
     pub type_: CreateTaxRegistrationCountryOptionsSiType,
 }
 impl CreateTaxRegistrationCountryOptionsSi {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsSiType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsSiType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -5248,9 +5304,11 @@ pub struct CreateTaxRegistrationCountryOptionsSiStandard {
 }
 impl CreateTaxRegistrationCountryOptionsSiStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsSiStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsSiStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -5382,8 +5440,8 @@ pub struct CreateTaxRegistrationCountryOptionsSk {
     pub type_: CreateTaxRegistrationCountryOptionsSkType,
 }
 impl CreateTaxRegistrationCountryOptionsSk {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsSkType) -> Self {
-        Self { standard: None, type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsSkType>) -> Self {
+        Self { standard: None, type_: type_.into() }
     }
 }
 /// Options for the standard registration.
@@ -5394,9 +5452,11 @@ pub struct CreateTaxRegistrationCountryOptionsSkStandard {
 }
 impl CreateTaxRegistrationCountryOptionsSkStandard {
     pub fn new(
-        place_of_supply_scheme: CreateTaxRegistrationCountryOptionsSkStandardPlaceOfSupplyScheme,
+        place_of_supply_scheme: impl Into<
+            CreateTaxRegistrationCountryOptionsSkStandardPlaceOfSupplyScheme,
+        >,
     ) -> Self {
-        Self { place_of_supply_scheme }
+        Self { place_of_supply_scheme: place_of_supply_scheme.into() }
     }
 }
 /// Place of supply scheme used in an EU standard registration.
@@ -5525,8 +5585,8 @@ pub struct CreateTaxRegistrationCountryOptionsTh {
     pub type_: CreateTaxRegistrationCountryOptionsThType,
 }
 impl CreateTaxRegistrationCountryOptionsTh {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsThType) -> Self {
-        Self { type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsThType>) -> Self {
+        Self { type_: type_.into() }
     }
 }
 /// Type of registration to be created in `country`.
@@ -5590,8 +5650,8 @@ pub struct CreateTaxRegistrationCountryOptionsTr {
     pub type_: CreateTaxRegistrationCountryOptionsTrType,
 }
 impl CreateTaxRegistrationCountryOptionsTr {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsTrType) -> Self {
-        Self { type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsTrType>) -> Self {
+        Self { type_: type_.into() }
     }
 }
 /// Type of registration to be created in `country`.
@@ -5648,47 +5708,55 @@ impl<'de> serde::Deserialize<'de> for CreateTaxRegistrationCountryOptionsTrType 
     }
 }
 /// Options for the registration in US.
-#[derive(Copy, Clone, Debug, serde::Serialize)]
-pub struct CreateTaxRegistrationCountryOptionsUs<'a> {
+#[derive(Clone, Debug, serde::Serialize)]
+pub struct CreateTaxRegistrationCountryOptionsUs {
     /// Options for the local amusement tax registration.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub local_amusement_tax: Option<CreateTaxRegistrationCountryOptionsUsLocalAmusementTax<'a>>,
+    pub local_amusement_tax: Option<CreateTaxRegistrationCountryOptionsUsLocalAmusementTax>,
     /// Options for the local lease tax registration.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub local_lease_tax: Option<CreateTaxRegistrationCountryOptionsUsLocalLeaseTax<'a>>,
+    pub local_lease_tax: Option<CreateTaxRegistrationCountryOptionsUsLocalLeaseTax>,
     /// Two-letter US state code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)).
-    pub state: &'a str,
+    pub state: String,
     /// Type of registration to be created in the US.
     #[serde(rename = "type")]
     pub type_: CreateTaxRegistrationCountryOptionsUsType,
 }
-impl<'a> CreateTaxRegistrationCountryOptionsUs<'a> {
-    pub fn new(state: &'a str, type_: CreateTaxRegistrationCountryOptionsUsType) -> Self {
-        Self { local_amusement_tax: None, local_lease_tax: None, state, type_ }
+impl CreateTaxRegistrationCountryOptionsUs {
+    pub fn new(
+        state: impl Into<String>,
+        type_: impl Into<CreateTaxRegistrationCountryOptionsUsType>,
+    ) -> Self {
+        Self {
+            local_amusement_tax: None,
+            local_lease_tax: None,
+            state: state.into(),
+            type_: type_.into(),
+        }
     }
 }
 /// Options for the local amusement tax registration.
-#[derive(Copy, Clone, Debug, serde::Serialize)]
-pub struct CreateTaxRegistrationCountryOptionsUsLocalAmusementTax<'a> {
+#[derive(Clone, Debug, serde::Serialize)]
+pub struct CreateTaxRegistrationCountryOptionsUsLocalAmusementTax {
     /// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction.
     /// Supported FIPS codes are: `14000` (Chicago), `06613` (Bloomington), `21696` (East Dundee), `24582` (Evanston), and `68081` (Schiller Park).
-    pub jurisdiction: &'a str,
+    pub jurisdiction: String,
 }
-impl<'a> CreateTaxRegistrationCountryOptionsUsLocalAmusementTax<'a> {
-    pub fn new(jurisdiction: &'a str) -> Self {
-        Self { jurisdiction }
+impl CreateTaxRegistrationCountryOptionsUsLocalAmusementTax {
+    pub fn new(jurisdiction: impl Into<String>) -> Self {
+        Self { jurisdiction: jurisdiction.into() }
     }
 }
 /// Options for the local lease tax registration.
-#[derive(Copy, Clone, Debug, serde::Serialize)]
-pub struct CreateTaxRegistrationCountryOptionsUsLocalLeaseTax<'a> {
+#[derive(Clone, Debug, serde::Serialize)]
+pub struct CreateTaxRegistrationCountryOptionsUsLocalLeaseTax {
     /// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction.
     /// Supported FIPS codes are: `14000` (Chicago).
-    pub jurisdiction: &'a str,
+    pub jurisdiction: String,
 }
-impl<'a> CreateTaxRegistrationCountryOptionsUsLocalLeaseTax<'a> {
-    pub fn new(jurisdiction: &'a str) -> Self {
-        Self { jurisdiction }
+impl CreateTaxRegistrationCountryOptionsUsLocalLeaseTax {
+    pub fn new(jurisdiction: impl Into<String>) -> Self {
+        Self { jurisdiction: jurisdiction.into() }
     }
 }
 /// Type of registration to be created in the US.
@@ -5761,8 +5829,8 @@ pub struct CreateTaxRegistrationCountryOptionsVn {
     pub type_: CreateTaxRegistrationCountryOptionsVnType,
 }
 impl CreateTaxRegistrationCountryOptionsVn {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsVnType) -> Self {
-        Self { type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsVnType>) -> Self {
+        Self { type_: type_.into() }
     }
 }
 /// Type of registration to be created in `country`.
@@ -5826,8 +5894,8 @@ pub struct CreateTaxRegistrationCountryOptionsZa {
     pub type_: CreateTaxRegistrationCountryOptionsZaType,
 }
 impl CreateTaxRegistrationCountryOptionsZa {
-    pub fn new(type_: CreateTaxRegistrationCountryOptionsZaType) -> Self {
-        Self { type_ }
+    pub fn new(type_: impl Into<CreateTaxRegistrationCountryOptionsZaType>) -> Self {
+        Self { type_: type_.into() }
     }
 }
 /// Type of registration to be created in `country`.
@@ -5885,32 +5953,38 @@ impl<'de> serde::Deserialize<'de> for CreateTaxRegistrationCountryOptionsZaType 
 }
 /// Creates a new Tax `Registration` object.
 #[derive(Clone, Debug, serde::Serialize)]
-pub struct CreateTaxRegistration<'a> {
-    inner: CreateTaxRegistrationBuilder<'a>,
+pub struct CreateTaxRegistration {
+    inner: CreateTaxRegistrationBuilder,
 }
-impl<'a> CreateTaxRegistration<'a> {
+impl CreateTaxRegistration {
     /// Construct a new `CreateTaxRegistration`.
     pub fn new(
-        active_from: CreateTaxRegistrationActiveFrom,
-        country: &'a str,
-        country_options: CreateTaxRegistrationCountryOptions<'a>,
+        active_from: impl Into<CreateTaxRegistrationActiveFrom>,
+        country: impl Into<String>,
+        country_options: impl Into<CreateTaxRegistrationCountryOptions>,
     ) -> Self {
-        Self { inner: CreateTaxRegistrationBuilder::new(active_from, country, country_options) }
+        Self {
+            inner: CreateTaxRegistrationBuilder::new(
+                active_from.into(),
+                country.into(),
+                country_options.into(),
+            ),
+        }
     }
     /// Specifies which fields in the response should be expanded.
-    pub fn expand(mut self, expand: &'a [&'a str]) -> Self {
-        self.inner.expand = Some(expand);
+    pub fn expand(mut self, expand: impl Into<Vec<String>>) -> Self {
+        self.inner.expand = Some(expand.into());
         self
     }
     /// If set, the Tax Registration stops being active at this time.
     /// If not set, the Tax Registration will be active indefinitely.
     /// Timestamp measured in seconds since the Unix epoch.
-    pub fn expires_at(mut self, expires_at: stripe_types::Timestamp) -> Self {
-        self.inner.expires_at = Some(expires_at);
+    pub fn expires_at(mut self, expires_at: impl Into<stripe_types::Timestamp>) -> Self {
+        self.inner.expires_at = Some(expires_at.into());
         self
     }
 }
-impl CreateTaxRegistration<'_> {
+impl CreateTaxRegistration {
     /// Send the request and return the deserialized response.
     pub async fn send<C: StripeClient>(
         &self,
@@ -5928,23 +6002,23 @@ impl CreateTaxRegistration<'_> {
     }
 }
 
-impl StripeRequest for CreateTaxRegistration<'_> {
+impl StripeRequest for CreateTaxRegistration {
     type Output = stripe_misc::TaxRegistration;
 
     fn build(&self) -> RequestBuilder {
         RequestBuilder::new(StripeMethod::Post, "/tax/registrations").form(&self.inner)
     }
 }
-#[derive(Copy, Clone, Debug, serde::Serialize)]
-struct UpdateTaxRegistrationBuilder<'a> {
+#[derive(Clone, Debug, serde::Serialize)]
+struct UpdateTaxRegistrationBuilder {
     #[serde(skip_serializing_if = "Option::is_none")]
     active_from: Option<UpdateTaxRegistrationActiveFrom>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    expand: Option<&'a [&'a str]>,
+    expand: Option<Vec<String>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     expires_at: Option<UpdateTaxRegistrationExpiresAt>,
 }
-impl<'a> UpdateTaxRegistrationBuilder<'a> {
+impl UpdateTaxRegistrationBuilder {
     fn new() -> Self {
         Self { active_from: None, expand: None, expires_at: None }
     }
@@ -5971,35 +6045,35 @@ pub enum UpdateTaxRegistrationExpiresAt {
 /// A registration cannot be deleted after it has been created.
 /// If you wish to end a registration you may do so by setting `expires_at`.
 #[derive(Clone, Debug, serde::Serialize)]
-pub struct UpdateTaxRegistration<'a> {
-    inner: UpdateTaxRegistrationBuilder<'a>,
-    id: &'a stripe_misc::TaxRegistrationId,
+pub struct UpdateTaxRegistration {
+    inner: UpdateTaxRegistrationBuilder,
+    id: stripe_misc::TaxRegistrationId,
 }
-impl<'a> UpdateTaxRegistration<'a> {
+impl UpdateTaxRegistration {
     /// Construct a new `UpdateTaxRegistration`.
-    pub fn new(id: &'a stripe_misc::TaxRegistrationId) -> Self {
-        Self { id, inner: UpdateTaxRegistrationBuilder::new() }
+    pub fn new(id: impl Into<stripe_misc::TaxRegistrationId>) -> Self {
+        Self { id: id.into(), inner: UpdateTaxRegistrationBuilder::new() }
     }
     /// Time at which the registration becomes active.
     /// It can be either `now` to indicate the current time, or a timestamp measured in seconds since the Unix epoch.
-    pub fn active_from(mut self, active_from: UpdateTaxRegistrationActiveFrom) -> Self {
-        self.inner.active_from = Some(active_from);
+    pub fn active_from(mut self, active_from: impl Into<UpdateTaxRegistrationActiveFrom>) -> Self {
+        self.inner.active_from = Some(active_from.into());
         self
     }
     /// Specifies which fields in the response should be expanded.
-    pub fn expand(mut self, expand: &'a [&'a str]) -> Self {
-        self.inner.expand = Some(expand);
+    pub fn expand(mut self, expand: impl Into<Vec<String>>) -> Self {
+        self.inner.expand = Some(expand.into());
         self
     }
     /// If set, the registration stops being active at this time.
     /// If not set, the registration will be active indefinitely.
     /// It can be either `now` to indicate the current time, or a timestamp measured in seconds since the Unix epoch.
-    pub fn expires_at(mut self, expires_at: UpdateTaxRegistrationExpiresAt) -> Self {
-        self.inner.expires_at = Some(expires_at);
+    pub fn expires_at(mut self, expires_at: impl Into<UpdateTaxRegistrationExpiresAt>) -> Self {
+        self.inner.expires_at = Some(expires_at.into());
         self
     }
 }
-impl UpdateTaxRegistration<'_> {
+impl UpdateTaxRegistration {
     /// Send the request and return the deserialized response.
     pub async fn send<C: StripeClient>(
         &self,
@@ -6017,11 +6091,11 @@ impl UpdateTaxRegistration<'_> {
     }
 }
 
-impl StripeRequest for UpdateTaxRegistration<'_> {
+impl StripeRequest for UpdateTaxRegistration {
     type Output = stripe_misc::TaxRegistration;
 
     fn build(&self) -> RequestBuilder {
-        let id = self.id;
+        let id = &self.id;
         RequestBuilder::new(StripeMethod::Post, format!("/tax/registrations/{id}"))
             .form(&self.inner)
     }
