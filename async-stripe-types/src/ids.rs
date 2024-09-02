@@ -106,6 +106,13 @@ macro_rules! def_id {
             }
         }
 
+        impl From<&str> for $struct_name {
+            #[inline]
+            fn from(text: &str) -> Self {
+                Self(smol_str::SmolStr::from(text))
+            }
+        }
+
         impl From<$struct_name> for String {
             #[inline]
             fn from(id: $struct_name) -> Self {
@@ -117,6 +124,13 @@ macro_rules! def_id {
             #[inline]
             fn from(id: &$struct_name) -> Self {
                 id.0.to_string()
+            }
+        }
+
+        impl From<&$struct_name> for $struct_name {
+            #[inline]
+            fn from(id: &$struct_name) -> Self {
+                id.clone()
             }
         }
 
