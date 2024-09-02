@@ -5,7 +5,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/radar/reviews/object>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct Review {
     /// The ZIP or postal code of the card used, if applicable.

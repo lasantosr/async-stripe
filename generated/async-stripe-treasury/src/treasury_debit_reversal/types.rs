@@ -1,7 +1,6 @@
 /// You can reverse some [ReceivedDebits](https://stripe.com/docs/api#received_debits) depending on their network and source flow.
 /// Reversing a ReceivedDebit leads to the creation of a new object known as a DebitReversal.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct TreasuryDebitReversal {
     /// Amount (in cents) transferred.

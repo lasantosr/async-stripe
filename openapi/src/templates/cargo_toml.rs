@@ -69,9 +69,9 @@ pub fn gen_crate_toml(krate: Crate, crate_deps: Vec<Crate>, crate_features: Vec<
 
         [features]
         serialize = [{ser_features}]
-        serialize_extra = [{ser_extra_features}]
+        serialize_extra = ["serialize", {ser_extra_features}]
         deserialize = [{deser_features}, "dep:serde_json"]
-        deserialize_extra = [{deser_extra_features}, "dep:serde_json"]
+        deserialize_extra = ["deserialize", {deser_extra_features}, "dep:serde_json"]
         {features}
         "#
     }

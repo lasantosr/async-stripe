@@ -2,7 +2,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/financial_connections/sessions/object>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct FinancialConnectionsSession {
     /// The account holder for whom accounts are collected in this session.

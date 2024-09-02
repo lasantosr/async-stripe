@@ -1,6 +1,5 @@
 /// A portal configuration describes the functionality and behavior of a portal session.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct BillingPortalConfiguration {
     /// Whether the configuration is active and can be used to create portal sessions.

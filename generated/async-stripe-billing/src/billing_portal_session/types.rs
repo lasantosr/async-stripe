@@ -13,7 +13,6 @@
 ///
 /// Learn more in the [integration guide](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal).
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct BillingPortalSession {
     /// The configuration used by this session, describing the features available.

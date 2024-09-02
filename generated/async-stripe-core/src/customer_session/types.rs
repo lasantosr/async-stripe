@@ -1,7 +1,6 @@
 /// A customer session allows you to grant client access to Stripe's frontend SDKs (like StripeJs)
 /// control over a customer.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct CustomerSession {
     /// The client secret of this customer session.

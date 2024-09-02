@@ -4,7 +4,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/radar/value_lists/object>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct RadarValueList {
     /// The name of the value list for use in rules.

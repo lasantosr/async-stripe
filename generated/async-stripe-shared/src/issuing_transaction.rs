@@ -6,7 +6,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/issuing/transactions/object>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct IssuingTransaction {
     /// The transaction amount, which will be reflected in your balance.
@@ -53,7 +52,7 @@ pub struct IssuingTransaction {
     /// [Treasury](https://stripe.com/docs/api/treasury) details related to this transaction if it was created on a [FinancialAccount](/docs/api/treasury/financial_accounts.
     pub treasury: Option<stripe_shared::IssuingTransactionTreasury>,
     /// The nature of the transaction.
-    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
+    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
     pub type_: stripe_shared::IssuingTransactionType,
     /// The digital wallet used for this transaction. One of `apple_pay`, `google_pay`, or `samsung_pay`.
     pub wallet: Option<IssuingTransactionWallet>,

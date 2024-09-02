@@ -5,7 +5,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/charges/object>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct Charge {
     /// Amount intended to be collected by this payment.

@@ -2,7 +2,6 @@
 /// When you create an order, the.
 /// payment is deducted from your merchant balance.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct ClimateOrder {
     /// Total amount of [Frontier](https://frontierclimate.com/)'s service fees in the currency's smallest unit.

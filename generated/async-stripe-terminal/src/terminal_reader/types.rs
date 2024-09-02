@@ -4,7 +4,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/terminal/readers/object>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct TerminalReader {
     /// The most recent action performed by the reader.

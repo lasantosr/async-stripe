@@ -2,7 +2,6 @@
 /// It indicates how much.
 /// usage was accrued by a customer for that period.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct BillingMeterEventSummary {
     /// Aggregated value of all the events within `start_time` (inclusive) and `end_time` (inclusive).

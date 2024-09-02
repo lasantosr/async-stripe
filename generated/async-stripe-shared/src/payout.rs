@@ -9,7 +9,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/payouts/object>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct Payout {
     /// The amount (in cents (or local equivalent)) that transfers to your bank account or debit card.
@@ -65,7 +64,7 @@ pub struct Payout {
     /// Some payouts that fail might initially show as `paid`, then change to `failed`.
     pub status: String,
     /// Can be `bank_account` or `card`.
-    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
+    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
     pub type_: PayoutType,
 }
 #[doc(hidden)]

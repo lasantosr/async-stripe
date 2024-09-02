@@ -1,6 +1,5 @@
 /// A summary of a customer's active entitlements.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct EntitlementsActiveEntitlementSummary {
     /// The customer that is entitled to this feature.

@@ -15,7 +15,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/checkout/sessions/object>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct CheckoutSession {
     /// When set, provides configuration for actions to take if this Checkout Session expires.

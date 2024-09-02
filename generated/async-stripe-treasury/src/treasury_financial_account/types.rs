@@ -1,7 +1,6 @@
 /// Stripe Treasury provides users with a container for money called a FinancialAccount that is separate from their Payments balance.
 /// FinancialAccounts serve as the source and destination of Treasury’s money movement APIs.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct TreasuryFinancialAccount {
     /// The array of paths to active Features in the Features hash.

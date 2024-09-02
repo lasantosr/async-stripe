@@ -1,7 +1,6 @@
 /// A feature represents a monetizable ability or functionality in your system.
 /// Features can be assigned to products, and when those products are purchased, Stripe will create an entitlement to the feature for the purchasing customer.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct EntitlementsFeature {
     /// Inactive features cannot be attached to new products and will not be returned from the features list endpoint.

@@ -4,7 +4,6 @@
 /// After the clock advances,.
 /// you can either validate the current state of your scenario (and test your assumptions), change the current state of your scenario (and test more complex scenarios), or keep advancing forward in time.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct TestHelpersTestClock {
     /// Time at which the object was created. Measured in seconds since the Unix epoch.

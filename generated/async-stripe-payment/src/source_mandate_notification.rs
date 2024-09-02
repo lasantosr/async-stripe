@@ -2,7 +2,6 @@
 /// a source mandate must be sent to the payer. They will trigger a webhook or
 /// deliver an email to the customer.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct SourceMandateNotification {
     pub acss_debit: Option<stripe_payment::SourceMandateNotificationAcssDebitData>,
@@ -25,7 +24,7 @@ pub struct SourceMandateNotification {
     pub status: String,
     /// The type of source this mandate notification is attached to.
     /// Should be the source type identifier code for the payment method, such as `three_d_secure`.
-    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
+    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
     pub type_: String,
 }
 #[doc(hidden)]

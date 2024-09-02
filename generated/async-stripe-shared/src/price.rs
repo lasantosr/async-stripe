@@ -9,7 +9,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/prices/object>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct Price {
     /// Whether the price can be used for new purchases.
@@ -63,7 +62,7 @@ pub struct Price {
     /// Cannot be combined with `tiers`.
     pub transform_quantity: Option<stripe_shared::TransformQuantity>,
     /// One of `one_time` or `recurring` depending on whether the price is for a one-time purchase or a recurring (subscription) purchase.
-    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
+    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
     pub type_: stripe_shared::PriceType,
     /// The unit amount in cents (or local equivalent) to be charged, represented as a whole integer if possible.
     /// Only set if `billing_scheme=per_unit`.

@@ -9,7 +9,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/reporting/report_run/object>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct ReportingReportRun {
     /// Time at which the object was created. Measured in seconds since the Unix epoch.

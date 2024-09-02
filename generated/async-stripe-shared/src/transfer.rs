@@ -12,7 +12,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/transfers/object>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct Transfer {
     /// Amount in cents (or local equivalent) to be transferred.

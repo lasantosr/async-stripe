@@ -4,7 +4,6 @@
 /// `financial_addresses` field.
 /// Related guide: [Customer balance funding instructions](https://stripe.com/docs/payments/customer-balance/funding-instructions).
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct FundingInstructions {
     pub bank_transfer: stripe_shared::FundingInstructionsBankTransfer,

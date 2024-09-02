@@ -1,6 +1,5 @@
 /// Describes an owner of an account.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct FinancialConnectionsAccountOwner {
     /// The email address of the owner.

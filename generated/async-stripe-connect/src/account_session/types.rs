@@ -8,7 +8,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/account_sessions/object>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct AccountSession {
     /// The ID of the account the AccountSession was created for

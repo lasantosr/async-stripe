@@ -1,5 +1,4 @@
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct TaxCalculationLineItem {
     /// The line item amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
