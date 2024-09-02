@@ -1,7 +1,6 @@
 /// Use [InboundTransfers](https://stripe.com/docs/treasury/moving-money/financial-accounts/into/inbound-transfers) to add funds to your [FinancialAccount](https://stripe.com/docs/api#financial_accounts) via a PaymentMethod that is owned by you.
 /// The funds will be transferred via an ACH debit.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct TreasuryInboundTransfer {
     /// Amount (in cents) transferred.

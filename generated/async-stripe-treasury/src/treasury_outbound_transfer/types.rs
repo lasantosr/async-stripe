@@ -5,7 +5,6 @@
 /// Simulate OutboundTransfer state changes with the `/v1/test_helpers/treasury/outbound_transfers` endpoints.
 /// These methods can only be called on test mode objects.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct TreasuryOutboundTransfer {
     /// Amount (in cents) transferred.

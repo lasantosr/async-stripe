@@ -6,7 +6,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/payment_methods/object>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct PaymentMethod {
     pub acss_debit: Option<stripe_shared::PaymentMethodAcssDebit>,
@@ -60,7 +59,7 @@ pub struct PaymentMethod {
     /// The type of the PaymentMethod.
     /// An additional hash is included on the PaymentMethod with a name matching this value.
     /// It contains additional information specific to the PaymentMethod type.
-    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
+    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
     pub type_: PaymentMethodType,
     pub us_bank_account: Option<stripe_shared::PaymentMethodUsBankAccount>,
     pub wechat_pay: Option<stripe_shared::PaymentMethodWechatPay>,

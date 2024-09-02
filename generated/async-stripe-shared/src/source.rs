@@ -11,7 +11,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/sources/object>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct Source {
     pub ach_credit_transfer: Option<stripe_shared::SourceTypeAchCreditTransfer>,
@@ -73,7 +72,7 @@ pub struct Source {
     /// The `type` is a payment method, one of `ach_credit_transfer`, `ach_debit`, `alipay`, `bancontact`, `card`, `card_present`, `eps`, `giropay`, `ideal`, `multibanco`, `klarna`, `p24`, `sepa_debit`, `sofort`, `three_d_secure`, or `wechat`.
     /// An additional hash is included on the source with a name matching this value.
     /// It contains additional information specific to the [payment method](https://stripe.com/docs/sources) used.
-    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
+    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
     pub type_: SourceType,
     /// Either `reusable` or `single_use`.
     /// Whether this source should be reusable or not.

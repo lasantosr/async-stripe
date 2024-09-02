@@ -16,7 +16,6 @@
 ///
 /// Related guide: [Forward card details to third-party API endpoints](https://docs.stripe.com/payments/forwarding).
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct ForwardingRequest {
     /// Time at which the object was created. Measured in seconds since the Unix epoch.

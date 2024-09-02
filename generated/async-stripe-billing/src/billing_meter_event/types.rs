@@ -2,7 +2,6 @@
 /// Meter events are used to bill a customer based on their usage.
 /// Meter events are associated with billing meters, which define the shape of the event's payload and how those events are aggregated for billing.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct BillingMeterEvent {
     /// Time at which the object was created. Measured in seconds since the Unix epoch.

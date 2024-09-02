@@ -7,7 +7,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/customer_balance_transactions/object>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct CustomerBalanceTransaction {
     /// The amount of the transaction.
@@ -39,7 +38,7 @@ pub struct CustomerBalanceTransaction {
     pub metadata: Option<std::collections::HashMap<String, String>>,
     /// Transaction type: `adjustment`, `applied_to_invoice`, `credit_note`, `initial`, `invoice_overpaid`, `invoice_too_large`, `invoice_too_small`, `unspent_receiver_credit`, or `unapplied_from_invoice`.
     /// See the [Customer Balance page](https://stripe.com/docs/billing/customer/balance#types) to learn more about transaction types.
-    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
+    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
     pub type_: CustomerBalanceTransactionType,
 }
 #[doc(hidden)]

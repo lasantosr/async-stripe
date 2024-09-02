@@ -4,7 +4,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/credit_notes/object>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct CreditNote {
     /// The integer amount in cents (or local equivalent) representing the total amount of the credit note, including tax.
@@ -70,7 +69,7 @@ pub struct CreditNote {
     /// Type of this credit note, one of `pre_payment` or `post_payment`.
     /// A `pre_payment` credit note means it was issued when the invoice was open.
     /// A `post_payment` credit note means it was issued when the invoice was paid.
-    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
+    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
     pub type_: CreditNoteType,
     /// The time that the credit note was voided.
     pub voided_at: Option<stripe_types::Timestamp>,

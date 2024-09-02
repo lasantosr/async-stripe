@@ -4,7 +4,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/tax/settings/object>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct TaxSettings {
     pub defaults: stripe_misc::TaxProductResourceTaxSettingsDefaults,

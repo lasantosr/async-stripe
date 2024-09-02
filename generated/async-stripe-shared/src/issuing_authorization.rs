@@ -7,7 +7,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/issuing/authorizations/object>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct IssuingAuthorization {
     /// The total amount that was authorized or rejected.

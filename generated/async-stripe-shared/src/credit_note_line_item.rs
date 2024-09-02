@@ -2,7 +2,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/credit_notes/line_item>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct CreditNoteLineItem {
     /// The integer amount in cents (or local equivalent) representing the gross amount being credited for this line item, excluding (exclusive) tax and discounts.
@@ -29,7 +28,7 @@ pub struct CreditNoteLineItem {
     pub tax_rates: Vec<stripe_shared::TaxRate>,
     /// The type of the credit note line item, one of `invoice_line_item` or `custom_line_item`.
     /// When the type is `invoice_line_item` there is an additional `invoice_line_item` property on the resource the value of which is the id of the credited line item on the invoice.
-    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
+    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
     pub type_: CreditNoteLineItemType,
     /// The cost of each unit of product being credited.
     pub unit_amount: Option<i64>,

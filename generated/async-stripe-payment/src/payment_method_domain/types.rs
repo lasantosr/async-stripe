@@ -5,7 +5,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/payment_method_domains/object>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct PaymentMethodDomain {
     pub apple_pay: stripe_payment::PaymentMethodDomainResourcePaymentMethodStatus,

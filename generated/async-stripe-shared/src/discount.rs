@@ -5,7 +5,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/discounts/object>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct Discount {
     /// The Checkout session that this coupon is applied to, if it is applied to a particular session in payment mode.

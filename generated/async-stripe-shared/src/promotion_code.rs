@@ -4,7 +4,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/promotion_codes/object>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct PromotionCode {
     /// Whether the promotion code is currently active.

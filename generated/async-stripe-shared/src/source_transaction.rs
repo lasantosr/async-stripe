@@ -3,7 +3,6 @@
 /// multiple transactions. As such, sources can have multiple associated
 /// transactions.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct SourceTransaction {
     pub ach_credit_transfer: Option<stripe_shared::SourceTransactionAchCreditTransferData>,
@@ -27,7 +26,7 @@ pub struct SourceTransaction {
     /// The status of the transaction, one of `succeeded`, `pending`, or `failed`.
     pub status: String,
     /// The type of source this transaction is attached to.
-    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
+    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
     pub type_: SourceTransactionType,
 }
 #[doc(hidden)]

@@ -12,7 +12,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/identity/verification_reports/object>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct IdentityVerificationReport {
     /// A string to reference this user.
@@ -31,7 +30,7 @@ pub struct IdentityVerificationReport {
     pub phone: Option<stripe_misc::GelatoPhoneReport>,
     pub selfie: Option<stripe_misc::GelatoSelfieReport>,
     /// Type of report.
-    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
+    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
     pub type_: IdentityVerificationReportType,
     /// The configuration token of a Verification Flow from the dashboard.
     pub verification_flow: Option<String>,

@@ -33,7 +33,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/invoices/object>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct Invoice {
     /// The country of the business associated with this invoice, most often the business creating the invoice.

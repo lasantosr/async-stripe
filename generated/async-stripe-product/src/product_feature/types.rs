@@ -1,7 +1,6 @@
 /// A product_feature represents an attachment between a feature and a product.
 /// When a product is purchased that has a feature attached, Stripe will create an entitlement to the feature for the purchasing customer.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct ProductFeature {
     pub entitlement_feature: stripe_shared::EntitlementsFeature,

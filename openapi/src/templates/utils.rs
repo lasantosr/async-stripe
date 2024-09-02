@@ -29,12 +29,19 @@ impl SerdeDeriveState {
     }
 
     pub fn write_derives(&self, out: &mut String) {
-        write_derive(self.serialize, SerOrDeser::Ser, out);
-        write_derive(self.deserialize, SerOrDeser::Deser, out);
+        if self.serialize != ShouldDerive::Never {
+            write_derive(self.serialize, SerOrDeser::Ser, out);
+        }
+        if self.deserialize != ShouldDerive::Never {
+            write_derive(self.deserialize, SerOrDeser::Deser, out);
+        }
     }
 
     pub fn maybe_write_tag(&self, out: &mut String, tag: impl Display) {
         let feature_gate = match self.usage() {
+            SerdeUsage::Never => {
+                return;
+            }
             SerdeUsage::Always => {
                 let _ = writeln!(out, r#"#[serde({tag})]"#);
                 return;
@@ -43,6 +50,10 @@ impl SerdeDeriveState {
             SerdeUsage::DeserGatedSerExtra => SerFeatureGate::DeserGatedSerExtra,
             SerdeUsage::EitherExtra => SerFeatureGate::EitherExtra,
             SerdeUsage::EitherGated => SerFeatureGate::EitherGated,
+            SerdeUsage::SerGated => SerFeatureGate::Ser,
+            SerdeUsage::SerExtra => SerFeatureGate::SerExtra,
+            SerdeUsage::DeserGated => SerFeatureGate::Deser,
+            SerdeUsage::DeserExtra => SerFeatureGate::DeserExtra,
         };
         let _ = writeln!(out, r#"#[cfg_attr({feature_gate}, serde({tag}))]"#);
     }
@@ -53,12 +64,17 @@ impl SerdeDeriveState {
 
     fn usage(&self) -> SerdeUsage {
         match (self.serialize, self.deserialize) {
+            (ShouldDerive::Never, ShouldDerive::Never) => SerdeUsage::Never,
             (ShouldDerive::Always, _) => SerdeUsage::Always,
             (_, ShouldDerive::Always) => SerdeUsage::Always,
             (ShouldDerive::Gated, ShouldDerive::Extra) => SerdeUsage::SerGatedDeserExtra,
             (ShouldDerive::Extra, ShouldDerive::Gated) => SerdeUsage::DeserGatedSerExtra,
             (ShouldDerive::Extra, ShouldDerive::Extra) => SerdeUsage::EitherExtra,
             (ShouldDerive::Gated, ShouldDerive::Gated) => SerdeUsage::EitherGated,
+            (ShouldDerive::Gated, ShouldDerive::Never) => SerdeUsage::SerGated,
+            (ShouldDerive::Extra, ShouldDerive::Never) => SerdeUsage::SerExtra,
+            (ShouldDerive::Never, ShouldDerive::Gated) => SerdeUsage::DeserGated,
+            (ShouldDerive::Never, ShouldDerive::Extra) => SerdeUsage::DeserExtra,
         }
     }
 }
@@ -79,11 +95,16 @@ fn write_derive(derive: ShouldDerive, ser: SerOrDeser, out: &mut String) {
 }
 
 enum SerdeUsage {
+    SerGated,
+    SerExtra,
+    DeserGated,
+    DeserExtra,
     SerGatedDeserExtra,
     DeserGatedSerExtra,
     EitherExtra,
     EitherGated,
     Always,
+    Never,
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Default)]
@@ -92,10 +113,15 @@ pub enum ShouldDerive {
     Gated,
     #[default]
     Extra,
+    Never,
 }
 
 #[derive(Debug, Copy, Clone)]
 enum SerFeatureGate {
+    Ser,
+    SerExtra,
+    Deser,
+    DeserExtra,
     SerGatedDeserExtra,
     DeserGatedSerExtra,
     EitherExtra,
@@ -105,6 +131,10 @@ enum SerFeatureGate {
 impl Display for SerFeatureGate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.write_str(match self {
+            SerFeatureGate::Ser => r#"feature = "serialize""#,
+            SerFeatureGate::SerExtra => r#"feature = "serialize_extra""#,
+            SerFeatureGate::Deser => r#"feature = "deserialize""#,
+            SerFeatureGate::DeserExtra => r#"feature = "deserialize_extra""#,
             SerFeatureGate::SerGatedDeserExtra => {
                 r#"any(feature = "deserialize_extra", feature = "serialize")"#
             }

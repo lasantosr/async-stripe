@@ -1,6 +1,5 @@
 /// An active entitlement describes access to a feature for a customer.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct EntitlementsActiveEntitlement {
     /// The [Feature](https://stripe.com/docs/api/entitlements/feature) that the customer is entitled to.

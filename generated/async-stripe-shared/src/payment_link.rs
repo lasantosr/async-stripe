@@ -8,7 +8,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/payment_links/payment_links/object>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct PaymentLink {
     /// Whether the payment link's `url` is active.

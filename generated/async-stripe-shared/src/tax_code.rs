@@ -2,7 +2,6 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/tax_codes/object>>.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct TaxCode {
     /// A detailed description of which types of products the tax code represents.

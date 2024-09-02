@@ -12,7 +12,6 @@
 ///
 /// Related guide: [Store data between page reloads](https://stripe.com/docs/stripe-apps/store-auth-data-custom-objects).
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct AppsSecret {
     /// Time at which the object was created. Measured in seconds since the Unix epoch.
