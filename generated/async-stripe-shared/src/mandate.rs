@@ -2,6 +2,7 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/mandates/object>>.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct Mandate {
     pub customer_acceptance: stripe_shared::CustomerAcceptance,
@@ -19,7 +20,7 @@ pub struct Mandate {
     /// The mandate status indicates whether or not you can use it to initiate a payment.
     pub status: MandateStatus,
     /// The type of the mandate.
-    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
+    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
     pub type_: MandateType,
 }
 #[doc(hidden)]

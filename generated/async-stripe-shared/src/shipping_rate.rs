@@ -4,6 +4,7 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/shipping_rates/object>>.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct ShippingRate {
     /// Whether the shipping rate can be used for new purchases. Defaults to `true`.
@@ -31,7 +32,7 @@ pub struct ShippingRate {
     /// The Shipping tax code is `txcd_92010001`.
     pub tax_code: Option<stripe_types::Expandable<stripe_shared::TaxCode>>,
     /// The type of calculation to use on the shipping rate. Can only be `fixed_amount` for now.
-    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
+    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
     pub type_: stripe_shared::ShippingRateType,
 }
 #[doc(hidden)]

@@ -11,6 +11,7 @@ use stripe_client_core::{
 ///
 /// If you want to delete your own account, use the [account information tab in your account settings](https://dashboard.stripe.com/settings/account) instead.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DeleteAccount {
     account: stripe_shared::AccountId,
 }
@@ -47,6 +48,7 @@ impl StripeRequest for DeleteAccount {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveForMyAccountAccountBuilder {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<Vec<String>>,
@@ -58,6 +60,7 @@ impl RetrieveForMyAccountAccountBuilder {
 }
 /// Retrieves the details of an account.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveForMyAccountAccount {
     inner: RetrieveForMyAccountAccountBuilder,
 }
@@ -103,6 +106,7 @@ impl StripeRequest for RetrieveForMyAccountAccount {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListAccountBuilder {
     #[serde(skip_serializing_if = "Option::is_none")]
     created: Option<stripe_types::RangeQueryTs>,
@@ -123,6 +127,7 @@ impl ListAccountBuilder {
 /// Returns a list of accounts connected to your platform via [Connect](https://stripe.com/docs/connect).
 /// If you’re not a platform, the list is empty.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListAccount {
     inner: ListAccountBuilder,
 }
@@ -199,6 +204,7 @@ impl StripeRequest for ListAccount {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrieveAccountBuilder {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<Vec<String>>,
@@ -210,6 +216,7 @@ impl RetrieveAccountBuilder {
 }
 /// Retrieves the details of an account.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrieveAccount {
     inner: RetrieveAccountBuilder,
     account: stripe_shared::AccountId,
@@ -252,6 +259,7 @@ impl StripeRequest for RetrieveAccount {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CapabilitiesAccountBuilder {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<Vec<String>>,
@@ -264,6 +272,7 @@ impl CapabilitiesAccountBuilder {
 /// Returns a list of capabilities associated with the account.
 /// The capabilities are returned sorted by creation date, with the most recent capability appearing first.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CapabilitiesAccount {
     inner: CapabilitiesAccountBuilder,
     account: stripe_shared::AccountId,
@@ -318,6 +327,7 @@ impl StripeRequest for CapabilitiesAccount {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct PersonsAccountBuilder {
     #[serde(skip_serializing_if = "Option::is_none")]
     ending_before: Option<String>,
@@ -343,6 +353,7 @@ impl PersonsAccountBuilder {
 }
 /// Filters on the list of people returned based on the person's relationship to the account's company.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct PersonsAccountRelationship {
     /// A filter on the list of people returned based on whether these people are directors of the account's company.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -379,6 +390,7 @@ impl Default for PersonsAccountRelationship {
 /// Returns a list of people associated with the account’s legal entity.
 /// The people are returned sorted by creation date, with the most recent people appearing first.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct PersonsAccount {
     inner: PersonsAccountBuilder,
     account: stripe_shared::AccountId,
@@ -458,6 +470,7 @@ impl StripeRequest for PersonsAccount {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreateAccountBuilder {
     #[serde(skip_serializing_if = "Option::is_none")]
     account_token: Option<String>,
@@ -522,6 +535,7 @@ impl CreateAccountBuilder {
 /// This field is available for any `business_type`.
 /// Once you create an [Account Link](/api/account_links) or [Account Session](/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateAccountCompany {
     /// The company's primary address.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -621,6 +635,7 @@ impl Default for CreateAccountCompany {
 }
 /// The Kana variation of the company's primary address (Japan only).
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateAccountCompanyAddressKana {
     /// City or ward.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -664,6 +679,7 @@ impl Default for CreateAccountCompanyAddressKana {
 }
 /// The Kanji variation of the company's primary address (Japan only).
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateAccountCompanyAddressKanji {
     /// City or ward.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -830,6 +846,7 @@ impl<'de> serde::Deserialize<'de> for CreateAccountCompanyStructure {
 }
 /// A hash of configuration describing the account controller's attributes.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateAccountController {
     /// A hash of configuration for who pays Stripe fees for product usage on this account.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -857,6 +874,7 @@ impl Default for CreateAccountController {
 }
 /// A hash of configuration for who pays Stripe fees for product usage on this account.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateAccountControllerFees {
     /// A value indicating the responsible payer of Stripe fees on this account.
     /// Defaults to `account`.
@@ -934,6 +952,7 @@ impl<'de> serde::Deserialize<'de> for CreateAccountControllerFeesPayer {
 }
 /// A hash of configuration for products that have negative balance liability, and whether Stripe or a Connect application is responsible for them.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateAccountControllerLosses {
     /// A value indicating who is liable when this account can't pay back negative balances resulting from payments.
     /// Defaults to `stripe`.
@@ -1068,6 +1087,7 @@ impl<'de> serde::Deserialize<'de> for CreateAccountControllerRequirementCollecti
 }
 /// A hash of configuration for Stripe-hosted dashboards.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateAccountControllerStripeDashboard {
     /// Whether this account should have access to the full Stripe Dashboard (`full`), to the Express Dashboard (`express`), or to no Stripe-hosted dashboard (`none`).
     /// Defaults to `full`.
@@ -1149,6 +1169,7 @@ impl<'de> serde::Deserialize<'de> for CreateAccountControllerStripeDashboardType
 /// This field is null unless `business_type` is set to `individual`.
 /// Once you create an [Account Link](/api/account_links) or [Account Session](/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateAccountIndividual {
     /// The individual's primary address.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1263,6 +1284,7 @@ impl Default for CreateAccountIndividual {
 }
 /// The Kana variation of the the individual's primary address (Japan only).
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateAccountIndividualAddressKana {
     /// City or ward.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1306,6 +1328,7 @@ impl Default for CreateAccountIndividualAddressKana {
 }
 /// The Kanji variation of the the individual's primary address (Japan only).
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateAccountIndividualAddressKanji {
     /// City or ward.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1405,6 +1428,7 @@ impl<'de> serde::Deserialize<'de> for CreateAccountIndividualPoliticalExposure {
 }
 /// Options for customizing how the account functions within Stripe.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateAccountSettings {
     /// Settings specific to Bacs Direct Debit.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1448,6 +1472,7 @@ impl Default for CreateAccountSettings {
 }
 /// Settings specific to the account's payouts.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateAccountSettingsPayouts {
     /// A Boolean indicating whether Stripe should try to reclaim negative balances from an attached bank account.
     /// For details, see [Understanding Connect Account Balances](https://docs.stripe.com/connect/account-balances).
@@ -1475,6 +1500,7 @@ impl Default for CreateAccountSettingsPayouts {
 /// Details on when funds from charges are available, and when they are paid out to an external account.
 /// For details, see our [Setting Bank and Debit Card Payouts](https://docs.stripe.com/connect/bank-transfers#payout-information) documentation.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateAccountSettingsPayoutsSchedule {
     /// The number of days charge funds are held before being paid out.
     /// May also be set to `minimum`, representing the lowest available value for the account country.
@@ -1514,6 +1540,7 @@ impl Default for CreateAccountSettingsPayoutsSchedule {
 /// The `delay_days` parameter remains at the last configured value if `interval` is `manual`.
 /// [Learn more about controlling payout delay days](https://docs.stripe.com/connect/manage-payout-schedule).
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum CreateAccountSettingsPayoutsScheduleDelayDays {
     Minimum,
@@ -1725,6 +1752,7 @@ impl<'de> serde::Deserialize<'de> for CreateAccountType {
 /// Connect Onboarding won’t ask for the prefilled information during account onboarding.
 /// You can prefill any information on the account.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreateAccount {
     inner: CreateAccountBuilder,
 }
@@ -1884,6 +1912,7 @@ impl StripeRequest for CreateAccount {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdateAccountBuilder {
     #[serde(skip_serializing_if = "Option::is_none")]
     account_token: Option<String>,
@@ -1938,6 +1967,7 @@ impl UpdateAccountBuilder {
 /// This field is available for any `business_type`.
 /// Once you create an [Account Link](/api/account_links) or [Account Session](/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateAccountCompany {
     /// The company's primary address.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -2037,6 +2067,7 @@ impl Default for UpdateAccountCompany {
 }
 /// The Kana variation of the company's primary address (Japan only).
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateAccountCompanyAddressKana {
     /// City or ward.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -2080,6 +2111,7 @@ impl Default for UpdateAccountCompanyAddressKana {
 }
 /// The Kanji variation of the company's primary address (Japan only).
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateAccountCompanyAddressKanji {
     /// City or ward.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -2248,6 +2280,7 @@ impl<'de> serde::Deserialize<'de> for UpdateAccountCompanyStructure {
 /// This field is null unless `business_type` is set to `individual`.
 /// Once you create an [Account Link](/api/account_links) or [Account Session](/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateAccountIndividual {
     /// The individual's primary address.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -2362,6 +2395,7 @@ impl Default for UpdateAccountIndividual {
 }
 /// The Kana variation of the the individual's primary address (Japan only).
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateAccountIndividualAddressKana {
     /// City or ward.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -2405,6 +2439,7 @@ impl Default for UpdateAccountIndividualAddressKana {
 }
 /// The Kanji variation of the the individual's primary address (Japan only).
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateAccountIndividualAddressKanji {
     /// City or ward.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -2504,6 +2539,7 @@ impl<'de> serde::Deserialize<'de> for UpdateAccountIndividualPoliticalExposure {
 }
 /// Options for customizing how the account functions within Stripe.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateAccountSettings {
     /// Settings specific to Bacs Direct Debit payments.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -2551,6 +2587,7 @@ impl Default for UpdateAccountSettings {
 }
 /// Settings specific to the account's use of Invoices.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateAccountSettingsInvoices {
     /// The list of default Account Tax IDs to automatically include on invoices.
     /// Account Tax IDs get added when an invoice is finalized.
@@ -2569,6 +2606,7 @@ impl Default for UpdateAccountSettingsInvoices {
 }
 /// Settings specific to the account's payouts.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateAccountSettingsPayouts {
     /// A Boolean indicating whether Stripe should try to reclaim negative balances from an attached bank account.
     /// For details, see [Understanding Connect Account Balances](https://docs.stripe.com/connect/account-balances).
@@ -2596,6 +2634,7 @@ impl Default for UpdateAccountSettingsPayouts {
 /// Details on when funds from charges are available, and when they are paid out to an external account.
 /// For details, see our [Setting Bank and Debit Card Payouts](https://docs.stripe.com/connect/bank-transfers#payout-information) documentation.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateAccountSettingsPayoutsSchedule {
     /// The number of days charge funds are held before being paid out.
     /// May also be set to `minimum`, representing the lowest available value for the account country.
@@ -2635,6 +2674,7 @@ impl Default for UpdateAccountSettingsPayoutsSchedule {
 /// The `delay_days` parameter remains at the last configured value if `interval` is `manual`.
 /// [Learn more about controlling payout delay days](https://docs.stripe.com/connect/manage-payout-schedule).
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum UpdateAccountSettingsPayoutsScheduleDelayDays {
     Minimum,
@@ -2796,6 +2836,7 @@ impl<'de> serde::Deserialize<'de> for UpdateAccountSettingsPayoutsScheduleWeekly
 /// Refer to our.
 /// [Connect](https://stripe.com/docs/connect/updating-accounts) documentation to learn more about updating accounts.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdateAccount {
     inner: UpdateAccountBuilder,
     account: stripe_shared::AccountId,
@@ -2934,6 +2975,7 @@ impl StripeRequest for UpdateAccount {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RejectAccountBuilder {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<Vec<String>>,
@@ -2950,6 +2992,7 @@ impl RejectAccountBuilder {
 /// Test-mode accounts can be rejected at any time.
 /// Live-mode accounts can only be rejected after all balances are zero.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RejectAccount {
     inner: RejectAccountBuilder,
     account: stripe_shared::AccountId,
@@ -2994,6 +3037,7 @@ impl StripeRequest for RejectAccount {
 }
 
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct AnnualRevenueSpecs {
     /// A non-negative integer representing the amount in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
     pub amount: i64,
@@ -3019,6 +3063,7 @@ impl AnnualRevenueSpecs {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct MonthlyEstimatedRevenueSpecs {
     /// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
     pub amount: i64,
@@ -3032,6 +3077,7 @@ impl MonthlyEstimatedRevenueSpecs {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct AddressSpecs {
     /// City, district, suburb, town, or village.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -3063,6 +3109,7 @@ impl Default for AddressSpecs {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CapabilityParam {
     /// Passing true requests the capability for the account, if it is not already requested.
     /// A requested capability may not immediately become active.
@@ -3081,6 +3128,7 @@ impl Default for CapabilityParam {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CompanyOwnershipDeclaration {
     /// The Unix timestamp marking when the beneficial owner attestation was made.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -3103,6 +3151,7 @@ impl Default for CompanyOwnershipDeclaration {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct VerificationDocumentSpecs {
     /// The back of a document returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `additional_verification`.
     /// The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
@@ -3124,6 +3173,7 @@ impl Default for VerificationDocumentSpecs {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DocumentsParam {
     /// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -3140,6 +3190,7 @@ impl Default for DocumentsParam {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DateOfBirthSpecs {
     /// The day of birth, between 1 and 31.
     pub day: i64,
@@ -3154,6 +3205,7 @@ impl DateOfBirthSpecs {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct IndividualRelationshipSpecs {
     /// Whether the person is a director of the account's legal entity.
     /// Directors are typically members of the governing board of the company, or responsible for ensuring the company meets its regulatory obligations.
@@ -3183,6 +3235,7 @@ impl Default for IndividualRelationshipSpecs {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct PersonVerificationDocumentSpecs {
     /// The back of an ID returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `identity_document`.
     /// The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
@@ -3204,6 +3257,7 @@ impl Default for PersonVerificationDocumentSpecs {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct BacsDebitPaymentsSpecs {
     /// The Bacs Direct Debit Display Name for this account.
     /// For payments made with Bacs Direct Debit, this name appears on the mandate as the statement descriptor.
@@ -3225,6 +3279,7 @@ impl Default for BacsDebitPaymentsSpecs {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct BrandingSettingsSpecs {
     /// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) An icon for the account.
     /// Must be square and at least 128px x 128px.
@@ -3252,6 +3307,7 @@ impl Default for BrandingSettingsSpecs {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct SettingsTermsOfServiceSpecs {
     /// The Unix timestamp marking when the account representative accepted the service agreement.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -3274,6 +3330,7 @@ impl Default for SettingsTermsOfServiceSpecs {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DeclineChargeOnSpecs {
     /// Whether Stripe automatically declines charges with an incorrect ZIP or postal code.
     /// This setting only applies when a ZIP or postal code is provided and they fail bank verification.
@@ -3295,6 +3352,7 @@ impl Default for DeclineChargeOnSpecs {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct PaymentsSettingsSpecs {
     /// The default text that appears on credit card statements when a charge is made.
     /// This field prefixes any dynamic `statement_descriptor` specified on the charge.
@@ -3322,6 +3380,7 @@ impl Default for PaymentsSettingsSpecs {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct TosAcceptanceSpecs {
     /// The Unix timestamp marking when the account representative accepted their service agreement.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -3347,6 +3406,7 @@ impl Default for TosAcceptanceSpecs {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct BusinessProfileSpecs {
     /// The applicant's gross annual revenue for its preceding fiscal year.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -3408,6 +3468,7 @@ impl Default for BusinessProfileSpecs {
     }
 }
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CapabilitiesParam {
     /// The acss_debit_payments capability.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -3582,6 +3643,7 @@ impl Default for CapabilitiesParam {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct VerificationSpecs {
     /// A document verifying the business.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -3598,6 +3660,7 @@ impl Default for VerificationSpecs {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DocumentsSpecs {
     /// One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement.
     /// Must be a document associated with the account’s primary active bank account that displays the last 4 digits of the account number, either a statement or a voided check.
@@ -3641,6 +3704,7 @@ impl Default for DocumentsSpecs {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct PersonVerificationSpecs {
     /// A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -3660,6 +3724,7 @@ impl Default for PersonVerificationSpecs {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CardIssuingSettingsSpecs {
     /// Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://docs.stripe.com/issuing/connect/tos_acceptance).
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -3676,6 +3741,7 @@ impl Default for CardIssuingSettingsSpecs {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CardPaymentsSettingsSpecs {
     /// Automatically declines certain charge types regardless of whether the card issuer accepted or declined the charge.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -3712,6 +3778,7 @@ impl Default for CardPaymentsSettingsSpecs {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct TreasurySettingsSpecs {
     /// Details on the account's acceptance of the Stripe Treasury Services Agreement.
     #[serde(skip_serializing_if = "Option::is_none")]

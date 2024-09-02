@@ -5,6 +5,7 @@
 ///
 /// Related guide: [Using the Registrations API](https://stripe.com/docs/tax/registrations-api)
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct TaxRegistration {
     /// Time at which the registration becomes active. Measured in seconds since the Unix epoch.

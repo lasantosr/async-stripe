@@ -3,6 +3,7 @@ use stripe_client_core::{
 };
 
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListPaymentMethodBuilder {
     #[serde(skip_serializing_if = "Option::is_none")]
     customer: Option<String>,
@@ -192,6 +193,7 @@ impl<'de> serde::Deserialize<'de> for ListPaymentMethodType {
 /// Returns a list of PaymentMethods for Treasury flows.
 /// If you want to list the PaymentMethods attached to a Customer for payments, you should use the [List a Customer’s PaymentMethods](https://stripe.com/docs/api/payment_methods/customer_list) API instead.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListPaymentMethod {
     inner: ListPaymentMethodBuilder,
 }
@@ -275,6 +277,7 @@ impl StripeRequest for ListPaymentMethod {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrievePaymentMethodBuilder {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<Vec<String>>,
@@ -287,6 +290,7 @@ impl RetrievePaymentMethodBuilder {
 /// Retrieves a PaymentMethod object attached to the StripeAccount.
 /// To retrieve a payment method attached to a Customer, you should use [Retrieve a Customer’s PaymentMethods](https://stripe.com/docs/api/payment_methods/customer).
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrievePaymentMethod {
     inner: RetrievePaymentMethodBuilder,
     payment_method: stripe_shared::PaymentMethodId,
@@ -330,6 +334,7 @@ impl StripeRequest for RetrievePaymentMethod {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreatePaymentMethodBuilder {
     #[serde(skip_serializing_if = "Option::is_none")]
     acss_debit: Option<CreatePaymentMethodAcssDebit>,
@@ -496,6 +501,7 @@ impl CreatePaymentMethodBuilder {
 }
 /// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePaymentMethodAcssDebit {
     /// Customer's bank account number.
     pub account_number: String,
@@ -580,6 +586,7 @@ impl<'de> serde::Deserialize<'de> for CreatePaymentMethodAllowRedisplay {
 }
 /// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePaymentMethodAuBecsDebit {
     /// The account number for the bank account.
     pub account_number: String,
@@ -593,6 +600,7 @@ impl CreatePaymentMethodAuBecsDebit {
 }
 /// If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePaymentMethodBacsDebit {
     /// Account number of the bank account that the funds will be debited from.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -613,6 +621,7 @@ impl Default for CreatePaymentMethodBacsDebit {
 }
 /// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePaymentMethodBoleto {
     /// The tax ID of the customer (CPF for individual consumers or CNPJ for businesses consumers)
     pub tax_id: String,
@@ -627,6 +636,7 @@ impl CreatePaymentMethodBoleto {
 /// When providing a card number, you must meet the requirements for [PCI compliance](https://stripe.com/docs/security#validating-pci-compliance).
 /// We strongly recommend using Stripe.js instead of interacting with this API directly.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum CreatePaymentMethodCard {
     CardDetailsParams(CreatePaymentMethodCardDetailsParams),
@@ -637,6 +647,7 @@ pub enum CreatePaymentMethodCard {
 /// When providing a card number, you must meet the requirements for [PCI compliance](https://stripe.com/docs/security#validating-pci-compliance).
 /// We strongly recommend using Stripe.js instead of interacting with this API directly.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePaymentMethodCardDetailsParams {
     /// The card's CVC. It is highly recommended to always include this value.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -668,6 +679,7 @@ impl CreatePaymentMethodCardDetailsParams {
 }
 /// Contains information about card networks used to process the payment.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePaymentMethodCardDetailsParamsNetworks {
     /// The customer's preferred card network for co-branded cards.
     /// Supports `cartes_bancaires`, `mastercard`, or `visa`.
@@ -753,6 +765,7 @@ impl<'de> serde::Deserialize<'de> for CreatePaymentMethodCardDetailsParamsNetwor
 /// When providing a card number, you must meet the requirements for [PCI compliance](https://stripe.com/docs/security#validating-pci-compliance).
 /// We strongly recommend using Stripe.js instead of interacting with this API directly.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePaymentMethodTokenParams {
     /// For backwards compatibility, you can alternatively provide a Stripe token (e.g., for Apple Pay, Amex Express Checkout, or legacy Checkout) into the card hash with format card: {token: "tok_visa"}.
     pub token: String,
@@ -764,6 +777,7 @@ impl CreatePaymentMethodTokenParams {
 }
 /// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePaymentMethodEps {
     /// The customer's bank.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -917,6 +931,7 @@ impl<'de> serde::Deserialize<'de> for CreatePaymentMethodEpsBank {
 }
 /// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePaymentMethodFpx {
     /// Account holder type for FPX transaction
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1105,6 +1120,7 @@ impl<'de> serde::Deserialize<'de> for CreatePaymentMethodFpxBank {
 }
 /// If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePaymentMethodIdeal {
     /// The customer's bank.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1222,6 +1238,7 @@ impl<'de> serde::Deserialize<'de> for CreatePaymentMethodIdealBank {
 }
 /// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePaymentMethodKlarna {
     /// Customer's date of birth
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1239,6 +1256,7 @@ impl Default for CreatePaymentMethodKlarna {
 }
 /// Customer's date of birth
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePaymentMethodKlarnaDob {
     /// The day of birth, between 1 and 31.
     pub day: i64,
@@ -1254,6 +1272,7 @@ impl CreatePaymentMethodKlarnaDob {
 }
 /// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePaymentMethodP24 {
     /// The customer's bank.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1402,6 +1421,7 @@ impl<'de> serde::Deserialize<'de> for CreatePaymentMethodP24Bank {
 /// Options to configure Radar.
 /// See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePaymentMethodRadarOptions {
     /// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1419,6 +1439,7 @@ impl Default for CreatePaymentMethodRadarOptions {
 }
 /// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePaymentMethodSepaDebit {
     /// IBAN of the bank account.
     pub iban: String,
@@ -1430,6 +1451,7 @@ impl CreatePaymentMethodSepaDebit {
 }
 /// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePaymentMethodSofort {
     /// Two-letter ISO code representing the country the bank account is located in.
     pub country: CreatePaymentMethodSofortCountry,
@@ -1668,6 +1690,7 @@ impl<'de> serde::Deserialize<'de> for CreatePaymentMethodType {
 }
 /// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePaymentMethodUsBankAccount {
     /// Account holder type: individual or company.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1822,6 +1845,7 @@ impl<'de> serde::Deserialize<'de> for CreatePaymentMethodUsBankAccountAccountTyp
 ///
 /// Instead of creating a PaymentMethod directly, we recommend using the [PaymentIntents](https://stripe.com/docs/payments/accept-a-payment) API to accept a payment immediately or the [SetupIntent](https://stripe.com/docs/payments/save-and-reuse) API to collect payment method details ahead of a future payment.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePaymentMethod {
     inner: CreatePaymentMethodBuilder,
 }
@@ -2114,6 +2138,7 @@ impl StripeRequest for CreatePaymentMethod {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdatePaymentMethodBuilder {
     #[serde(skip_serializing_if = "Option::is_none")]
     allow_redisplay: Option<UpdatePaymentMethodAllowRedisplay>,
@@ -2207,6 +2232,7 @@ impl<'de> serde::Deserialize<'de> for UpdatePaymentMethodAllowRedisplay {
 }
 /// If this is a `card` PaymentMethod, this hash contains the user's card details.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdatePaymentMethodCard {
     /// Two-digit number representing the card's expiration month.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -2230,6 +2256,7 @@ impl Default for UpdatePaymentMethodCard {
 }
 /// Contains information about card networks used to process the payment.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdatePaymentMethodCardNetworks {
     /// The customer's preferred card network for co-branded cards.
     /// Supports `cartes_bancaires`, `mastercard`, or `visa`.
@@ -2310,6 +2337,7 @@ impl<'de> serde::Deserialize<'de> for UpdatePaymentMethodCardNetworksPreferred {
 }
 /// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdatePaymentMethodUsBankAccount {
     /// Bank account holder type.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -2446,6 +2474,7 @@ impl<'de> serde::Deserialize<'de> for UpdatePaymentMethodUsBankAccountAccountTyp
 }
 /// Updates a PaymentMethod object. A PaymentMethod must be attached a customer to be updated.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdatePaymentMethod {
     inner: UpdatePaymentMethodBuilder,
     payment_method: stripe_shared::PaymentMethodId,
@@ -2536,6 +2565,7 @@ impl StripeRequest for UpdatePaymentMethod {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct AttachPaymentMethodBuilder {
     customer: String,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -2561,6 +2591,7 @@ impl AttachPaymentMethodBuilder {
 /// set <a href="/docs/api/customers/update#update_customer-invoice_settings-default_payment_method">`invoice_settings.default_payment_method`</a>,.
 /// on the Customer to the PaymentMethod’s ID.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct AttachPaymentMethod {
     inner: AttachPaymentMethodBuilder,
     payment_method: stripe_shared::PaymentMethodId,
@@ -2610,6 +2641,7 @@ impl StripeRequest for AttachPaymentMethod {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct DetachPaymentMethodBuilder {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<Vec<String>>,
@@ -2622,6 +2654,7 @@ impl DetachPaymentMethodBuilder {
 /// Detaches a PaymentMethod object from a Customer.
 /// After a PaymentMethod is detached, it can no longer be used for a payment or re-attached to a Customer.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DetachPaymentMethod {
     inner: DetachPaymentMethodBuilder,
     payment_method: stripe_shared::PaymentMethodId,
@@ -2666,6 +2699,7 @@ impl StripeRequest for DetachPaymentMethod {
 }
 
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct BillingDetailsAddress {
     /// City, district, suburb, town, or village.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -2697,6 +2731,7 @@ impl Default for BillingDetailsAddress {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct BillingDetailsInnerParams {
     /// Billing address.
     #[serde(skip_serializing_if = "Option::is_none")]

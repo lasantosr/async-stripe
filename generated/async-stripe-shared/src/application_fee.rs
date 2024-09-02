@@ -1,5 +1,6 @@
 /// For more details see <<https://stripe.com/docs/api/application_fees/object>>.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct ApplicationFee {
     /// ID of the Stripe account this fee was taken from.

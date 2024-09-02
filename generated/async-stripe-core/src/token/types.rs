@@ -21,6 +21,7 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/tokens/object>>.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct Token {
     pub bank_account: Option<stripe_shared::BankAccount>,
@@ -34,7 +35,7 @@ pub struct Token {
     /// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
     pub livemode: bool,
     /// Type of the token: `account`, `bank_account`, `card`, or `pii`.
-    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
+    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
     pub type_: String,
     /// Determines if you have already used this token (you can only use tokens once).
     pub used: bool,

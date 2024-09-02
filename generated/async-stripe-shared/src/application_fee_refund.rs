@@ -6,6 +6,7 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/fee_refunds/object>>.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct ApplicationFeeRefund {
     /// Amount, in cents (or local equivalent).

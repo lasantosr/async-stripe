@@ -8,6 +8,7 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/files/object>>.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct File {
     /// Time at which the object was created. Measured in seconds since the Unix epoch.
@@ -27,7 +28,7 @@ pub struct File {
     /// A suitable title for the document.
     pub title: Option<String>,
     /// The returned file type (for example, `csv`, `pdf`, `jpg`, or `png`).
-    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
+    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
     pub type_: Option<String>,
     /// Use your live secret API key to download the file from this URL.
     pub url: Option<String>,

@@ -1,4 +1,5 @@
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct InvoiceLineItem {
     /// The amount, in cents (or local equivalent).
@@ -51,7 +52,7 @@ pub struct InvoiceLineItem {
     /// The tax rates which apply to the line item.
     pub tax_rates: Option<Vec<stripe_shared::TaxRate>>,
     /// A string identifying the type of the source of this line item, either an `invoiceitem` or a `subscription`.
-    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
+    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
     pub type_: InvoiceLineItemType,
     /// The amount in cents (or local equivalent) representing the unit amount for this line item, excluding all tax and discounts.
     pub unit_amount_excluding_tax: Option<String>,

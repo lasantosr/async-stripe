@@ -1,4 +1,5 @@
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct TaxTransactionLineItem {
     /// The line item amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
@@ -28,7 +29,7 @@ pub struct TaxTransactionLineItem {
     /// The [tax code](https://stripe.com/docs/tax/tax-categories) ID used for this resource.
     pub tax_code: String,
     /// If `reversal`, this line item reverses an earlier transaction.
-    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
+    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
     pub type_: TaxTransactionLineItemType,
 }
 #[doc(hidden)]

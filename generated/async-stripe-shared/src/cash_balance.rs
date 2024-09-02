@@ -4,6 +4,7 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/cash_balance/object>>.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct CashBalance {
     /// A hash of all cash balances available to this customer.

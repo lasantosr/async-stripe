@@ -1,5 +1,6 @@
 /// A Physical Bundle represents the bundle of physical items - card stock, carrier letter, and envelope - that is shipped to a cardholder when you create a physical card.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct IssuingPhysicalBundle {
     pub features: Option<stripe_shared::IssuingPhysicalBundleFeatures>,
@@ -12,7 +13,7 @@ pub struct IssuingPhysicalBundle {
     /// Whether this physical bundle can be used to create cards.
     pub status: stripe_shared::IssuingPhysicalBundleStatus,
     /// Whether this physical bundle is a standard Stripe offering or custom-made for you.
-    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
+    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
     pub type_: stripe_shared::IssuingPhysicalBundleType,
 }
 #[doc(hidden)]

@@ -13,6 +13,7 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/accounts/object>>.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct Account {
     /// Business information about the account.
@@ -55,7 +56,7 @@ pub struct Account {
     pub settings: Option<stripe_shared::AccountSettings>,
     pub tos_acceptance: Option<stripe_shared::AccountTosAcceptance>,
     /// The Stripe account type. Can be `standard`, `express`, `custom`, or `none`.
-    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
+    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
     pub type_: Option<AccountType>,
 }
 #[doc(hidden)]

@@ -3,6 +3,7 @@
 ///
 /// Related guide: [Early fraud warnings](https://stripe.com/docs/disputes/measuring#early-fraud-warnings).
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct RadarEarlyFraudWarning {
     /// An EFW is actionable if it has not received a dispute and has not been fully refunded.

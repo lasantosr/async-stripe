@@ -4,6 +4,7 @@ use stripe_client_core::{
 
 /// Deleting plans means new subscribers can’t be added. Existing subscribers aren’t affected.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct DeletePlan {
     plan: stripe_shared::PlanId,
 }
@@ -40,6 +41,7 @@ impl StripeRequest for DeletePlan {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct ListPlanBuilder {
     #[serde(skip_serializing_if = "Option::is_none")]
     active: Option<bool>,
@@ -71,6 +73,7 @@ impl ListPlanBuilder {
 }
 /// Returns a list of your plans.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct ListPlan {
     inner: ListPlanBuilder,
 }
@@ -158,6 +161,7 @@ impl StripeRequest for ListPlan {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct RetrievePlanBuilder {
     #[serde(skip_serializing_if = "Option::is_none")]
     expand: Option<Vec<String>>,
@@ -169,6 +173,7 @@ impl RetrievePlanBuilder {
 }
 /// Retrieves the plan with the given ID.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct RetrievePlan {
     inner: RetrievePlanBuilder,
     plan: stripe_shared::PlanId,
@@ -211,6 +216,7 @@ impl StripeRequest for RetrievePlan {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct CreatePlanBuilder {
     #[serde(skip_serializing_if = "Option::is_none")]
     active: Option<bool>,
@@ -278,12 +284,14 @@ impl CreatePlanBuilder {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum CreatePlanProduct {
     InlineProductParams(CreatePlanInlineProductParams),
     Id(String),
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePlanInlineProductParams {
     /// Whether the product is currently available for purchase. Defaults to `true`.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -334,6 +342,7 @@ impl CreatePlanInlineProductParams {
 /// This parameter requires `billing_scheme` to be set to `tiered`.
 /// See also the documentation for `billing_scheme`.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePlanTiers {
     /// The flat billing amount for an entire tier, regardless of the number of units in the tier.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -369,6 +378,7 @@ impl CreatePlanTiers {
 /// The lower bound of a tier is the upper bound of the previous tier adding one.
 /// Use `inf` to define a fallback tier.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 #[serde(untagged)]
 pub enum CreatePlanTiersUpTo {
     Inf,
@@ -377,6 +387,7 @@ pub enum CreatePlanTiersUpTo {
 /// Apply a transformation to the reported usage or set quantity before computing the billed price.
 /// Cannot be combined with `tiers`.
 #[derive(Copy, Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePlanTransformUsage {
     /// Divide usage by this number.
     pub divide_by: i64,
@@ -447,6 +458,7 @@ impl<'de> serde::Deserialize<'de> for CreatePlanTransformUsageRound {
 /// You can now model subscriptions more flexibly using the [Prices API](https://stripe.com/docs/api#prices).
 /// It replaces the Plans API and is backwards compatible to simplify your migration.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct CreatePlan {
     inner: CreatePlanBuilder,
 }
@@ -600,6 +612,7 @@ impl StripeRequest for CreatePlan {
     }
 }
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 struct UpdatePlanBuilder {
     #[serde(skip_serializing_if = "Option::is_none")]
     active: Option<bool>,
@@ -630,6 +643,7 @@ impl UpdatePlanBuilder {
 /// Any parameters not provided are left unchanged.
 /// By design, you cannot change a plan’s ID, amount, currency, or billing cycle.
 #[derive(Clone, Debug, serde::Serialize)]
+#[cfg_attr(feature = "deserialize_extra", derive(serde::Deserialize))]
 pub struct UpdatePlan {
     inner: UpdatePlanBuilder,
     plan: stripe_shared::PlanId,

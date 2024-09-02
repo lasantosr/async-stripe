@@ -4,6 +4,7 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/issuing/cardholders/object>>.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct IssuingCardholder {
     pub billing: stripe_shared::IssuingCardholderAddress,
@@ -40,7 +41,7 @@ pub struct IssuingCardholder {
     pub status: stripe_shared::IssuingCardholderStatus,
     /// One of `individual` or `company`.
     /// See [Choose a cardholder type](https://stripe.com/docs/issuing/other/choose-cardholder) for more details.
-    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
+    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
     pub type_: stripe_shared::IssuingCardholderType,
 }
 #[doc(hidden)]

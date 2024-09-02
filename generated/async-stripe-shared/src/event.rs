@@ -31,6 +31,7 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/events/object>>.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct Event {
     /// The connected account that originates the event.
@@ -50,7 +51,7 @@ pub struct Event {
     /// Information on the API request that triggers the event.
     pub request: Option<stripe_shared::NotificationEventRequest>,
     /// Description of the event (for example, `invoice.created` or `charge.refunded`).
-    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
+    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
     pub type_: EventType,
 }
 #[doc(hidden)]

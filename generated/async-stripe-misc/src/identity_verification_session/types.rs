@@ -12,6 +12,7 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/identity/verification_sessions/object>>.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct IdentityVerificationSession {
     /// A string to reference this user.
@@ -49,7 +50,7 @@ pub struct IdentityVerificationSession {
     /// [Learn more about the lifecycle of sessions](https://stripe.com/docs/identity/how-sessions-work).
     pub status: stripe_misc::IdentityVerificationSessionStatus,
     /// The type of [verification check](https://stripe.com/docs/identity/verification-checks) to be performed.
-    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
+    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
     pub type_: IdentityVerificationSessionType,
     /// The short-lived URL that you use to redirect a user to Stripe to submit their identity information.
     /// This URL expires after 48 hours and can only be used once.

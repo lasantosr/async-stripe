@@ -7,6 +7,7 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/persons/object>>.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct Person {
     /// The account the person is associated with.

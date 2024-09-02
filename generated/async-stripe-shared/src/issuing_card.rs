@@ -2,6 +2,7 @@
 ///
 /// For more details see <<https://stripe.com/docs/api/issuing/cards/object>>.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serialize_extra", derive(serde::Serialize))]
 #[cfg_attr(feature = "deserialize", derive(serde::Deserialize))]
 pub struct IssuingCard {
     /// The brand of the card.
@@ -54,7 +55,7 @@ pub struct IssuingCard {
     /// Defaults to `inactive`.
     pub status: stripe_shared::IssuingCardStatus,
     /// The type of the card.
-    #[cfg_attr(feature = "deserialize", serde(rename = "type"))]
+    #[cfg_attr(any(feature = "deserialize", feature = "serialize_extra"), serde(rename = "type"))]
     pub type_: stripe_shared::IssuingCardType,
     /// Information relating to digital wallets (like Apple Pay and Google Pay).
     pub wallets: Option<stripe_shared::IssuingCardWallets>,
