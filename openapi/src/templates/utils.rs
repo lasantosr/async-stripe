@@ -13,28 +13,24 @@ lazy_static! {
 
 #[derive(Debug, Copy, Clone, Default)]
 pub struct SerdeDeriveState {
-    serialize: Option<ShouldDerive>,
-    deserialize: Option<ShouldDerive>,
+    serialize: ShouldDerive,
+    deserialize: ShouldDerive,
 }
 
 impl SerdeDeriveState {
     pub fn serialize(&mut self, kind: ShouldDerive) -> &mut Self {
-        self.serialize = Some(kind);
+        self.serialize = kind;
         self
     }
 
     pub fn deserialize(&mut self, kind: ShouldDerive) -> &mut Self {
-        self.deserialize = Some(kind);
+        self.deserialize = kind;
         self
     }
 
     pub fn write_derives(&self, out: &mut String) {
-        if let Some(derive) = self.serialize {
-            write_derive(derive, SerOrDeser::Ser, out);
-        }
-        if let Some(derive) = self.deserialize {
-            write_derive(derive, SerOrDeser::Deser, out);
-        }
+        write_derive(self.serialize, SerOrDeser::Ser, out);
+        write_derive(self.deserialize, SerOrDeser::Deser, out);
     }
 
     pub fn maybe_write_tag(&self, out: &mut String, tag: impl Display) {
@@ -59,26 +55,19 @@ impl SerdeDeriveState {
 
     fn usage(&self) -> SerdeUsage {
         match (self.serialize, self.deserialize) {
-            (None, None) => SerdeUsage::Never,
-            (Some(state), None) => match state {
-                ShouldDerive::Always => SerdeUsage::Always,
-                ShouldDerive::Gated => SerdeUsage::SerGated,
-            },
-            (None, Some(state)) => match state {
-                ShouldDerive::Always => SerdeUsage::Always,
-                ShouldDerive::Gated => SerdeUsage::DeserGated,
-            },
-            (Some(state_ser), Some(state_deser)) => match (state_ser, state_deser) {
-                (ShouldDerive::Always, _) => SerdeUsage::Always,
-                (_, ShouldDerive::Always) => SerdeUsage::Always,
-                (ShouldDerive::Gated, ShouldDerive::Gated) => SerdeUsage::EitherGated,
-            },
+            (ShouldDerive::Never, ShouldDerive::Never) => SerdeUsage::Never,
+            (ShouldDerive::Always, _) => SerdeUsage::Always,
+            (_, ShouldDerive::Always) => SerdeUsage::Always,
+            (ShouldDerive::Gated, ShouldDerive::Never) => SerdeUsage::SerGated,
+            (ShouldDerive::Never, ShouldDerive::Gated) => SerdeUsage::DeserGated,
+            (ShouldDerive::Gated, ShouldDerive::Gated) => SerdeUsage::EitherGated,
         }
     }
 }
 
 fn write_derive(derive: ShouldDerive, ser: SerOrDeser, out: &mut String) {
     match derive {
+        ShouldDerive::Never => (),
         ShouldDerive::Always => {
             let _ = writeln!(out, "#[derive(serde::{ser})]");
         }
@@ -100,10 +89,12 @@ enum SerdeUsage {
     Never,
 }
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
 pub enum ShouldDerive {
     Always,
+    #[default]
     Gated,
+    Never,
 }
 
 #[derive(Debug, Copy, Clone)]
